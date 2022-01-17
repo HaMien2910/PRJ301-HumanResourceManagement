@@ -4,7 +4,6 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: #fafafa;
 }
 
 p {
@@ -25,10 +24,10 @@ a:focus {
 
 .navbar {
     padding: 15px 10px;
-    background: #fff;
+    background-color: #fff;
     border: none;
-    border-radius: 0;
-    margin-bottom: 40px;
+    border-radius: 4px;
+    margin-bottom: 10px;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
@@ -74,7 +73,7 @@ a:focus {
 }
 
 #sidebar ul.components {
-    padding: 20px 0;
+    padding: 20px 12px 20px 0px;
     border-bottom: 1px solid #47748b;
     margin-left: 12px;
 }
@@ -96,7 +95,7 @@ a:focus {
 
 #sidebar ul li a:hover {
     color: #3f4254;
-    background: rgb(241, 242, 247);
+    background: rgb(239, 239, 241);
 }
 
 #sidebar ul li.active>a,
@@ -148,6 +147,36 @@ a.article:hover {
     color: #fff !important;
 }
 
+.table-bordered tbody tr td,
+.table-bordered tbody tr th {
+    padding: 12px 10px 12px 10px
+}
+
+.table tbody tr td>:first-child {
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.table tbody tr td,
+.table tbody tr th {
+    padding: 10px;
+    vertical-align: middle
+}
+
+.table tfoot tr th {
+    padding: 10px;
+    border-top: 1px solid #000;
+}
+
+.table tbody tr td {
+    border-radius: 4px;
+}
+
+.table thead tr th {
+    padding: 10px;
+    border-bottom: 1px solid #000;
+}
+
 
 /* ---------------------------------------------------
     CONTENT STYLE
@@ -155,9 +184,13 @@ a.article:hover {
 
 #content {
     width: 100%;
-    padding: 20px;
+    padding: 12px 20px;
     min-height: 100vh;
     transition: all 0.3s;
+}
+
+#content .item-display {
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 
