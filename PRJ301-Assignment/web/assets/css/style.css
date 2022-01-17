@@ -1,7 +1,8 @@
 /*
     DEMO STYLE
 */
-
+@import url(../fonts/themify-icons/themify-icons.css);
+@import url(../fonts/simple-line-icons/css/simple-line-icons.css);
 body {
     font-family: 'Poppins', sans-serif;
 }
@@ -192,6 +193,49 @@ a.article:hover {
 #content .item-display {
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
+
+
+.form-group {
+    width: 100%;
+    margin-bottom: 25px
+}
+
+.form-group .form-control {
+    width: 100%;
+    border: 0;
+    box-shadow: none;
+    border-bottom: 1px solid #9e9e9e;
+    border-radius: 0;
+    padding-left: 0
+}
+
+.form-group input.form-control {
+    margin: 0;
+    font-size: 13px
+}
+
+.form-group .form-line {
+    width: 100%;
+    position: relative
+}
+
+.form-group input.form-control:focus{
+    left: 0;
+    width: 100%;
+    border-bottom: 2px solid #1f91f3;
+}
+.body .col-xs-12, 
+.body .col-sm-12, 
+.body .col-md-12,
+.body .col-lg-12 {
+    margin-bottom: 20px;
+}
+
+.body .btn-submit,
+.body .btn-cancel{
+    font-weight: 600;
+}
+
 
 
 /* ---------------------------------------------------
