@@ -14,99 +14,99 @@ import java.util.ArrayList;
  */
 public class Employee {
 
-    private int id;
-    private String first_name;
-    private String last_name;
-    private boolean gender;
-    private Date dob;
-    private String email;
-    private String phone;
-    private Date hire_date;
-    private double salary;
-    private Department dept;
+    private int e_id;
+    private String e_first_name;
+    private String e_last_name;
+    private boolean e_gender;
+    private Date e_dob;
+    private String e_email;
+    private String e_phone;
+    private Date e_join_date;
+    private double e_salary;
+    private Department department;
     private Employee manager;
     private ArrayList<Employee> employees = new ArrayList<>();
     private Job job;
     private Location location;
 
-    public int getId() {
-        return id;
+    public int getE_id() {
+        return e_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setE_id(int e_id) {
+        this.e_id = e_id;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getE_first_name() {
+        return e_first_name;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setE_first_name(String e_first_name) {
+        this.e_first_name = e_first_name;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getE_last_name() {
+        return e_last_name;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setE_last_name(String e_last_name) {
+        this.e_last_name = e_last_name;
     }
 
-    public boolean isGender() {
-        return gender;
+    public boolean isE_gender() {
+        return e_gender;
     }
 
-    public void setGender(boolean gender) {
-        this.gender = gender;
+    public void setE_gender(boolean e_gender) {
+        this.e_gender = e_gender;
     }
 
-    public Date getDob() {
-        return dob;
+    public Date getE_dob() {
+        return e_dob;
     }
 
-    public void setDob(Date dob) {
-        this.dob = dob;
+    public void setE_dob(Date e_dob) {
+        this.e_dob = e_dob;
     }
 
-    public String getEmail() {
-        return email;
+    public String getE_email() {
+        return e_email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setE_email(String e_email) {
+        this.e_email = e_email;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getE_phone() {
+        return e_phone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setE_phone(String e_phone) {
+        this.e_phone = e_phone;
     }
 
-    public Date getHire_date() {
-        return hire_date;
+    public Date getE_join_date() {
+        return e_join_date;
     }
 
-    public void setHire_date(Date hire_date) {
-        this.hire_date = hire_date;
+    public void setE_join_date(Date e_join_date) {
+        this.e_join_date = e_join_date;
     }
 
-    public double getSalary() {
-        return salary;
+    public double getE_salary() {
+        return e_salary;
     }
 
-    public void setSalary(double salary) {
-        this.salary = salary;
+    public void setE_salary(double e_salary) {
+        this.e_salary = e_salary;
     }
 
-    public Department getDept() {
-        return dept;
+    public Department getDepartment() {
+        return department;
     }
 
-    public void setDept(Department dept) {
-        this.dept = dept;
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     public Employee getManager() {
@@ -140,6 +140,4 @@ public class Employee {
     public void setLocation(Location location) {
         this.location = location;
     }
-    
-    
 }

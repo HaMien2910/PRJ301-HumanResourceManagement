@@ -53,7 +53,7 @@
                                     </li>
                                     <li class="breadcrumb-item bcrumb-1">
                                         <a href="../../index.html">
-                                            <i class="fas fa-home"></i> Home</a>
+                                            <i class="fas fa-home"></i>Home</a>
                                     </li>
                                     <li class="breadcrumb-item bcrumb-2">
                                         <a href="#" onClick="return false;">Employee</a>
@@ -87,13 +87,13 @@
                                     <c:forEach items="${requestScope.employees}" var="e">
                                         <tr class="odd gradeX">
                                             <td></td>
-                                            <td class="text-center">${e.last_name} ${e.first_name}</td>
+                                            <td class="text-center">${e.e_last_name} ${e.e_first_name}</td>
                                             <td class="text-center">${e.job.job_title}</td>
-                                            <td class="text-center">${e.dept.dep_name}</td>
-                                            <td class="text-center">${e.phone}</td>
-                                            <td class="text-center">${e.email}</td>
+                                            <td class="text-center">${e.dept.department_name}</td>
+                                            <td class="text-center">${e.e_phone}</td>
+                                            <td class="text-center">${e.e_email}</td>
                                             <td class="text-center"></td>
-                                            <td class="text-center">${e.hire_date}</td>
+                                            <td class="text-center">${e.e_join_date}</td>
                                             <td class="text-center">
                                                 <a href="edit-employee.html" class="btn btn-tbl-edit">
                                                     <i class="material-icons">create</i>

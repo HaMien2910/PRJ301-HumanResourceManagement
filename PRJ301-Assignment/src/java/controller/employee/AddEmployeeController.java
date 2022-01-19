@@ -30,7 +30,7 @@ public class AddEmployeeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        request.getRequestDispatcher("../view/management/employee/add-employee.jsp").forward(request, response);
     }
 
     /**

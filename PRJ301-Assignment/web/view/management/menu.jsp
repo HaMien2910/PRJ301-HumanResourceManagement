@@ -1,20 +1,34 @@
 <!-- Menu -->
-<ul class="lisst-unstyled components">
+<ul class="components">
     <li>
         <a href="../../index.html">
             <i class="fas fa-home"></i> Home</a>
     </li>
     <li class="active">
         <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Employees</a>
-        <ul class="collapse list-unstyled" id="homeSubmenu">
+        <ul class="list-unstyled" id="homeSubmenu">
             <li>
-                <a href="#">All Employees</a>
+                <a class="${tag eq "listAll" ? "active" : ""}" href="${pageContext.request.contextPath}/employee/listAll">All Employees</a>
             </li>
             <li>
-                <a href="#">Add Employee</a>
+                <a class="${tag eq "add" ? "active" : ""}" href="${pageContext.request.contextPath}/employee/add">Add Employee</a>
             </li>
             <li>
-                <a href="#">Edit Employee</a>
+                <a class="${tag eq "edit" ? "active" : ""}" href="${pageContext.request.contextPath}/employee/edit">Edit Employee</a>
+            </li>
+        </ul>
+    </li>
+    <li class="active">
+        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Departments</a>
+        <ul class="list-unstyled" id="homeSubmenu">
+            <li>
+                <a class="${tag eq "listAll" ? "active" : ""}" href="${pageContext.request.contextPath}/employee/listAll">All Departments</a>
+            </li>
+            <li>
+                <a class="${tag eq "add" ? "active" : ""}" href="${pageContext.request.contextPath}/employee/add">Add Departments</a>
+            </li>
+            <li>
+                <a class="${tag eq "edit" ? "active" : ""}" href="${pageContext.request.contextPath}/employee/edit">Edit Departments</a>
             </li>
         </ul>
     </li>

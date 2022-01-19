@@ -9,7 +9,7 @@
 <html>
 
     <head>
-        <title>HRM - Add Employee</title>
+        <title>HRM - Edit Employee</title>
         <link href="${pageContext.request.contextPath}/Bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
@@ -49,7 +49,7 @@
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <ul class="breadcrumb breadcrumb-style" style="background-color: #f1f2f7; margin-bottom: 16px">
                                     <li class="breadcrumb-item">
-                                        <h4 class="page-title"><strong>Add Employees</strong></h4>
+                                        <h4 class="page-title"><strong>Edit Employees</strong></h4>
                                     </li>
                                     <li class="breadcrumb-item bcrumb-1">
                                         <a href="../../index.html">
@@ -58,7 +58,7 @@
                                     <li class="breadcrumb-item bcrumb-2">
                                         <a href="#" onClick="return false;">Employee</a>
                                     </li>
-                                    <li class="breadcrumb-item active">Add Employee</li>
+                                    <li class="breadcrumb-item active">Edit Employee</li>
                                 </ul>
                             </div>
                         </div>
@@ -182,7 +182,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 p-t-20 text-center">
-                                    <button type="button" class="btn btn-primary btn-submit" style="margin-right: 15px">Submit</button>
+                                    <button type="button" class="btn btn-primary btn-submit" style="margin-right: 15px">Save</button>
                                     <button type="button" class="btn btn-danger btn-cancel">Cancel</button>
                                 </div>
                             </div>

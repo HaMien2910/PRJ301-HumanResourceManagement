@@ -27,10 +27,10 @@ public class DepartmentDBContext extends DBContext{
             ResultSet rs = stm.executeQuery();
             while(rs.next()){
                 Department d = new Department();
-                d.setDep_id(rs.getInt(1));
-                d.setDep_name(rs.getString(2));
+//                d.setDep_id(rs.getInt(1));
+//                d.setDep_name(rs.getString(2));
                 Employee e = new Employee();
-                e.setId(rs.getInt(3));
+                e.setE_id(rs.getInt(3));
                 d.setManager(e);
                 departments.add(d);
             }
