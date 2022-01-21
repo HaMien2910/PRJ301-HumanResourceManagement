@@ -63,49 +63,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                            <div class="table-responsive item-display" style="border-radius: 8px;background-color:#FFF; padding: 4px 12px">
+                    <div class="row" style="margin: 0">
+                        <div class="col-lg-12 col-md-12 col-sm-12 table-responsive item-display">
+                            <div>
                                 <h2 style="font-size: 16px">
                                     <strong>All Employees</strong>
                                 </h2>
-                                <table class="table table-hover js-basic-example">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">#</th>
-                                            <th class="text-center"> Name </th>
-                                            <th class="text-center"> Job </th>
-                                            <th class="text-center"> Department </th>
-                                            <th class="text-center"> Mobile </th>
-                                            <th class="text-center"> Email </th>
-                                            <th class="text-center"> Address </th>
-                                            <th class="text-center">Joining Date</th>
-                                            <th class="text-center"> Action </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    <c:forEach items="${requestScope.employees}" var="e">
-                                        <tr class="odd gradeX">
-                                            <td></td>
-                                            <td class="text-center">${e.e_last_name} ${e.e_first_name}</td>
-                                            <td class="text-center">${e.job.job_title}</td>
-                                            <td class="text-center">${e.dept.department_name}</td>
-                                            <td class="text-center">${e.e_phone}</td>
-                                            <td class="text-center">${e.e_email}</td>
-                                            <td class="text-center"></td>
-                                            <td class="text-center">${e.e_join_date}</td>
-                                            <td class="text-center">
-                                                <a href="edit-employee.html" class="btn btn-tbl-edit">
-                                                    <i class="material-icons">create</i>
-                                                </a>
-                                                <a href="#" class="btn btn-tbl-delete">
-                                                    <i class="material-icons">delete_forever</i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                </tbody>
-                                <tfoot>
+                            </div>
+                            <table class="table table-hover">
+                                <thead>
                                     <tr>
                                         <th class="text-center">#</th>
                                         <th class="text-center"> Name </th>
@@ -117,25 +83,60 @@
                                         <th class="text-center">Joining Date</th>
                                         <th class="text-center"> Action </th>
                                     </tr>
-                                </tfoot>
-                            </table>
-                        </div>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${requestScope.employees}" var="e">
+                                    <tr class="" style="font-size: 12px">
+                                        <td></td>
+                                        <td class="text-center">${e.e_last_name} ${e.e_first_name}</td>
+                                        <td class="text-center">${e.job.job_title}</td>
+                                        <td class="text-center">${e.department.department_name}</td>
+                                        <td class="text-center">${e.e_phone}</td>
+                                        <td class="text-center">${e.e_email}</td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center">${e.e_join_date}</td>
+                                        <td class="text-center">
+                                            <a href="edit-employee.html" class="btn btn-tbl-edit">
+                                                <i class="material-icons">create</i>
+                                            </a>
+                                            <a href="#" class="btn btn-tbl-delete">
+                                                <i class="material-icons">delete_forever</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th class="text-center"> Name </th>
+                                    <th class="text-center"> Job </th>
+                                    <th class="text-center"> Department </th>
+                                    <th class="text-center"> Mobile </th>
+                                    <th class="text-center"> Email </th>
+                                    <th class="text-center"> Address </th>
+                                    <th class="text-center">Joining Date</th>
+                                    <th class="text-center"> Action </th>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
                 </div>
             </div>
-            <!-- #End Content -->
         </div>
+        <!-- #End Content -->
+    </div>
 
 
 
-        <script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
-        <script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>
-        <script>
+    <script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
+    <script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>
+    <script>
                                             $(document).ready(function () {
                                                 $('#sidebarCollapse').on('click', function () {
                                                     $('#sidebar').toggleClass('active');
                                                 });
                                             });
-        </script>
-    </body>
+    </script>
+</body>
 </html>

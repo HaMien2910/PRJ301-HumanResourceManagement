@@ -65,13 +65,14 @@
                     </div>
 
                     <form>
-                        <div class="body">
-                            <div style="border-radius: 8px;background-color:#FFF; padding: 4px 12px">
+                        <div class="body" style="border-radius: 8px;background-color:#FFF; padding: 4px 12px; margin-bottom: 8px">
+                            <div class="body-element">
                                 <h2 style="font-size: 16px">
                                     <strong>Add Employee</strong>
                                 </h2>
-                                <div class="row clearfix">
-
+                            </div>
+                            <div class="body-element">
+                                <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="form-line">
@@ -87,7 +88,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row clearfix">
+                                <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="form-line">
@@ -103,7 +104,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row clearfix">
+                                <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="form-line">
@@ -120,7 +121,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row clearfix">
+                                <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="form-line">
@@ -140,7 +141,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row clearfix">
+                                <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <input type="text" class="form-control datetimepicker" placeholder="Birth Date"
@@ -155,7 +156,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row clearfix">
+                                <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="form-line">
@@ -171,7 +172,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row clearfix">
+                                <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="form-line">
@@ -181,9 +182,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12 p-t-20 text-center">
-                                    <button type="button" class="btn btn-primary btn-submit" style="margin-right: 15px">Save</button>
-                                    <button type="button" class="btn btn-danger btn-cancel">Cancel</button>
+                                <div class="row">
+                                    <div class="col-lg-12 text-center" style="margin-bottom: 8px">
+                                        <button type="button" class="btn btn-primary btn-submit" style="margin-right: 15px">Save</button>
+                                        <button type="button" class="btn btn-danger btn-cancel">Cancel</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

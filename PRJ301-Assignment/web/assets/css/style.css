@@ -152,6 +152,10 @@ a.article:hover {
 .table-bordered tbody tr th {
     padding: 12px 10px 12px 10px
 }
+.table thead tr th {
+    padding: 1px;
+    border-bottom: 1px solid #000;
+}
 
 .table tbody tr td>:first-child {
     border-top: 1px solid #eee;
@@ -173,12 +177,6 @@ a.article:hover {
     border-radius: 4px;
 }
 
-.table thead tr th {
-    padding: 10px;
-    border-bottom: 1px solid #000;
-}
-
-
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
@@ -192,6 +190,7 @@ a.article:hover {
 
 #content .item-display {
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;background-color:#FFF; padding: 4px 12px;
 }
 
 
@@ -231,8 +230,9 @@ a.article:hover {
     margin-bottom: 20px;
 }
 
-.body .btn-submit,
-.body .btn-cancel{
+.body .body-element .btn-submit,
+.body .body-element .btn-cancel{
+    display: inline-block;
     font-weight: 600;
 }
 

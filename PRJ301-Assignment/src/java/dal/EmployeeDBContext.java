@@ -24,67 +24,79 @@ public class EmployeeDBContext extends DBContext {
 
     public ArrayList<Employee> getAllEmployees() {
         ArrayList<Employee> employees = new ArrayList<>();
+        
+        
         try {
-            String sql = "select \n"
-                    + "	a.[EmployeeID], \n"      
-                    + "	a.[FirstName], \n"
-                    + "	a.[LastName], \n"
-                    + "	a.[Gender], \n"
-                    + "	a.[DOB] ,\n"
-                    + "	a.[Phone], \n"
-                    + "	a.[Email], \n"
-                    + "	a.[HireDate], \n"
-                    + "	a.salary, \n"
-                    + "	b.[DepartmentID], \n"
-                    + "	b.[DepartmentName],\n"
-                    + "	b.[ManagerID], \n"
-                    + "	c.[JobID], \n"
-                    + "	c.[JobTitle], \n"
-                    + "	c.min_salary, \n"
-                    + "	c.max_salary, \n"
-                    + "	d.LocationID, \n"
-                    + "	d.Province_id, \n"
-                    + "	d.District_id, \n"
-                    + "	d.ward_id, \n"
-                    + "	d.streetAddress,\n"
-                    + "	a.[ManagerID]\n"
-                    + "from Employees as a JOIN Departments as b ON a.[DepartmentID] = b.[DepartmentID]\n"
-                    + "                    JOIN Jobs as c ON a.[JobID] = c.[JobID]\n"
-                    + "			   JOIN Locations as d on a.[LocationId] = d.[LocationId]";
+            String sql = "SELECT a.[e_id]\n" + //1
+                        "      ,a.[e_first_name]\n" + //2
+                        "      ,a.[e_last_name]\n" + //3
+                        "      ,a.[e_gender]\n" + //4
+                        "      ,a.[e_dob]\n" + //5
+                        "      ,a.[e_email]\n" + //6
+                        "      ,a.[e_phone]\n" +  //7
+                        "      ,a.[e_join_date]\n" + //8
+                        "      ,a.[e_salary]\n" + //9
+                        "      ,a.[manager_id]\n" + //10
+                        "      ,b.[department_id]\n" + //11
+                        "      ,b.[dapartment_name]\n" + //12
+                        "      ,b.[manager_id]\n" + //13
+                        "      ,c.[job_id]\n" + //14
+                        "      ,c.[job_title]\n" + //15
+                        "      ,c.[min_salary]\n" + //16
+                        "      ,c.[max_salary]\n" + //17
+                        "      ,d.[location_id]\n" + //18
+                        "      ,d.[StreetAddress]\n" + //19
+                        "      ,d.[Ward_id]\n" + // 20
+                        "  FROM \n" +
+                        "	[Employees] AS a\n" +
+                        "			JOIN\n" +
+                        "	[Departments] AS b ON a.[department_id] = b.[department_id]\n" +
+                        "			JOIN\n" +
+                        "	[Jobs] AS c ON a.[job_id] = c.[job_id]\n" +
+                        "			JOIN\n" +
+                        "	[Locations] AS d ON a.[location_id] = d.[location_id] ";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
+            
+            
+            //Assign the information of all employees to list students
             while (rs.next()) {
                 Employee e = new Employee();
                 Department d = new Department();
                 Job j = new Job();
                 Location l = new Location();
+                
+                
                 e.setE_id(rs.getInt(1));
                 e.setE_first_name(rs.getString(2));
                 e.setE_last_name(rs.getString(3));
                 e.setE_gender(rs.getBoolean(4));
                 e.setE_dob(rs.getDate(5));
-                e.setE_phone(rs.getString(6));
-                e.setE_email(rs.getString(7));
+                e.setE_email(rs.getString(6));
+                e.setE_phone(rs.getString(7));
                 e.setE_join_date(rs.getDate(8));
                 e.setE_salary(rs.getDouble(9));
-//                d.setDep_id(rs.getInt(10));
-//                d.setDep_name(rs.getString(11));
                 Employee manager = new Employee();
-                manager.setE_id(rs.getInt(12));
+                manager.setE_id(rs.getInt(10));
+                e.setManager(manager);
+                
+                d.setDepartment_id(rs.getInt(11));
+                d.setDepartment_name(rs.getString(12));
                 d.setManager(manager);
                 e.setDepartment(d);
-                j.setJob_id(rs.getInt(13));
-                j.setJob_title(rs.getString(14));
-                j.setMin_salary(rs.getDouble(15));
-                j.setMax_salary(rs.getDouble(16));
+                
+                j.setJob_id(rs.getInt(14));
+                j.setJob_title(rs.getString(15));
+                j.setMin_salary(rs.getDouble(16));
+                j.setMax_salary(rs.getDouble(17));
                 e.setJob(j);
-//                l.setId(rs.getInt(17));
-//                l.setProvince_id(rs.getString(18));
-//                l.setDistrict_id(rs.getString(19));
+                
+                l.setLocation_id(rs.getInt(18));
+                l.setStreet(rs.getString(19));
                 l.setWard_id(rs.getString(20));
-                l.setStreet(rs.getString(21));
                 e.setLocation(l);
-                e.setManager(manager);
+                
+                //Add info off the employee to list
                 employees.add(e);
             }
         } catch (SQLException ex) {
