@@ -5,26 +5,39 @@
  */
 package controller.employee;
 
-import com.google.gson.Gson;
-import dal.DepartmentDBContext;
-import dal.AddressDBContext;
-import dal.JobDBContext;
+import dal.EmployeeDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Department;
-import model.Job;
-import model.Province;
+import model.Employee;
 
 /**
  *
  * @author PhuongNH
  */
-public class AddEmployeeController extends HttpServlet {
+public class ViewEmployeeController extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        EmployeeDBContext employeeDBContext = new EmployeeDBContext();
+        Employee employee = employeeDBContext.getEmployeeById(id);
+        
+        request.setAttribute("employee", employee);
+        request.getRequestDispatcher("../view/management/employee/view-employee.jsp").forward(request, response);
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -38,19 +51,7 @@ public class AddEmployeeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DepartmentDBContext departmentDBContext = new DepartmentDBContext();
-        AddressDBContext provinceDBContext = new AddressDBContext();
-        JobDBContext jobDBContext = new JobDBContext();
-
-        ArrayList<Department> departments = departmentDBContext.getAllDepartments();
-        ArrayList<Province> provinces = provinceDBContext.getAllProvinces();
-        ArrayList<Job> jobs = jobDBContext.getAllJobs();
-
-        request.setAttribute("departments", departments);
-        request.setAttribute("provinces", provinces);
-        request.setAttribute("jobs", jobs);
-
-        request.getRequestDispatcher("../view/management/employee/add-employee.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -64,7 +65,7 @@ public class AddEmployeeController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        processRequest(request, response);
     }
 
     /**

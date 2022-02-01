@@ -236,8 +236,57 @@ a.article:hover {
     font-weight: 600;
 }
 
+.btn-tbl-view:hover,
+.btn-tbl-edit:hover,
+.btn-tbl-delete:hover {
+    background-color: #6c757d;
+    color: #FFF
+}
 
+.btn-tbl-view {
+    display: inline-block;
+    color: #fff;
+    background-color: #337ab7;
+    border-radius: 50%;
+    padding: 6px ;
+    height: 28px;
+    color: #fff;
+    line-height: 18px;
+    box-shadow: 0 5px 25px 0 #ccc;
+    margin-right: 8px;
+}
 
+.btn-tbl-edit {
+    display: inline-block;
+    color: #fff;
+    background-color: #4fab52;
+    border-radius: 50%;
+    line-height: 18px;
+    padding: 6px ;
+    height: 28px;
+    color: #fff;
+    box-shadow: 0 5px 25px 0 #ccc;
+    margin-right: 8px;
+}
+
+.btn-tbl-delete {
+    display: inline-block;
+    color: #fff;
+    line-height: 18px;
+    background-color: #f96332;
+    border-radius: 50%;
+    height: 28px;
+    padding: 6px;
+    color: #fff;
+    box-shadow: 0 5px 25px 0 #ccc;
+}
+
+.tbl-icon {
+    font-size: 12px;
+}
+.tbl-view-detail table tr td:first-child {
+    padding: 8px 32px 8px 24px;
+}
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */

@@ -12,6 +12,7 @@
         <title>HRM - Add Employee</title>
         <link href="${pageContext.request.contextPath}/Bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
     </head>
 
@@ -40,7 +41,7 @@
                                 <span>Memu</span>
                             </button>
                         </div>
-                    </nav> 
+                    </nav>
                     <!-- #END Right Sidebar -->
 
 
@@ -64,8 +65,8 @@
                         </div>
                     </div>
 
-                    
-                    <form>
+
+                    <form action="add" method="POST">
                         <div class="body" style="border-radius: 8px;background-color:#FFF; padding: 4px 12px; margin-bottom: 8px">
                             <div class="body-element">
                                 <h2 style="font-size: 16px">
@@ -77,139 +78,170 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" class="form-control" placeholder="First Name" />
+                                                <input type="text" class="form-control" name="first_name" placeholder="First Name" />
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" class="form-control" placeholder="Last Name" />
+                                                <input type="text" class="form-control" name="last_name" placeholder="Last Name" />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" class="form-control" placeholder="Department" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" class="form-control" placeholder="Job" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" class="form-control" placeholder="Salary" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input id="email" type="email" class="validate form-control"
-                                                       placeholder="Email">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" class="form-control" placeholder="Telephone" />
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="col-sm-6">
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <select class="col-12 m-t-20 p-l-0 form-control">
-                                                    <option disabled selected>Gender</option>
-                                                    <option>Male</option>
-                                                    <option>Female</option>
-                                                </select>
-                                            </div>
+                                                <select name="department_id" class="col-12 m-t-20 p-l-0 form-control">
+                                                    <option disabled selected> -- Select Department -- </option>
+                                                <c:forEach items="${requestScope.departments}" var="d">
+                                                    <option value="${d.department_id}">${d.department_name}</option>
+                                                </c:forEach>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control datetimepicker" placeholder="Birth Date"
-                                                   name="date2" id="date2">
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <select name="job_id" class="col-12 m-t-20 p-l-0 form-control">
+                                                <option disabled selected> -- Select Job -- </option>
+                                                <c:forEach items="${requestScope.jobs}" var="j">
+                                                    <option value="${j.job_id}">${j.job_title}</option>
+                                                </c:forEach>
+                                            </select>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" class="form-control" placeholder="Province" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" class="form-control" placeholder="Destrict" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" class="form-control" placeholder="Ward" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <textarea rows="1" class="form-control no-resize"
-                                                          placeholder="Address"></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12 text-center" style="margin-bottom: 8px">
-                                        <button type="button" class="btn btn-primary btn-submit" style="margin-right: 15px">Submit</button>
-                                        <button type="button" class="btn btn-danger btn-cancel">Cancel</button>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" name="salary" class="form-control" placeholder="Salary" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input id="email" type="email" name="email" class="validate form-control" placeholder="Email">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" name="phone" class="form-control" placeholder="Telephone" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <select name="gender" class="col-12 m-t-20 p-l-0 form-control">
+                                                <option disabled selected> -- Select Gender -- </option>
+                                                <option value="male">Male</option>
+                                                <option value="female">Female</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control datetimepicker" placeholder="Birth Date (dd/mm/yyyy)" name="dob">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <select id="province_id" class="col-12 m-t-20 p-l-0 form-control">
+                                                <option disabled selected> -- Select Province -- </option>
+                                                <c:forEach items="${requestScope.provinces}" var="p">
+                                                    <option value="${p.province_id}">${p.province_name}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line" id="district_id">
+                                            <select name="district" class="col-12 m-t-20 p-l-0 form-control">
+                                                <option disabled selected> -- Select District -- </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line" id="ward_id">
+                                            <select name="ward" class="col-12 m-t-20 p-l-0 form-control">
+                                                <option disabled selected> -- Select Ward -- </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <textarea rows="1" class="form-control no-resize" placeholder="Street"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 text-center" style="margin-bottom: 8px">
+                                    <button type="button" class="btn btn-primary btn-submit" style="margin-right: 15px">Submit </button>
+                                    <button type="button" class="btn btn-danger btn-cancel">Cancel</button>
+                                </div>
+                            </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
-            <!-- #End Content -->
         </div>
+        <!-- #End Content -->
+    </div>
 
-
-
-        <script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
+    <script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
     <script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>
-    <script>
-                                            $(document).ready(function () {
-                                                $('#sidebarCollapse').on('click', function () {
-                                                    $('#sidebar').toggleClass('active');
-                                                });
-                                            });
-    </script>
-
-
 </body>
 
 </html>
+<script>
+                                    $(document).ready(function () {
+                                        $('#sidebarCollapse').on('click', function () {
+                                            $('#sidebar').toggleClass('active');
+                                        });
+                                    });
+</script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#province_id").on('change', function () {
+            var province_id = $("#province_id").val();
+            $("#error").html("");
+            $.ajax({
+                url: "../../../PRJ301-Assignment/view/management/address/district.jsp",
+                data: {
+                    province_id: province_id
+                },
+                method: "POST",
+                success: function (data) {
+                    $("#district_id").html(data);
+                }
+            });
+        });
+    });
+</script>

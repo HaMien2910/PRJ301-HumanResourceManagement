@@ -12,16 +12,16 @@ import java.util.ArrayList;
  * @author PhuongNH
  */
 public class Province {
-    private int province_id;
+    private String province_id;
     private String province_name;
     private String province_type;
-    private ArrayList<Location> locations = new ArrayList<>();
+    private ArrayList<District> districts = new ArrayList<>();
 
-    public int getProvince_id() {
+    public String getProvince_id() {
         return province_id;
     }
 
-    public void setProvince_id(int province_id) {
+    public void setProvince_id(String province_id) {
         this.province_id = province_id;
     }
 
@@ -41,12 +41,12 @@ public class Province {
         this.province_type = province_type;
     }
 
-    public ArrayList<Location> getLocations() {
-        return locations;
+    public ArrayList<District> getDistricts() {
+        return districts;
     }
 
-    public void setLocations(ArrayList<Location> locations) {
-        this.locations = locations;
+    public void setDistricts(ArrayList<District> districts) {
+        this.districts = districts;
     }
 
     

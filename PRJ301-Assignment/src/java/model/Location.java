@@ -13,8 +13,8 @@ import java.util.ArrayList;
  */
 public class Location {
     private int location_id;
-    private String ward_id;
     private String street;
+    private Ward ward;
     private ArrayList<Employee> employees = new ArrayList<>();
 
     public int getLocation_id() {
@@ -25,12 +25,12 @@ public class Location {
         this.location_id = location_id;
     }
 
-    public String getWard_id() {
-        return ward_id;
+    public Ward getWard() {
+        return ward;
     }
 
-    public void setWard_id(String ward_id) {
-        this.ward_id = ward_id;
+    public void setWard(Ward ward) {
+        this.ward = ward;
     }
 
     public String getStreet() {

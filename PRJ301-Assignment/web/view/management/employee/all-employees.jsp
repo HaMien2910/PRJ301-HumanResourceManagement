@@ -93,14 +93,17 @@
                                         <td class="text-center">${e.department.department_name}</td>
                                         <td class="text-center">${e.e_phone}</td>
                                         <td class="text-center">${e.e_email}</td>
-                                        <td class="text-center"></td>
+                                        <td class="text-center">${e.location.ward.district.province.province_name}</td>
                                         <td class="text-center">${e.e_join_date}</td>
                                         <td class="text-center">
+                                            <a href="view?id=${e.e_id}" class="btn btn-tbl-view">
+                                                <i class="fas fa-eye tbl-icon"></i>
+                                            </a>
                                             <a href="edit-employee.html" class="btn btn-tbl-edit">
-                                                <i class="material-icons">create</i>
+                                                <i class="fas fa-pen tbl-icon"></i>
                                             </a>
                                             <a href="#" class="btn btn-tbl-delete">
-                                                <i class="material-icons">delete_forever</i>
+                                                <i class="fas fa-trash tbl-icon"></i>
                                             </a>
                                         </td>
                                     </tr>
@@ -128,15 +131,15 @@
     </div>
 
 
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
     <script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>
-    <script>
+</body>
+</html>
+<script>
                                             $(document).ready(function () {
                                                 $('#sidebarCollapse').on('click', function () {
                                                     $('#sidebar').toggleClass('active');
                                                 });
                                             });
-    </script>
-</body>
-</html>
+</script>
