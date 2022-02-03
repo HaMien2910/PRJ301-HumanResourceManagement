@@ -96,7 +96,7 @@
                                         <td class="text-center">${e.location.ward.district.province.province_name}</td>
                                         <td class="text-center">${e.e_join_date}</td>
                                         <td class="text-center">
-                                            <a href="view?id=${e.e_id}" class="btn btn-tbl-view">
+                                            <a href="viewEmployee?eid=${e.e_id}" class="btn btn-tbl-view">
                                                 <i class="fas fa-eye tbl-icon"></i>
                                             </a>
                                             <a href="edit-employee.html" class="btn btn-tbl-edit">

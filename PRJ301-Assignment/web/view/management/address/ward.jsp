@@ -20,7 +20,7 @@
         %>
     </head>
     <body>
-        <select class="form-control" name="district" id="district">
+        <select class="form-control" name="ward" id="ward">
             <option disabled selected> -- Select Ward -- </option>
             <%for (Ward w : wards) {%>
             <option value="<%=w.getWard_id()%>"><%=w.getWard_name()%></option>

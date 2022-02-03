@@ -5,12 +5,16 @@
  */
 package dal;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.util.converter.LocalDateTimeStringConverter;
 import model.Department;
 import model.District;
 import model.Employee;
@@ -59,17 +63,17 @@ public class EmployeeDBContext extends DBContext {
                         "      ,g.[province_type]\n" + //28
                         "       FROM \n" +
                         "       [Employees] AS a\n" +
-                        "       		JOIN\n" +
+                        "       		LEFT JOIN\n" +
                         "       [Departments] AS b ON a.[department_id] = b.[department_id]\n" +
-                        "       		JOIN\n" +
+                        "       		LEFT JOIN\n" +
                         "       [Jobs] AS c ON a.[job_id] = c.[job_id]\n" +
-                        "       		JOIN\n" +
+                        "       		LEFT JOIN\n" +
                         "       [Locations] AS d ON a.[location_id] = d.[location_id] \n" +
-                        "			JOIN\n" +
+                        "			LEFT JOIN\n" +
                         "	[Wards] AS e ON d.[ward_id] = e.[ward_id]\n" +
-                        "			JOIN\n" +
+                        "			LEFT JOIN\n" +
                         "	[Districts] AS f ON f.[district_id] = e.[district_id]\n" +
-                        "			JOIN\n" +
+                        "			LEFT JOIN\n" +
                         "	 [Provinces] AS g ON f.[province_id] = g.[province_id]";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
@@ -168,18 +172,19 @@ public class EmployeeDBContext extends DBContext {
                         "      ,g.[province_type]\n" + //28
                         "       FROM \n" +
                         "       [Employees] AS a\n" +
-                        "       		JOIN\n" +
-                        "       [Departments] AS b ON a.[department_id] = b.[department_id] AND a.[e_id] = ?\n" +
-                        "       		JOIN\n" +
+                        "       		LEFT JOIN\n" +
+                        "       [Departments] AS b ON a.[department_id] = b.[department_id]\n" +
+                        "       		LEFT JOIN\n" +
                         "       [Jobs] AS c ON a.[job_id] = c.[job_id]\n" +
-                        "       		JOIN\n" +
+                        "       		LEFT JOIN\n" +
                         "       [Locations] AS d ON a.[location_id] = d.[location_id] \n" +
-                        "			JOIN\n" +
+                        "			LEFT JOIN\n" +
                         "	[Wards] AS e ON d.[ward_id] = e.[ward_id]\n" +
-                        "			JOIN\n" +
+                        "			LEFT JOIN\n" +
                         "	[Districts] AS f ON f.[district_id] = e.[district_id]\n" +
-                        "			JOIN\n" +
-                        "	 [Provinces] AS g ON f.[province_id] = g.[province_id]";
+                        "			LEFT JOIN\n" +
+                        "	 [Provinces] AS g ON f.[province_id] = g.[province_id]\n" +
+                        "       WHERE a.[e_id] = ?" ;
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
@@ -242,4 +247,90 @@ public class EmployeeDBContext extends DBContext {
         }
         return null;
     }
+
+    public void addEmployee(Employee employee) {
+        try {
+            connection.setAutoCommit(false);
+            String sql_insert_location = "INSERT INTO [Locations]\n" +
+                                        "           ([StreetAddress]\n" +
+                                        "           ,[Ward_id])\n" +
+                                        "     VALUES\n" +
+                                        "           (?\n" +
+                                        "           ,?)";
+            PreparedStatement stm_insert_location = connection.prepareStatement(sql_insert_location);
+            stm_insert_location.setString(1, employee.getLocation().getStreet());
+            stm_insert_location.setString(2, employee.getLocation().getWard().getWard_id());
+            stm_insert_location.executeUpdate();
+            
+            String sql_get_lid = "Select @@Identity as lid";
+            PreparedStatement stm_get_lid = connection.prepareStatement(sql_get_lid);
+            ResultSet rs = stm_get_lid.executeQuery();
+            if (rs.next()) {
+                employee.getLocation().setLocation_id(rs.getInt("lid"));
+            }
+            
+            String sql = "INSERT INTO [Employees]\n" +
+            "           ([e_first_name]\n" + //1
+            "           ,[e_last_name]\n" + //2
+            "           ,[e_gender]\n" + //3
+            "           ,[e_dob]\n" + //4
+            "           ,[e_email]\n" + //5 
+            "           ,[e_phone]\n" + //6
+            "           ,[job_id]\n" + //7
+            "           ,[e_salary]\n" + //8
+            "           ,[department_id]\n" + //9
+            "           ,[e_join_date]\n" + //10
+            "           ,[manager_id]\n" + //11
+            "           ,[location_id])\n" + //12
+            "     VALUES\n" +
+            "           (?\n" +
+            "           ,?\n" +
+            "           ,?\n" +
+            "           ,?\n" +
+            "           ,?\n" +
+            "           ,?\n" +
+            "           ,?\n" +
+            "           ,?\n" +
+            "           ,?\n" +
+            "           ,?\n" +
+            "           ,?\n" +
+            "           ,?)";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, employee.getE_first_name());
+            stm.setString(2, employee.getE_last_name());
+            stm.setBoolean(3, employee.isE_gender());
+            stm.setDate(4, employee.getE_dob());
+            stm.setString(5, employee.getE_email());
+            stm.setString(6, employee.getE_phone());
+            stm.setInt(7, employee.getJob().getJob_id());
+            stm.setDouble(8, employee.getE_salary());
+            stm.setInt(9, employee.getDepartment().getDepartment_id());
+            java.sql.Date currentDate = new java.sql.Date(new java.util.Date().getTime());
+            stm.setDate(10, currentDate);
+            if(employee.getDepartment().getManager().getE_id() == employee.getDepartment().getManager().getE_id() && employee.getDepartment().getManager().getE_id() > 0){
+                stm.setInt(11, employee.getDepartment().getManager().getE_id());   
+            }else{
+                stm.setNull(11, Types.INTEGER);   
+            }
+            stm.setInt(12, employee.getLocation().getLocation_id());
+            stm.executeUpdate();
+            connection.commit();
+       } catch (SQLException ex) {
+            Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        } 
+        finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+
 }

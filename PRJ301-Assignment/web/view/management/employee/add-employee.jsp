@@ -66,7 +66,7 @@
                     </div>
 
 
-                    <form action="add" method="POST">
+                    <form action="addEmployee" method="POST">
                         <div class="body" style="border-radius: 8px;background-color:#FFF; padding: 4px 12px; margin-bottom: 8px">
                             <div class="body-element">
                                 <h2 style="font-size: 16px">
@@ -175,7 +175,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group form-float">
                                         <div class="form-line" id="district_id">
-                                            <select name="district" class="col-12 m-t-20 p-l-0 form-control">
+                                            <select name="district_id" class="col-12 m-t-20 p-l-0 form-control">
                                                 <option disabled selected> -- Select District -- </option>
                                             </select>
                                         </div>
@@ -184,8 +184,8 @@
                                 <div class="col-sm-6">
                                     <div class="form-group form-float">
                                         <div class="form-line" id="ward_id">
-                                            <select name="ward" class="col-12 m-t-20 p-l-0 form-control">
-                                                <option disabled selected> -- Select Ward -- </option>
+                                            <select name="ward_id" class="col-12 m-t-20 p-l-0 form-control">
+                                                <option disabled selected> -- Select Ward -- </option>  
                                             </select>
                                         </div>
                                     </div>
@@ -195,14 +195,14 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <textarea rows="1" class="form-control no-resize" placeholder="Street"></textarea>
+                                            <textarea name="street" rows="1" class="form-control no-resize" placeholder="Street"></textarea>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-12 text-center" style="margin-bottom: 8px">
-                                    <button type="button" class="btn btn-primary btn-submit" style="margin-right: 15px">Submit </button>
+                                    <input type="submit" class="btn btn-primary btn-submit" style="margin-right: 15px" value="Submit"/>
                                     <button type="button" class="btn btn-danger btn-cancel">Cancel</button>
                                 </div>
                             </div>

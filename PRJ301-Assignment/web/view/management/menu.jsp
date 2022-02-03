@@ -8,13 +8,13 @@
         <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Employees</a>
         <ul class="list-unstyled" id="homeSubmenu">
             <li>
-                <a class="${tag eq "listAll" ? "active" : ""}" href="${pageContext.request.contextPath}/employee/listAll">All Employees</a>
+                <a class="${tag eq "listAllEmployees" ? "active" : ""}" href="${pageContext.request.contextPath}/employee/listAllEmployees">All Employees</a>
             </li>
             <li>
-                <a class="${tag eq "add" ? "active" : ""}" href="${pageContext.request.contextPath}/employee/add">Add Employee</a>
+                <a class="${tag eq "addEmployee" ? "active" : ""}" href="${pageContext.request.contextPath}/employee/addEmployee">Add Employee</a>
             </li>
             <li>
-                <a class="${tag eq "edit" ? "active" : ""}" href="${pageContext.request.contextPath}/employee/edit">Edit Employee</a>
+                <a class="${tag eq "editEmployee" ? "active" : ""}" href="${pageContext.request.contextPath}/employee/editEmployee">Edit Employee</a>
             </li>
         </ul>
     </li>
@@ -22,13 +22,13 @@
         <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Departments</a>
         <ul class="list-unstyled" id="homeSubmenu">
             <li>
-                <a class="${tag eq "listAll" ? "active" : ""}" href="${pageContext.request.contextPath}/employee/listAll">All Departments</a>
+                <a class="${tag eq "listAllDepartments" ? "active" : ""}" href="${pageContext.request.contextPath}/department/listAllDepartments">All Departments</a>
             </li>
             <li>
-                <a class="${tag eq "add" ? "active" : ""}" href="${pageContext.request.contextPath}/employee/add">Add Departments</a>
+                <a class="${tag eq "addDepartment" ? "active" : ""}" href="${pageContext.request.contextPath}/department/addDepartment">Add Departments</a>
             </li>
             <li>
-                <a class="${tag eq "edit" ? "active" : ""}" href="${pageContext.request.contextPath}/employee/edit">Edit Departments</a>
+                <a class="${tag eq "addDepartment" ? "active" : ""}" href="${pageContext.request.contextPath}/department/addDepartment">Edit Departments</a>
             </li>
         </ul>
     </li>

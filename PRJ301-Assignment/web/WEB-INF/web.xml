@@ -22,23 +22,23 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>ListAllEmployeeController</servlet-name>
-        <url-pattern>/employee/listAll</url-pattern>
+        <url-pattern>/employee/listAllEmployees</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ListAllDepartments</servlet-name>
-        <url-pattern>/department/listAll</url-pattern>
+        <url-pattern>/department/listAllDepartments</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AddEmployeeController</servlet-name>
-        <url-pattern>/employee/add</url-pattern>
+        <url-pattern>/employee/addEmployee</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>EditEmployeeController</servlet-name>
-        <url-pattern>/employee/edit</url-pattern>
+        <url-pattern>/employee/editEmployee</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ViewEmployeeController</servlet-name>
-        <url-pattern>/employee/view</url-pattern>
+        <url-pattern>/employee/viewEmployee</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
