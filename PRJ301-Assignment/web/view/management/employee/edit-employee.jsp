@@ -64,7 +64,7 @@
                         </div>
                     </div>
 
-                    <form>
+                    <form action="editEmployee" method="POST">
                         <div class="body" style="border-radius: 8px;background-color:#FFF; padding: 4px 12px; margin-bottom: 8px">
                             <div class="body-element">
                                 <h2 style="font-size: 16px">
@@ -76,139 +76,177 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" class="form-control" placeholder="First Name" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" class="form-control" placeholder="Last Name" />
-                                            </div>
+                                                <input type="text" value="${requestScope.employee.e_id}" class="form-control" name="e_id"/>
+                                            <input type="text" value="${requestScope.employee.e_first_name}" class="form-control" name="first_name" placeholder="First Name" />
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" class="form-control" placeholder="Department" />
-                                            </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" value="${requestScope.employee.e_last_name}" class="form-control" name="last_name" placeholder="Last Name" />
                                         </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" class="form-control" placeholder="Job" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" class="form-control" placeholder="Salary" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input id="email" type="email" class="validate form-control"
-                                                       placeholder="Email">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" class="form-control" placeholder="Telephone" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group form-float">
-                                            <div class="form-line">
-                                                <select class="col-12 m-t-20 p-l-0 form-control">
-                                                    <option disabled selected>Gender</option>
-                                                    <option>Male</option>
-                                                    <option>Female</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control datetimepicker" placeholder="Birth Date"
-                                                   name="date2" id="date2">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" class="form-control" placeholder="Province" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" class="form-control" placeholder="Destrict" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" class="form-control" placeholder="Ward" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <textarea rows="1" class="form-control no-resize"
-                                                          placeholder="Address"></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12 text-center" style="margin-bottom: 8px">
-                                        <button type="button" class="btn btn-primary btn-submit" style="margin-right: 15px">Save</button>
-                                        <button type="button" class="btn btn-danger btn-cancel">Cancel</button>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <select name="department_id" class="col-12 m-t-20 p-l-0 form-control">
+                                                <option disabled selected> -- Select Department -- </option>
+                                                <c:forEach items="${requestScope.departments}" var="d">
+                                                    <option ${(requestScope.employee.department.department_id == d.department_id) ? "selected = \"selected\"" : ""} value="${d.department_id}">${d.department_name}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <select name="job_id" class="col-12 m-t-20 p-l-0 form-control">
+                                                <option disabled selected> -- Select Job -- </option>
+                                                <c:forEach items="${requestScope.jobs}" var="j">
+                                                    <option ${(requestScope.employee.job.job_id == j.job_id) ? "selected = \"selected\"" : ""} value="${j.job_id}">${j.job_title}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" value="${requestScope.employee.e_salary}" name="salary" class="form-control" placeholder="Salary" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input id="email" value="${requestScope.employee.e_email}" type="email" name="email" class="validate form-control" placeholder="Email">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" value="${requestScope.employee.e_phone}" name="phone" class="form-control" placeholder="Telephone" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <select name="gender" class="col-12 m-t-20 p-l-0 form-control">
+                                                <option disabled selected> -- Select Gender -- </option>
+                                                <option ${(requestScope.employee.e_gender) ? "selected = \"selected\"" : ""} value="male">Male</option>
+                                                <option ${(!requestScope.employee.e_gender) ? "selected = \"selected\"" : ""} value="female">Female</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input type="text" value="${requestScope.employee.e_dob}" class="form-control datetimepicker" placeholder="Birth Date (dd/mm/yyyy)" name="dob">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <select id="province_id" class="col-12 m-t-20 p-l-0 form-control">
+                                                <option disabled selected> -- Select Province -- </option>
+                                                <c:forEach items="${requestScope.provinces}" var="p">
+                                                    <option ${(requestScope.employee.location.ward.district.province.province_id == p.province_id) ? "selected = \"selected\"" : ""} value="${p.province_id}">${p.province_name}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line" id="district_id">
+                                            <select name="district_id" class="col-12 m-t-20 p-l-0 form-control">
+                                                <option disabled selected> -- Select District -- </option>
+                                                <c:forEach items="${requestScope.districts}" var="d">
+                                                    <option ${(requestScope.employee.location.ward.district.district_id == d.district_id) ? "selected = \"selected\"" : ""} value="${d.district_id}">${d.district_name}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line" id="ward_id">
+                                            <select name="ward_id" class="col-12 m-t-20 p-l-0 form-control">
+                                                <option disabled selected> -- Select Ward -- </option>  
+                                                <c:forEach items="${requestScope.wards}" var="w">
+                                                    <option ${(requestScope.employee.location.ward.ward_id == w.ward_id) ? "selected = \"selected\"" : ""} value="${w.ward_id}">${w.ward_name}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input name="street" value="${requestScope.employee.location.street}" type="text" class="form-control no-resize" placeholder="Street"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 text-center" style="margin-bottom: 8px">
+                                    <input type="submit" class="btn btn-primary btn-submit" style="margin-right: 15px" value="Save"/>
+                                    <button type="button" class="btn btn-danger btn-cancel">Cancel</button>
+                                </div>
+                            </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
-            <!-- #End Content -->
         </div>
+        <!-- #End Content -->
+    </div>
 
-
-
-        <script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
+    <script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
     <script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>
-    <script>
+</body>
+
+</html>
+<script>
                                             $(document).ready(function () {
                                                 $('#sidebarCollapse').on('click', function () {
                                                     $('#sidebar').toggleClass('active');
                                                 });
                                             });
-    </script>
+</script>
+<script type="text/javascript">
 
-
-</body>
-
-</html>
+    $(document).ready(function () {
+        $("#province_id").on('change', function () {
+            var province_id = $("#province_id").val();
+            $("#error").html("");
+            $.ajax({
+                url: "../../../PRJ301-Assignment/view/management/address/district.jsp",
+                data: {
+                    province_id: province_id
+                },
+                method: "POST",
+                success: function (data) {
+                    $("#district_id").html(data);
+                }
+            });
+        });
+    });
+</script>

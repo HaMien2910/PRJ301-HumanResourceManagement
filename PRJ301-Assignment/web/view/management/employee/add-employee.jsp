@@ -195,7 +195,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <textarea name="street" rows="1" class="form-control no-resize" placeholder="Street"></textarea>
+                                            <input name="street" type="text" class="form-control no-resize" placeholder="Street"/>
                                         </div>
                                     </div>
                                 </div>

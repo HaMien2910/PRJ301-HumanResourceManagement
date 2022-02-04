@@ -332,5 +332,79 @@ public class EmployeeDBContext extends DBContext {
         }
     }
 
+    public void deleteEmployeeById(int id) {
+        try {
+            String sql = "DELETE FROM [Employees]\n" +
+                    "      WHERE [e_id] = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void updateEmployeeById(Employee employee) {
+        try {
+            connection.setAutoCommit(false);
+            String sql = "UPDATE [Employees]\n" +
+                    "   SET [e_first_name] = ?\n" + //1
+                    "           ,[e_last_name] = ?\n" + //2
+                    "           ,[e_gender]  = ?\n" + //3
+                    "           ,[e_dob]  = ?\n" + //4
+                    "           ,[e_email] = ?\n" + //5 
+                    "           ,[e_phone] = ?\n" + //6
+                    "           ,[job_id] = ?\n" + //7
+                    "           ,[e_salary] = ?\n" + //8
+                    "           ,[department_id] = ?\n" + //9
+                    "           ,[e_join_date] = ?\n" + //10
+                    "           ,[manager_id] = ?\n" + //11
+                    " WHERE [e_id] = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, employee.getE_first_name());
+            stm.setString(2, employee.getE_last_name());
+            stm.setBoolean(3, employee.isE_gender());
+            stm.setDate(4, employee.getE_dob());
+            stm.setString(5, employee.getE_email());
+            stm.setString(6, employee.getE_phone());
+            stm.setInt(7, employee.getJob().getJob_id());
+            stm.setDouble(8, employee.getE_salary());
+            stm.setInt(9, employee.getDepartment().getDepartment_id());
+            java.sql.Date currentDate = new java.sql.Date(new java.util.Date().getTime());
+            stm.setDate(10, currentDate);
+            if(employee.getDepartment().getManager().getE_id() == employee.getDepartment().getManager().getE_id() && employee.getDepartment().getManager().getE_id() > 0){
+                stm.setInt(11, employee.getDepartment().getManager().getE_id());   
+            }else{
+                stm.setNull(11, Types.INTEGER);   
+            }
+            stm.setInt(12, employee.getE_id());
+            stm.executeUpdate();
+            
+            String sql_update_location = "UPDATE [Locations]\n" +
+                                        "   SET [StreetAddress] = ?\n" +
+                                        "      ,[Ward_id] = ?\n" +
+                                        " WHERE [location_id] = ?";
+            PreparedStatement stm_update_location = connection.prepareStatement(sql_update_location);
+            stm_update_location.setString(1, employee.getLocation().getStreet());
+            stm_update_location.setString(2, employee.getLocation().getWard().getWard_id());
+            stm_update_location.setInt(3, employee.getLocation().getLocation_id());
+            stm_update_location.executeUpdate();
+            connection.commit();
+        } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
 
 }

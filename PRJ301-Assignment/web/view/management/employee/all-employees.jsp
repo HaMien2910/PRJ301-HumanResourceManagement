@@ -99,10 +99,10 @@
                                             <a href="viewEmployee?eid=${e.e_id}" class="btn btn-tbl-view">
                                                 <i class="fas fa-eye tbl-icon"></i>
                                             </a>
-                                            <a href="edit-employee.html" class="btn btn-tbl-edit">
+                                            <a href="editEmployee?eid=${e.e_id}" class="btn btn-tbl-edit">
                                                 <i class="fas fa-pen tbl-icon"></i>
                                             </a>
-                                            <a href="#" class="btn btn-tbl-delete">
+                                            <a href="deleteEmployee?eid=${e.e_id}" class="btn btn-tbl-delete">
                                                 <i class="fas fa-trash tbl-icon"></i>
                                             </a>
                                         </td>
