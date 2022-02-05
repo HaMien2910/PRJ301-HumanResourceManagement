@@ -79,7 +79,7 @@ public class EditEmployeeController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Employee employee = new Employee();
-        employee.setE_id(Integer.parseInt(request.getParameter("e_id")));
+        employee.setE_id(Integer.parseInt(request.getParameter("eid")));
         employee.setE_first_name(request.getParameter("first_name"));
         employee.setE_last_name(request.getParameter("last_name"));
 
