@@ -31,6 +31,8 @@ public class AddressDBContext extends DBContext {
 
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
+
+            //Loop to add all information into list
             while (rs.next()) {
                 Province p = new Province();
                 p.setProvince_id(rs.getString(1));
@@ -44,7 +46,7 @@ public class AddressDBContext extends DBContext {
         return provinces;
     }
 
-    public ArrayList<District> getAllProvincesByProvinceID(String province_id) {
+    public ArrayList<District> getAllDistrictsByProvinceID(String province_id) {
         ArrayList<District> districts = new ArrayList<>();
         try {
             String sql = "SELECT [district_id]\n"
@@ -55,8 +57,11 @@ public class AddressDBContext extends DBContext {
                     + "  Where [province_id] = ?";
 
             PreparedStatement stm = connection.prepareStatement(sql);
+            // assign province_id to the condition in the sql statement
             stm.setString(1, province_id);
             ResultSet rs = stm.executeQuery();
+
+            //Loop to add all information into list
             while (rs.next()) {
                 District d = new District();
                 d.setDistrict_id(rs.getString(1));
@@ -84,8 +89,11 @@ public class AddressDBContext extends DBContext {
                     + "  WHERE [district_id] = ?";
 
             PreparedStatement stm = connection.prepareStatement(sql);
+            // assign district_id to the condition in the sql statement
             stm.setString(1, district_id);
             ResultSet rs = stm.executeQuery();
+
+            //Loop to add all information in list
             while (rs.next()) {
                 Ward w = new Ward();
                 w.setWard_id(rs.getString(1));

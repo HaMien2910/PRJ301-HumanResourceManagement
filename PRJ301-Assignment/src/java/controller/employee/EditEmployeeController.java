@@ -51,12 +51,14 @@ public class EditEmployeeController extends HttpServlet {
         JobDBContext jobDBContext = new JobDBContext();
         AddressDBContext addressDBContext = new AddressDBContext();
 
-        Employee employee = employeeDBContext.getEmployeeById(id);
-        ArrayList<Department> departments = departmentDBContext.getAllDepartments();
-        ArrayList<Province> provinces = provinceDBContext.getAllProvinces();
-        ArrayList<Job> jobs = jobDBContext.getAllJobs();
+        Employee employee = employeeDBContext.getEmployeeById(id); // Get Employee By Id From DB
+        ArrayList<Department> departments = departmentDBContext.getAllDepartments(); // Get All Departments From DB
+        ArrayList<Province> provinces = provinceDBContext.getAllProvinces(); // Get All Provinces From DB
+        ArrayList<Job> jobs = jobDBContext.getAllJobs(); // Get All Jobs From DB
+        // Get all wards by district id From DB
         ArrayList<Ward> wards = addressDBContext.getAllWardsByDistrictID(employee.getLocation().getWard().getDistrict().getDistrict_id());
-        ArrayList<District> districts = addressDBContext.getAllProvincesByProvinceID(employee.getLocation().getWard().getDistrict().getProvince().getProvince_id());
+        // get all districts by provinces id From DB
+        ArrayList<District> districts = addressDBContext.getAllDistrictsByProvinceID(employee.getLocation().getWard().getDistrict().getProvince().getProvince_id());
 
         request.setAttribute("departments", departments);
         request.setAttribute("provinces", provinces);
@@ -78,6 +80,7 @@ public class EditEmployeeController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Set all information for object employee
         Employee employee = new Employee();
         employee.setE_id(Integer.parseInt(request.getParameter("eid")));
         employee.setE_first_name(request.getParameter("first_name"));
@@ -111,7 +114,9 @@ public class EditEmployeeController extends HttpServlet {
         location.setWard(ward);
         employee.setLocation(location);
 
+        
         EmployeeDBContext employeeDBContext = new EmployeeDBContext();
+        // Update employee by id has id duplicate with employee param into DB
         employeeDBContext.updateEmployeeById(employee);
         response.sendRedirect("listAllEmployees");
     }

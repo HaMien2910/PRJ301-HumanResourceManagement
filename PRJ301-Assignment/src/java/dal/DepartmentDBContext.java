@@ -28,7 +28,8 @@ public class DepartmentDBContext extends DBContext{
                         "  FROM [Departments]";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
-            
+
+            //Loop to add all information in list             
             while(rs.next()){
                 Department d = new Department();
                 d.setDepartment_id(rs.getInt(1));

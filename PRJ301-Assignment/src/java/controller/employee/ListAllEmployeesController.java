@@ -33,6 +33,7 @@ public class ListAllEmployeesController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         EmployeeDBContext employeeDBContext = new EmployeeDBContext();
+        // Get all employee from DB
         ArrayList<Employee> employees = employeeDBContext.getAllEmployees();
 
         request.setAttribute("employees", employees);

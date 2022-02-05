@@ -47,7 +47,7 @@ public class AddEmployeeController extends HttpServlet {
         AddressDBContext provinceDBContext = new AddressDBContext();
         JobDBContext jobDBContext = new JobDBContext();
 
-        ArrayList<Department> departments = departmentDBContext.getAllDepartments();
+        ArrayList<Department> departments = departmentDBContext.getAllDepartments(); // Get
         ArrayList<Province> provinces = provinceDBContext.getAllProvinces();
         ArrayList<Job> jobs = jobDBContext.getAllJobs();
 

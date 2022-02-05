@@ -33,6 +33,7 @@ public class DeleteEmployeeController extends HttpServlet {
             throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("eid"));
         EmployeeDBContext employeeDBContext = new EmployeeDBContext();
+        // Delete employee by id into DB
         employeeDBContext.deleteEmployeeById(id);
         
         response.sendRedirect("listAllEmployees");

@@ -29,7 +29,9 @@ public class JobDBContext extends DBContext {
                     + "  FROM [Jobs]";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
-            while(rs.next()){
+            
+            //Loop to add all information in list            
+            while (rs.next()) {
                 Job j = new Job();
                 j.setJob_id(rs.getInt(1));
                 j.setJob_title(rs.getString(2));

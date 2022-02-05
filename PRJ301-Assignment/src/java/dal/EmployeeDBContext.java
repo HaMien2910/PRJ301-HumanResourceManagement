@@ -186,6 +186,7 @@ public class EmployeeDBContext extends DBContext {
                         "	 [Provinces] AS g ON f.[province_id] = g.[province_id]\n" +
                         "       WHERE a.[e_id] = ?" ;
             PreparedStatement stm = connection.prepareStatement(sql);
+            // assign id to the condition in the sql statement
             stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
             
@@ -251,6 +252,8 @@ public class EmployeeDBContext extends DBContext {
     public void addEmployee(Employee employee) {
         try {
             connection.setAutoCommit(false);
+            
+            // Insert address of the employee into location table
             String sql_insert_location = "INSERT INTO [Locations]\n" +
                                         "           ([StreetAddress]\n" +
                                         "           ,[Ward_id])\n" +
@@ -262,10 +265,12 @@ public class EmployeeDBContext extends DBContext {
             stm_insert_location.setString(2, employee.getLocation().getWard().getWard_id());
             stm_insert_location.executeUpdate();
             
+            // Get location_id of the employee have been inserted 
             String sql_get_lid = "Select @@Identity as lid";
             PreparedStatement stm_get_lid = connection.prepareStatement(sql_get_lid);
             ResultSet rs = stm_get_lid.executeQuery();
             if (rs.next()) {
+                // set location_id for the location of the employee
                 employee.getLocation().setLocation_id(rs.getInt("lid"));
             }
             
@@ -296,6 +301,7 @@ public class EmployeeDBContext extends DBContext {
             "           ,?\n" +
             "           ,?)";
             PreparedStatement stm = connection.prepareStatement(sql);
+            // Insert information of the employee
             stm.setString(1, employee.getE_first_name());
             stm.setString(2, employee.getE_last_name());
             stm.setBoolean(3, employee.isE_gender());
@@ -307,6 +313,7 @@ public class EmployeeDBContext extends DBContext {
             stm.setInt(9, employee.getDepartment().getDepartment_id());
             java.sql.Date currentDate = new java.sql.Date(new java.util.Date().getTime());
             stm.setDate(10, currentDate);
+            // Check if the department have manager or not
             if(employee.getDepartment().getManager().getE_id() == employee.getDepartment().getManager().getE_id() && employee.getDepartment().getManager().getE_id() > 0){
                 stm.setInt(11, employee.getDepartment().getManager().getE_id());   
             }else{
@@ -314,6 +321,8 @@ public class EmployeeDBContext extends DBContext {
             }
             stm.setInt(12, employee.getLocation().getLocation_id());
             stm.executeUpdate();
+            
+            
             connection.commit();
        } catch (SQLException ex) {
             Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
@@ -337,6 +346,7 @@ public class EmployeeDBContext extends DBContext {
             String sql = "DELETE FROM [Employees]\n" +
                     "      WHERE [e_id] = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
+            // Assign id to the condition in the sql statement
             stm.setInt(1, id);
             stm.executeUpdate();
         } catch (SQLException ex) {
@@ -347,6 +357,8 @@ public class EmployeeDBContext extends DBContext {
     public void updateEmployeeById(Employee employee) {
         try {
             connection.setAutoCommit(false);
+            
+            // Update information of the employee
             String sql = "UPDATE [Employees]\n" +
                     "   SET [e_first_name] = ?\n" + //1
                     "           ,[e_last_name] = ?\n" + //2
@@ -360,6 +372,7 @@ public class EmployeeDBContext extends DBContext {
                     "           ,[e_join_date] = ?\n" + //10
                     "           ,[manager_id] = ?\n" + //11
                     " WHERE [e_id] = ?";
+            
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, employee.getE_first_name());
             stm.setString(2, employee.getE_last_name());
@@ -372,6 +385,7 @@ public class EmployeeDBContext extends DBContext {
             stm.setInt(9, employee.getDepartment().getDepartment_id());
             java.sql.Date currentDate = new java.sql.Date(new java.util.Date().getTime());
             stm.setDate(10, currentDate);
+            // Check if the department have manager or not
             if(employee.getDepartment().getManager().getE_id() == employee.getDepartment().getManager().getE_id() && employee.getDepartment().getManager().getE_id() > 0){
                 stm.setInt(11, employee.getDepartment().getManager().getE_id());   
             }else{
@@ -380,6 +394,7 @@ public class EmployeeDBContext extends DBContext {
             stm.setInt(12, employee.getE_id());
             stm.executeUpdate();
             
+            // Update address of the employee
             String sql_update_location = "UPDATE [Locations]\n" +
                                         "   SET [StreetAddress] = ?\n" +
                                         "      ,[Ward_id] = ?\n" +
@@ -389,6 +404,8 @@ public class EmployeeDBContext extends DBContext {
             stm_update_location.setString(2, employee.getLocation().getWard().getWard_id());
             stm_update_location.setInt(3, employee.getLocation().getLocation_id());
             stm_update_location.executeUpdate();
+            
+            
             connection.commit();
         } catch (SQLException ex) {
             try {

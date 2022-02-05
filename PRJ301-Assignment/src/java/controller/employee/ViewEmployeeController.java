@@ -33,6 +33,7 @@ public class ViewEmployeeController extends HttpServlet {
             throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("eid"));
         EmployeeDBContext employeeDBContext = new EmployeeDBContext();
+        // Get employee by id from DB
         Employee employee = employeeDBContext.getEmployeeById(id);
         
         request.setAttribute("employee", employee);
