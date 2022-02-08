@@ -33,8 +33,10 @@ public class ListAllDepartments extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         DepartmentDBContext departmentDBContext = new DepartmentDBContext();
+        ArrayList<Department> departments = departmentDBContext.getAllDepartments();
         
-        request.getRequestDispatcher("../view/management/department/all-departments.jsp");
+        request.setAttribute("departments", departments);
+        request.getRequestDispatcher("../view/management/department/all-departments.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

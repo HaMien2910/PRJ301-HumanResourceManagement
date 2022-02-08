@@ -18,24 +18,31 @@ import model.Employee;
  *
  * @author PhuongNH
  */
-public class DepartmentDBContext extends DBContext{
-    public ArrayList<Department> getAllDepartments(){
+public class DepartmentDBContext extends DBContext {
+
+    public ArrayList<Department> getAllDepartments() {
         ArrayList<Department> departments = new ArrayList<>();
         try {
-            String sql = "SELECT [department_id]\n" +
-                        "      ,[dapartment_name]\n" +
-                        "      ,[manager_id]\n" +
-                        "  FROM [Departments]";
+            String sql = "SELECT a.[department_id]\n"
+                    + "      ,a.[dapartment_name]\n"
+                    + "      ,b.[manager_id]\n"
+                    + "      ,b.[e_first_name]\n"
+                    + "      ,b.[e_last_name]\n"
+                    + "  FROM [Departments] AS a\n"
+                    + "			LEFT JOIN \n"
+                    + "	   [Employees] AS b ON a.manager_id = b.e_id";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
 
             //Loop to add all information in list             
-            while(rs.next()){
+            while (rs.next()) {
                 Department d = new Department();
                 d.setDepartment_id(rs.getInt(1));
                 d.setDepartment_name(rs.getString(2));
                 Employee e = new Employee();
                 e.setE_id(rs.getInt(3));
+                e.setE_first_name(rs.getString(4));
+                e.setE_last_name(rs.getString(4));
                 d.setManager(e);
                 departments.add(d);
             }

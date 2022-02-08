@@ -10,7 +10,7 @@
                 <html>
 
                 <head>
-                    <title>HRM - List All Employees</title>
+                    <title>HRM - View Employee</title>
                     <link href="${pageContext.request.contextPath}/Bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
                     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">

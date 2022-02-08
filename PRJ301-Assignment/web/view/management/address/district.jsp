@@ -16,7 +16,7 @@
         <%
             String province_id = request.getParameter("province_id");
             AddressDBContext addressDBContext = new AddressDBContext();
-            ArrayList<District> districts = addressDBContext.getAllProvincesByProvinceID(province_id);
+            ArrayList<District> districts = addressDBContext.getAllDistrictsByProvinceID(province_id);
         %>
     </head>
     <body>
