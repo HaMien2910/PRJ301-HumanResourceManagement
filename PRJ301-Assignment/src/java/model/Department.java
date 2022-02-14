@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 /**
@@ -16,8 +17,46 @@ public class Department {
     private int department_id;
     private String department_name;
     private Employee manager;
+    private String department_phone;
+    private String department_email;
+    private Date department_starting_date;
+    private String description;
     private ArrayList<Employee> employees = new ArrayList<>();
 
+    public Date getDepartment_starting_date() {
+        return department_starting_date;
+    }
+
+    public void setDepartment_starting_date(Date department_starting_date) {
+        this.department_starting_date = department_starting_date;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    
+
+    public String getDepartment_phone() {
+        return department_phone;
+    }
+
+    public void setDepartment_phone(String department_phone) {
+        this.department_phone = department_phone;
+    }
+
+    public String getDepartment_email() {
+        return department_email;
+    }
+
+    public void setDepartment_email(String department_email) {
+        this.department_email = department_email;
+    }
+    
     public int getDepartment_id() {
         return department_id;
     }

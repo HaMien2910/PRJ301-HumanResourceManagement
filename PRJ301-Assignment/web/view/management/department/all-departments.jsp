@@ -75,8 +75,11 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">#</th>
-                                        <th class="text-center"> Department </th>
+                                        <th class="text-center"> Dept. Name </th>
                                         <th class="text-center"> Manager </th>
+                                        <th class="text-center"> Phone </th>
+                                        <th class="text-center"> Email </th>
+                                        <th class="text-center"> Total Emp. </th>
                                         <th class="text-center"> Action </th>
                                     </tr>
                                 </thead>
@@ -86,6 +89,9 @@
                                         <td></td>
                                         <td class="text-center">${d.department_name}</td>
                                         <td class="text-center">${d.manager.e_last_name} ${d.manager.e_first_name}</td>
+                                        <td class="text-center">${d.department_phone}</td>
+                                        <td class="text-center">${d.department_email}</td>
+                                        <td class="text-center">${d.department_email}</td>
                                         <td class="text-center">
                                             <a href="viewEmployee?eid=${d.department_id}" class="btn btn-tbl-view">
                                                 <i class="fas fa-eye tbl-icon"></i>
@@ -103,8 +109,11 @@
                             <tfoot>
                                 <tr>
                                     <th class="text-center">#</th>
-                                    <th class="text-center"> Department </th>
+                                    <th class="text-center"> Dept. Name </th>
                                     <th class="text-center"> Manager </th>
+                                    <th class="text-center"> Phone </th>
+                                    <th class="text-center"> Email </th>
+                                    <th class="text-center"> Total Emp. </th>
                                     <th class="text-center"> Action </th>
                                 </tr>
                             </tfoot>

@@ -67,7 +67,7 @@
                     </div>
 
 
-                    <form action="addEmployee" method="POST">
+                    <form action="addDepartment" method="POST">
                         <div class="body" style="border-radius: 8px;background-color:#FFF; padding: 4px 12px; margin-bottom: 8px">
                             <div class="body-element">
                                 <h2 style="font-size: 16px">
@@ -79,14 +79,39 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" class="form-control" name="" placeholder="" />
+                                                <input type="text" class="form-control" name="" placeholder="Department Name" />
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" class="form-control" name="" placeholder="" />
+                                                <input type="text" class="form-control" name="" placeholder="Manager" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" class="form-control" name="" placeholder="Phone"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" class="form-control" name="" placeholder="E-mail"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" class="form-control" name="" placeholder="More About Department"/>
                                             </div>
                                         </div>
                                     </div>
@@ -99,22 +124,22 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
-        <!-- #End Content -->
     </div>
+    <!-- #End Content -->
+</div>
 
-    <script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
-    <script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
+<script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 </html>
 <script>
-                                    $(document).ready(function () {
-                                        $('#sidebarCollapse').on('click', function () {
-                                            $('#sidebar').toggleClass('active');
-                                        });
-                                    });
+                                            $(document).ready(function () {
+                                                $('#sidebarCollapse').on('click', function () {
+                                                    $('#sidebar').toggleClass('active');
+                                                });
+                                            });
 </script>
