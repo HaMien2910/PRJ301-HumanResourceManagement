@@ -62,30 +62,57 @@
                                     </li>
                                     <li class="breadcrumb-item active">All Department</li>
                                     <li class="breadcrumb-item active">View Detail</li>
-                            </ul>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row" style="margin: 0">
-                    <div class="col-lg-12 col-md-12 col-sm-12 table-responsive item-display">
-                        <div>
-                            <h2 style="font-size: 16px">
-                                <strong>View Detail </strong>
-                            </h2>
-                        </div>
-                        <div class="tbl-view-detail">
-                            <table>
-                                <tr>
-                                    <td><strong>ID</strong></td>
-                                    <td></td>
+                    <div class="row" style="margin: 0">
+                        <div class="col-lg-12 col-md-12 col-sm-12 table-responsive item-display">
+                            <div>
+                                <h2 style="font-size: 16px">
+                                    <strong>View Detail </strong>
+                                </h2>
+                            </div>
+                            <div class="tbl-view-detail">
+                                <table>
+                                    <tr>
+                                        <td><strong>ID</strong></td>
+                                        <td>${requestScope.department.department_id}</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Department Name</strong></td>
-                                    <td></td>
+                                    <td><strong>Name Of Department</strong></td>
+                                    <td>${requestScope.department.department_name}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Manager</strong></td>
-                                    <td></td>
+                                    <c:if test="${requestScope.department.manager.e_id > 0}">
+                                        <td>
+                                            ${requestScope.manager.e_last_name} ${requestScope.manager.e_first_name} <span style="font-size: 12px">
+                                                (${requestScope.manager.e_email})</span> 
+                                                <a href="../employee/viewEmployee?eid=${requestScope.manager.e_id}" class="btn btn-tbl-view">
+                                                    <i class="fas fa-eye tbl-icon"></i></a>
+                                        </td>
+                                    </c:if>
+                                </tr>
+                                <tr>
+                                    <td><strong>Total Employee</strong></td>
+                                    <td>${requestScope.department.employees.size()}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Phone</strong></td>
+                                    <td>${requestScope.department.department_phone}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Email</strong></td>
+                                    <td>${requestScope.department.department_email}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Starting Date</strong></td>
+                                    <td>${requestScope.department.department_starting_date}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>More About Department</strong></td>
+                                    <td>${requestScope.department.description}</td>
                                 </tr>
                             </table>
                         </div>
@@ -101,11 +128,11 @@
     <script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
     <script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>
     <script>
-                                    $(document).ready(function () {
-                                        $('#sidebarCollapse').on('click', function () {
-                                            $('#sidebar').toggleClass('active');
-                                        });
-                                    });
+                                            $(document).ready(function () {
+                                                $('#sidebarCollapse').on('click', function () {
+                                                    $('#sidebar').toggleClass('active');
+                                                });
+                                            });
     </script>
 </body>
 </html>

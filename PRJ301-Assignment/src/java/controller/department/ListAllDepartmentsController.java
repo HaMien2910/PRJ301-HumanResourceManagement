@@ -21,7 +21,25 @@ import model.Employee;
  *
  * @author PhuongNH
  */
-public class AddDepartmentController extends HttpServlet {
+public class ListAllDepartmentsController extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        DepartmentDBContext departmentDBContext = new DepartmentDBContext();
+        ArrayList<Department> departments = departmentDBContext.getAllDepartments();
+        
+        request.setAttribute("departments", departments);
+        request.getRequestDispatcher("../view/management/department/all-departments.jsp").forward(request, response);
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -35,12 +53,7 @@ public class AddDepartmentController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        EmployeeDBContext employeeDBContext = new EmployeeDBContext();
-        
-        ArrayList<Employee> employees = employeeDBContext.getAllEmployees();
-        
-        request.setAttribute("employees", employees);
-        request.getRequestDispatcher("../view/management/department/add-department.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -54,20 +67,7 @@ public class AddDepartmentController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Department department = new Department();
-        department.setDepartment_name(request.getParameter("department_name"));
-        department.setDepartment_phone(request.getParameter("department_phone"));
-        department.setDepartment_email(request.getParameter("department_email"));
-        department.setDescription(request.getParameter("description"));
-        
-        Employee employee = new Employee();
-        employee.setE_id(Integer.parseInt(request.getParameter("manager_id")));
-        department.setManager(employee);
-        
-        DepartmentDBContext departmentDBContext = new DepartmentDBContext();
-        departmentDBContext.addDepartment(department);
-        
-        response.sendRedirect("listAllDepartments");
+        processRequest(request, response);
     }
 
     /**

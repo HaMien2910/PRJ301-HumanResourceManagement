@@ -28,7 +28,7 @@
                 <a class="${tag eq "addDepartment" ? "active" : ""}" href="${pageContext.request.contextPath}/department/addDepartment">Add Departments</a>
             </li>
             <li>
-                <a class="${tag eq "addDepartment" ? "active" : ""}" href="${pageContext.request.contextPath}/department/addDepartment">Edit Departments</a>
+                <a class="${tag eq "editDepartment" ? "active" : ""}" href="${pageContext.request.contextPath}/department/editDeoartment">Edit Departments</a>
             </li>
         </ul>
     </li>

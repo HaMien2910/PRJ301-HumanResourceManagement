@@ -76,7 +76,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" value="${requestScope.employee.e_id}" class="form-control" name="eid"/>
+                                                <input type="hidden" value="${requestScope.employee.e_id}" class="form-control" name="eid"/>
                                             <input type="text" value="${requestScope.employee.e_first_name}" class="form-control" name="first_name" placeholder="First Name" />
                                         </div>
                                     </div>

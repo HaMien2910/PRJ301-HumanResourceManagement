@@ -66,7 +66,6 @@
                         </div>
                     </div>
 
-
                     <form action="addDepartment" method="POST">
                         <div class="body" style="border-radius: 8px;background-color:#FFF; padding: 4px 12px; margin-bottom: 8px">
                             <div class="body-element">
@@ -79,30 +78,35 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" class="form-control" name="" placeholder="Department Name" />
+                                                <input type="text" class="form-control" name="department_name" placeholder="Department Name" />
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
-                                        <div class="form-group">
+                                        <div class="form-group form-float">
                                             <div class="form-line">
-                                                <input type="text" class="form-control" name="" placeholder="Manager" />
-                                            </div>
+                                                <select name="manager_id" class="col-12 m-t-20 p-l-0 form-control">
+                                                    <option disabled selected> -- Choose Manager -- </option>
+                                                <c:forEach items="${requestScope.employees}" var="e">
+                                                    <option value="${e.e_id}">${e.e_last_name} ${e.e_first_name} - ${e.e_email}</option>
+                                                </c:forEach>
+                                            </select>
                                         </div>
                                     </div>
+                                </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" class="form-control" name="" placeholder="Phone"/>
+                                                <input type="text" class="form-control" name="department_phone" placeholder="Phone"/>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" class="form-control" name="" placeholder="E-mail"/>
+                                                <input type="text" class="form-control" name="department_email" placeholder="Email"/>
                                             </div>
                                         </div>
                                     </div>
@@ -111,24 +115,25 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" class="form-control" name="" placeholder="More About Department"/>
+                                                <input type="text" class="form-control" name="description" placeholder="More About Department"/>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-lg-12 text-center" style="margin-bottom: 8px">
-                                    <input type="submit" class="btn btn-primary btn-submit" style="margin-right: 15px" value="Submit"/>
-                                    <button type="button" class="btn btn-danger btn-cancel">Cancel</button>
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 text-center" style="margin-bottom: 8px">
+                                <input type="submit" class="btn btn-primary btn-submit" style="margin-right: 15px" value="Submit"/>
+                                <button type="button" class="btn btn-danger btn-cancel">Cancel</button>
                             </div>
                         </div>
-                </div>
-            </form>
-        </div>
+                    </div>
+            </div>
+        </form>
     </div>
-    <!-- #End Content -->
+</div>
+<!-- #End Content -->
 </div>
 
 <script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>

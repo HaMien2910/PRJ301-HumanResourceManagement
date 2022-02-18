@@ -91,15 +91,15 @@
                                         <td class="text-center">${d.manager.e_last_name} ${d.manager.e_first_name}</td>
                                         <td class="text-center">${d.department_phone}</td>
                                         <td class="text-center">${d.department_email}</td>
-                                        <td class="text-center">${d.department_email}</td>
+                                        <td class="text-center">${d.employees.size()}</td>
                                         <td class="text-center">
-                                            <a href="viewEmployee?eid=${d.department_id}" class="btn btn-tbl-view">
+                                            <a href="viewDepartment?did=${d.department_id}" class="btn btn-tbl-view">
                                                 <i class="fas fa-eye tbl-icon"></i>
                                             </a>
-                                            <a href="editEmployee?eid=${d.department_id}" class="btn btn-tbl-edit">
+                                            <a href="editDepartment?did=${d.department_id}" class="btn btn-tbl-edit">
                                                 <i class="fas fa-pen tbl-icon"></i>
                                             </a>
-                                            <a href="deleteEmployee?eid=${d.department_id}" class="btn btn-tbl-delete">
+                                            <a href="deleteDepartment?did=${d.department_id}" class="btn btn-tbl-delete">
                                                 <i class="fas fa-trash tbl-icon"></i>
                                             </a>
                                         </td>

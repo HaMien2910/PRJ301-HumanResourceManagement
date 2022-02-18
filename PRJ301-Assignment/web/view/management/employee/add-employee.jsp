@@ -116,115 +116,115 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <div class="form-line">
-                                            <input type="text" name="salary" class="form-control" placeholder="Salary" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <div class="form-line">
-                                            <input id="email" type="email" name="email" class="validate form-control" placeholder="Email">
-                                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" name="salary" class="form-control" placeholder="Salary" />
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <div class="form-line">
-                                            <input type="text" name="phone" class="form-control" placeholder="Telephone" />
-                                        </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input id="email" type="email" name="email" class="validate form-control" placeholder="Email">
                                     </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group form-float">
-                                        <div class="form-line">
-                                            <select name="gender" class="col-12 m-t-20 p-l-0 form-control">
-                                                <option disabled selected> -- Select Gender -- </option>
-                                                <option value="male">Male</option>
-                                                <option value="female">Female</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control datetimepicker" placeholder="Birth Date (dd/mm/yyyy)" name="dob">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group form-float">
-                                        <div class="form-line">
-                                            <select id="province_id" class="col-12 m-t-20 p-l-0 form-control">
-                                                <option disabled selected> -- Select Province -- </option>
-                                                <c:forEach items="${requestScope.provinces}" var="p">
-                                                    <option value="${p.province_id}">${p.province_name}</option>
-                                                </c:forEach>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group form-float">
-                                        <div class="form-line" id="district_id">
-                                            <select name="district_id" class="col-12 m-t-20 p-l-0 form-control">
-                                                <option disabled selected> -- Select District -- </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group form-float">
-                                        <div class="form-line" id="ward_id">
-                                            <select name="ward_id" class="col-12 m-t-20 p-l-0 form-control">
-                                                <option disabled selected> -- Select Ward -- </option>  
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <div class="form-line">
-                                            <input name="street" type="text" class="form-control no-resize" placeholder="Street"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12 text-center" style="margin-bottom: 8px">
-                                    <input type="submit" class="btn btn-primary btn-submit" style="margin-right: 15px" value="Submit"/>
-                                    <button type="button" class="btn btn-danger btn-cancel">Cancel</button>
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" name="phone" class="form-control" placeholder="Telephone" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <select name="gender" class="col-12 m-t-20 p-l-0 form-control">
+                                            <option disabled selected> -- Select Gender -- </option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control datetimepicker" placeholder="Birth Date (dd/mm/yyyy)" name="dob">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <select id="province_id" class="col-12 m-t-20 p-l-0 form-control">
+                                            <option disabled selected> -- Select Province -- </option>
+                                            <c:forEach items="${requestScope.provinces}" var="p">
+                                                <option value="${p.province_id}">${p.province_name}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group form-float">
+                                    <div class="form-line" id="district_id">
+                                        <select name="district_id" class="col-12 m-t-20 p-l-0 form-control">
+                                            <option disabled selected> -- Select District -- </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group form-float">
+                                    <div class="form-line" id="ward_id">
+                                        <select name="ward_id" class="col-12 m-t-20 p-l-0 form-control">
+                                            <option disabled selected> -- Select Ward -- </option>  
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input name="street" type="text" class="form-control no-resize" placeholder="Street"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 text-center" style="margin-bottom: 8px">
+                                <input type="submit" class="btn btn-primary btn-submit" style="margin-right: 15px" value="Submit"/>
+                                <button type="button" class="btn btn-danger btn-cancel">Cancel</button>
+                            </div>
+                        </div>
                     </div>
-                </form>
             </div>
-        </div>
-        <!-- #End Content -->
+        </form>
     </div>
+</div>
+<!-- #End Content -->
+</div>
 
-    <script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
-    <script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
+<script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 </html>
 <script>
-                                    $(document).ready(function () {
-                                        $('#sidebarCollapse').on('click', function () {
-                                            $('#sidebar').toggleClass('active');
-                                        });
-                                    });
+                                            $(document).ready(function () {
+                                                $('#sidebarCollapse').on('click', function () {
+                                                    $('#sidebar').toggleClass('active');
+                                                });
+                                            });
 </script>
 <script type="text/javascript">
 
