@@ -5,44 +5,23 @@
  */
 package controller.department;
 
+import dal.DepartmentDBContext;
+import dal.EmployeeDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Department;
+import model.Employee;
 
 /**
  *
  * @author PhuongNH
  */
 public class EditDepartmentController extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet EditDepartmentController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet EditDepartmentController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -56,7 +35,18 @@ public class EditDepartmentController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        int did = Integer.parseInt(request.getParameter("did"));
+
+        EmployeeDBContext employeeDBContext = new EmployeeDBContext();
+        DepartmentDBContext departmentDBContext = new DepartmentDBContext();
+
+        ArrayList<Employee> employees = employeeDBContext.getAllEmployees();
+        Department department = departmentDBContext.getDepartmentById(did);
+        
+
+        request.setAttribute("employees", employees);
+        request.setAttribute("department", department);
+        request.getRequestDispatcher("../view/management/department/edit-department.jsp").forward(request, response);
     }
 
     /**
@@ -70,7 +60,21 @@ public class EditDepartmentController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        Department department = new Department();
+        department.setDepartment_id(Integer.parseInt(request.getParameter("department_id")));
+        department.setDepartment_name(request.getParameter("department_name"));
+        department.setDepartment_phone(request.getParameter("department_phone"));
+        department.setDepartment_email(request.getParameter("department_email"));
+        department.setDescription(request.getParameter("description"));
+        
+        Employee employee = new Employee();
+        employee.setE_id(Integer.parseInt(request.getParameter("manager_id")));
+        department.setManager(employee);
+        
+        DepartmentDBContext departmentDBContext = new DepartmentDBContext();
+        departmentDBContext.updateDepartmentById(department);
+        
+        response.sendRedirect("listAllDepartments");
     }
 
     /**

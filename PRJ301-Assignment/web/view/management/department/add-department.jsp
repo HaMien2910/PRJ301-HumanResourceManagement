@@ -94,52 +94,49 @@
                                         </div>
                                     </div>
                                 </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" class="form-control" name="department_phone" placeholder="Phone"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" class="form-control" name="department_email" placeholder="Email"/>
-                                            </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="department_phone" placeholder="Phone"/>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" class="form-control" name="description" placeholder="More About Department"/>
-                                            </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="department_email" placeholder="Email"/>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 text-center" style="margin-bottom: 8px">
-                                <input type="submit" class="btn btn-primary btn-submit" style="margin-right: 15px" value="Submit"/>
-                                <button type="button" class="btn btn-danger btn-cancel">Cancel</button>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="description" placeholder="More About Department"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 text-center" style="margin-bottom: 8px">
+                                    <input type="submit" class="btn btn-primary btn-submit" style="margin-right: 15px" value="Submit"/>
+                                    <button type="button" class="btn btn-danger btn-cancel">Cancel</button>
+                                </div>
                             </div>
                         </div>
                     </div>
+                </form>
             </div>
-        </form>
+        </div>
+        <!-- #End Content -->
     </div>
-</div>
-<!-- #End Content -->
-</div>
 
-<script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
-<script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
+    <script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>
 </body>
-
 </html>
 <script>
                                             $(document).ready(function () {

@@ -51,8 +51,8 @@ public class DepartmentDBContext extends DBContext {
                 e.setE_id(rs.getInt(7));
                 e.setE_first_name(rs.getString(8));
                 e.setE_last_name(rs.getString(9));
-                d.setManager(e);        
-                
+                d.setManager(e);
+
                 EmployeeDBContext employeeDBContext = new EmployeeDBContext();
                 //Get employee by department id
                 ArrayList<Employee> employees = employeeDBContext.getAllEmployeesByDepartmentId(d.getDepartment_id());
@@ -114,7 +114,7 @@ public class DepartmentDBContext extends DBContext {
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, did);
             ResultSet rs = stm.executeQuery();
-          
+
             if (rs.next()) {
                 d.setDepartment_id(rs.getInt(1));
                 d.setDepartment_name(rs.getString(2));
@@ -126,7 +126,7 @@ public class DepartmentDBContext extends DBContext {
                 e.setE_id(rs.getInt(7));
                 e.setE_first_name(rs.getString(8));
                 e.setE_last_name(rs.getString(9));
-                
+
                 EmployeeDBContext employeeDBContext = new EmployeeDBContext();
                 //Get employee by department id
                 ArrayList<Employee> employees = employeeDBContext.getAllEmployeesByDepartmentId(d.getDepartment_id());
@@ -137,5 +137,39 @@ public class DepartmentDBContext extends DBContext {
             Logger.getLogger(DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
         return d;
+    }
+
+    public void updateDepartmentById(Department department) {
+        try {
+            String sql = "UPDATE [Departments]\n"
+                    + "   SET [dapartment_name] = ?\n"
+                    + "      ,[manager_id] = ?\n"
+                    + "      ,[department_phone] = ?\n"
+                    + "      ,[department_email] = ?\n"
+                    + "      ,[description] = ?\n"
+                    + " WHERE [department_id] = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, department.getDepartment_name());
+            stm.setInt(2, department.getManager().getE_id());
+            stm.setString(3, department.getDepartment_phone());
+            stm.setString(4, department.getDepartment_email());
+            stm.setString(5, department.getDescription());
+            stm.setInt(6, department.getDepartment_id());
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void deleteDepartmentById(int did) {
+        try {
+            String sql = "DELETE FROM [Departments]\n"
+                    + "      WHERE [department_id] = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, did);
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

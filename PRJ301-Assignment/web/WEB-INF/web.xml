@@ -40,6 +40,10 @@
         <servlet-name>ListEmployeesInDepartment</servlet-name>
         <servlet-class>controller.employee.ListEmployeesInDepartment</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteDepartmentController</servlet-name>
+        <servlet-class>controller.department.DeleteDepartmentController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ListAllEmployeeController</servlet-name>
         <url-pattern>/employee/listAllEmployees</url-pattern>
@@ -79,6 +83,10 @@
     <servlet-mapping>
         <servlet-name>ListEmployeesInDepartment</servlet-name>
         <url-pattern>/employee/listEmployees</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteDepartmentController</servlet-name>
+        <url-pattern>/department/deleteDepartment</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
