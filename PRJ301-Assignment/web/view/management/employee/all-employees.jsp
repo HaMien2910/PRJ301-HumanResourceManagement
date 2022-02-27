@@ -102,9 +102,10 @@
                                             <a href="editEmployee?eid=${e.e_id}" class="btn btn-tbl-edit">
                                                 <i class="fas fa-pen tbl-icon"></i>
                                             </a>
-                                            <a href="deleteEmployee?eid=${e.e_id}" class="btn btn-tbl-delete">
+                                            <a class="btn btn-tbl-delete" onclick="onDelete()">
                                                 <i class="fas fa-trash tbl-icon"></i>
                                             </a>
+                                            <input type="hidden" id="eid" name="eid" value="${e.e_id}">
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -130,16 +131,31 @@
         <!-- #End Content -->
     </div>
 
+    <!-- #Modal To Delete An Employee -->
+    <jsp:include page="../modal-delete.jsp"></jsp:include>
+    </nav>
+    <!-- #End Modal To Delete An Employee -->
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
-    <script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/management.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
+<script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
 <script>
-                                            $(document).ready(function () {
-                                                $('#sidebarCollapse').on('click', function () {
-                                                    $('#sidebar').toggleClass('active');
+                                                $(document).ready(function () {
+                                                    $('#sidebarCollapse').on('click', function () {
+                                                        $('#sidebar').toggleClass('active');
+                                                    });
                                                 });
-                                            });
+                                                $(document).ready(function () {
+                                                    $('table .btn-tbl-delete').on('click', function () {
+                                                        var id = $(this).parent().find("#eid").val();
+                                                        var myHeading = "<p><strong>The employee has employeeid = " + id + "</strong></p><p>This action cannot be undone</p><input type=\"hidden\" id=\"eid\" value=\"" + id + "\" name=\"eid\"/>";
+                                                        $('.modal--content').html(myHeading);
+                                                        $('#confirmation .modal-confirm-btn').on('click', function () {
+                                                            $('.modal-form').attr('action', 'deleteEmployee');
+                                                        });
+                                                    });
+                                                });
 </script>
