@@ -45,15 +45,12 @@ public class AddEmployeeController extends HttpServlet {
             throws ServletException, IOException {
         DepartmentDBContext departmentDBContext = new DepartmentDBContext();
         AddressDBContext provinceDBContext = new AddressDBContext();
-        JobDBContext jobDBContext = new JobDBContext();
 
         ArrayList<Department> departments = departmentDBContext.getAllDepartments(); // Get
         ArrayList<Province> provinces = provinceDBContext.getAllProvinces();
-        ArrayList<Job> jobs = jobDBContext.getAllJobs();
 
         request.setAttribute("departments", departments);
         request.setAttribute("provinces", provinces);
-        request.setAttribute("jobs", jobs);
 
         request.getRequestDispatcher("../view/management/employee/add-employee.jsp").forward(request, response);
     }

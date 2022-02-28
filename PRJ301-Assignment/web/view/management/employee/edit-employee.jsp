@@ -93,10 +93,10 @@
                                 <div class="col-sm-6">
                                     <div class="form-group form-float">
                                         <div class="form-line">
-                                            <select name="department_id" class="col-12 m-t-20 p-l-0 form-control">
+                                            <select name="department_id" id="department_id" class="col-12 m-t-20 p-l-0 form-control" >
                                                 <option disabled selected> -- Select Department -- </option>
                                                 <c:forEach items="${requestScope.departments}" var="d">
-                                                    <option ${(requestScope.employee.department.department_id == d.department_id) ? "selected = \"selected\"" : ""} value="${d.department_id}">${d.department_name}</option>
+                                                    <option value="${d.department_id}">${d.department_name}</option>
                                                 </c:forEach>
                                             </select>
                                         </div>
@@ -105,11 +105,8 @@
                                 <div class="col-sm-6">
                                     <div class="form-group form-float">
                                         <div class="form-line">
-                                            <select name="job_id" class="col-12 m-t-20 p-l-0 form-control">
+                                            <select name="job_id" id="job_id" class="col-12 m-t-20 p-l-0 form-control">
                                                 <option disabled selected> -- Select Job -- </option>
-                                                <c:forEach items="${requestScope.jobs}" var="j">
-                                                    <option ${(requestScope.employee.job.job_id == j.job_id) ? "selected = \"selected\"" : ""} value="${j.job_id}">${j.job_title}</option>
-                                                </c:forEach>
                                             </select>
                                         </div>
                                     </div>
@@ -245,6 +242,22 @@
                 method: "POST",
                 success: function (data) {
                     $("#district_id").html(data);
+                }
+            });
+        });
+    });
+    $(document).ready(function () {
+        $("#department_id").on('change', function () {
+            var department_id = $("#department_id").val();
+            $("#error").html("");
+            $.ajax({
+                url: "../../../PRJ301-Assignment/view/management/job/list.jsp",
+                data: {
+                    department_id: department_id
+                },
+                method: "POST",
+                success: function (data) {
+                    $("#job_id").html(data);
                 }
             });
         });

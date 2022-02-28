@@ -16,7 +16,16 @@ public class Job {
     private String job_title;
     private double min_salary;
     private double max_salary;
+    private Department department;
     private ArrayList<Employee> employees = new ArrayList<>();
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
 
     public int getJob_id() {
         return job_id;

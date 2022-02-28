@@ -21,7 +21,16 @@ public class Department {
     private String department_email;
     private Date department_starting_date;
     private String description;
+    private ArrayList<Job> jobs = new ArrayList<>();
     private ArrayList<Employee> employees = new ArrayList<>();
+
+    public ArrayList<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(ArrayList<Job> jobs) {
+        this.jobs = jobs;
+    }
 
     public Date getDepartment_starting_date() {
         return department_starting_date;
