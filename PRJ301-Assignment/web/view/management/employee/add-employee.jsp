@@ -199,8 +199,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-12 text-center" style="margin-bottom: 8px">
-                                    <input type="submit" class="btn btn-primary btn-submit" style="margin-right: 15px" value="Submit" />
-                                    <button type="button" id="sub_button" class="btn btn-danger btn-cancel">Cancel</button>
+                                    <input type="submit" class="btn btn-primary btn-submit" id="sub_button" style="margin-right: 15px" value="Submit" />
+                                    <button onclick="goBack()"  class="btn btn-danger btn-cancel">Cancel</button>
                                 </div>
                             </div>
                         </div>
@@ -217,11 +217,11 @@
 
 </html>
 <script>
-                                            $(document).ready(function () {
-                                                $('#sidebarCollapse').on('click', function () {
-                                                    $('#sidebar').toggleClass('active');
-                                                });
+                                        $(document).ready(function () {
+                                            $('#sidebarCollapse').on('click', function () {
+                                                $('#sidebar').toggleClass('active');
                                             });
+                                        });
 </script>
 <script type="text/javascript">
     $(document).ready(function () {

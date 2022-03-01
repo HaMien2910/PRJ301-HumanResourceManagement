@@ -87,3 +87,9 @@ function validateDate() {
     dob.reportValidity();
 }
 
+/*
+ * Button Cancel
+ */
+function goBack(){
+    window.location = "/PRJ301-Assignment/employee/listAllEmployees";
+}

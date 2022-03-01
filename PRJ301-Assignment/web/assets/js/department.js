@@ -36,3 +36,10 @@ function validatePhone() {
     }
     phone.reportValidity();
 }
+
+/*
+ * Button Cancel
+ */
+function goBack(){
+    window.location = "/PRJ301-Assignment/department/listAllDepartments";
+}
