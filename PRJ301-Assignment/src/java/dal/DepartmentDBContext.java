@@ -8,6 +8,7 @@ package dal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -88,7 +89,11 @@ public class DepartmentDBContext extends DBContext {
             java.sql.Date currentDate = new java.sql.Date(new java.util.Date().getTime());
             stm.setDate(4, currentDate);
             stm.setString(5, department.getDescription());
-            stm.setInt(6, department.getManager().getE_id());
+            if (department.getManager().getE_id() >= 0) {
+                stm.setInt(6, department.getManager().getE_id());
+            } else {
+                stm.setNull(6, Types.INTEGER);
+            }
             stm.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
@@ -150,7 +155,11 @@ public class DepartmentDBContext extends DBContext {
                     + " WHERE [department_id] = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, department.getDepartment_name());
-            stm.setInt(2, department.getManager().getE_id());
+            if (department.getManager().getE_id() >= 0) {
+                stm.setInt(2, department.getManager().getE_id());
+            } else {
+                stm.setNull(2, Types.INTEGER);
+            }
             stm.setString(3, department.getDepartment_phone());
             stm.setString(4, department.getDepartment_email());
             stm.setString(5, department.getDescription());

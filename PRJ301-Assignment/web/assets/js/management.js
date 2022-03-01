@@ -18,15 +18,3 @@ document.addEventListener("DOMContentLoaded", () => {
             .getElementById("confirmation")
             .addEventListener("click", onCancel);
 });
-
-/*
- * Validate Form Employee
- */
-function validateFormEmployee() {
-    if (document.formEmployee.first_name.value == "") {
-        alert("Please provide your name!");
-        document.myForm.first_name.focus();
-        return false;
-    }
-    return (true);
-}

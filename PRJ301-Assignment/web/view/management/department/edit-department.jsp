@@ -64,7 +64,7 @@
                         </div>
                     </div>
 
-                    <form action="editDepartment" method="POST">
+                    <form action="editDepartment" method="POST" name="formDepartment">
                         <div class="body" style="border-radius: 8px;background-color:#FFF; padding: 4px 12px; margin-bottom: 8px">
                             <div class="body-element">
                                 <h2 style="font-size: 16px">
@@ -77,7 +77,7 @@
                                         <div class="form-group">
                                             <div class="form-line">
                                                 <input type="hidden" class="form-control" name="department_id" value="${requestScope.department.department_id}" />
-                                                <input type="text" class="form-control" name="department_name" value="${requestScope.department.department_name}" placeholder="Department Name" />
+                                            <input type="text" class="form-control" name="department_name" id="department_name" pattern="^[0-9a-zA-Z ]*$" value="${requestScope.department.department_name}" placeholder="Department Name" required/>
                                         </div>
                                     </div>
                                 </div>
@@ -98,7 +98,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" class="form-control" value="${requestScope.department.department_phone}" name="department_phone" placeholder="Phone"/>
+                                            <input type="text" class="form-control" value="${requestScope.department.department_phone}" id="phone" pattern="[0][0-9]{9,19}" name="department_phone" placeholder="Phone"/>
                                         </div>
                                     </div>
                                 </div>
@@ -114,7 +114,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" class="form-control" value="${requestScope.department.description}" name="description" placeholder="More About Department"/>
+                                            <input type="text" class="form-control" value="${requestScope.department.description}" name="description" placeholder="More About Department" required/>
                                         </div>
                                     </div>
                                 </div>
@@ -122,7 +122,7 @@
 
                             <div class="row">
                                 <div class="col-lg-12 text-center" style="margin-bottom: 8px">
-                                    <input type="submit" class="btn btn-primary btn-submit" style="margin-right: 15px" value="Save"/>
+                                    <input type="submit" class="btn btn-primary btn-submit" id="sub_button" style="margin-right: 15px" value="Save"/>
                                     <button type="button" class="btn btn-danger btn-cancel">Cancel</button>
                                 </div>
                             </div>
@@ -133,7 +133,7 @@
         </div>
         <!-- #End Content -->
     </div>
-
+    <script src="${pageContext.request.contextPath}/assets/js/department.js"></script>
     <script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
     <script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>
 </body>

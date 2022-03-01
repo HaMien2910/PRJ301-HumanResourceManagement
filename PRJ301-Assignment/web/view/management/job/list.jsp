@@ -20,8 +20,8 @@
         %>
     </head>
     <body>
-        <select class="form-control" name="job_id" id="job_id">
-            <option disabled selected> -- Select Job -- </option>
+        <select class="form-control" name="job_id" id="job_id" required>
+            <option value=""> -- Select Job -- </option>
             <%for (Job j : jobs) {%>
             <option value="<%=j.getJob_id()%>"><%=j.getJob_title()%></option>
             <%}%>

@@ -36,9 +36,9 @@ public class AddDepartmentController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         EmployeeDBContext employeeDBContext = new EmployeeDBContext();
-        
+
         ArrayList<Employee> employees = employeeDBContext.getAllEmployees();
-        
+
         request.setAttribute("employees", employees);
         request.getRequestDispatcher("../view/management/department/add-department.jsp").forward(request, response);
     }
@@ -59,14 +59,21 @@ public class AddDepartmentController extends HttpServlet {
         department.setDepartment_phone(request.getParameter("department_phone"));
         department.setDepartment_email(request.getParameter("department_email"));
         department.setDescription(request.getParameter("description"));
-        
+
         Employee employee = new Employee();
-        employee.setE_id(Integer.parseInt(request.getParameter("manager_id")));
+        String e_id = request.getParameter("manager_id");
+        if (e_id.trim().length()>0) {
+            System.out.println("======m1:" + e_id);
+            employee.setE_id(Integer.parseInt(e_id));
+        } else {
+            System.out.println("======m2:" + e_id);
+            employee.setE_id(-1);
+        }
         department.setManager(employee);
-        
+
         DepartmentDBContext departmentDBContext = new DepartmentDBContext();
         departmentDBContext.addDepartment(department);
-        
+
         response.sendRedirect("listAllDepartments");
     }
 

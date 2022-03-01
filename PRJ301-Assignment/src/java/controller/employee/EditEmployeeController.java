@@ -110,7 +110,7 @@ public class EditEmployeeController extends HttpServlet {
         Location location = new Location();
         location.setStreet(request.getParameter("street"));
         Ward ward = new Ward();
-        ward.setWard_id(request.getParameter("ward"));
+        ward.setWard_id(request.getParameter("ward_id"));
         location.setWard(ward);
         employee.setLocation(location);
 

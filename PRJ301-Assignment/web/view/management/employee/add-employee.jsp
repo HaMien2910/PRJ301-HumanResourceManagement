@@ -66,7 +66,7 @@
                     </div>
 
 
-                    <form action="addEmployee" method="POST" name = "formEmployee" onsubmit="return(validateFormEmployee());">
+                    <form action="addEmployee" method="POST" name="formEmployee">
                         <div class="body" style="border-radius: 8px;background-color:#FFF; padding: 4px 12px; margin-bottom: 8px">
                             <div class="body-element">
                                 <h2 style="font-size: 16px">
@@ -78,14 +78,14 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" class="form-control" name="first_name" placeholder="First Name"/>
+                                                <input type="text" class="form-control" id="first_name" pattern="^[a-zA-Z ]*$" name="first_name" placeholder="First Name*" required />
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" class="form-control" name="last_name" placeholder="Last Name"/>
+                                                <input type="text" class="form-control" id="last_name" pattern="^[a-zA-Z ]*$" name="last_name" placeholder="Last Name*" required/>
                                             </div>
                                         </div>
                                     </div>
@@ -94,8 +94,8 @@
                                     <div class="col-sm-6">
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <select name="department_id" id="department_id" class="col-12 m-t-20 p-l-0 form-control" >
-                                                    <option disabled selected> -- Select Department -- </option>
+                                                <select name="department_id" id="department_id" class="col-12 m-t-20 p-l-0 form-control" required>
+                                                    <option value=""> -- Select Department -- </option>
                                                 <c:forEach items="${requestScope.departments}" var="d">
                                                     <option value="${d.department_id}">${d.department_name}</option>
                                                 </c:forEach>
@@ -106,8 +106,8 @@
                                 <div class="col-sm-6">
                                     <div class="form-group form-float">
                                         <div class="form-line">
-                                            <select name="job_id" id="job_id" class="col-12 m-t-20 p-l-0 form-control">
-                                                <option disabled selected> -- Select Job -- </option>
+                                            <select name="job_id" id="job_id" class="col-12 m-t-20 p-l-0 form-control" required>
+                                                <option value=""> -- Select Job -- </option>
                                             </select>
                                         </div>
                                     </div>
@@ -117,14 +117,14 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" name="salary" class="form-control" placeholder="Salary" />
+                                            <input type="text" id="salary" name="salary" pattern="^(\d+(\.\d{0,2})?|\.?\d{1,2})$" class="form-control" placeholder="Salary*" required/>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input id="email" type="email" name="email" class="validate form-control" placeholder="Email">
+                                            <input id="email" type="email" name="email" id="email" class="validate form-control" placeholder="Email*" required>
                                         </div>
                                     </div>
                                 </div>
@@ -133,15 +133,15 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" name="phone" class="form-control" placeholder="Telephone" />
+                                            <input type="text" name="phone" id="phone" pattern="[0][0-9]{9,19}" class="form-control" placeholder="Telephone*" required/>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group form-float">
                                         <div class="form-line">
-                                            <select name="gender" class="col-12 m-t-20 p-l-0 form-control">
-                                                <option disabled selected> -- Select Gender -- </option>
+                                            <select name="gender" id="gender" class="col-12 m-t-20 p-l-0 form-control" required>
+                                                <option value=""> -- Select Gender -- </option>
                                                 <option value="male">Male</option>
                                                 <option value="female">Female</option>
                                             </select>
@@ -152,14 +152,14 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input type="text" class="form-control datetimepicker" placeholder="Birth Date (dd/mm/yyyy)" name="dob">
+                                        <input type="text" id="dob" pattern="^(19[0-9][0-9]|202[0-9])-(0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-9]|3[0-1])$" class="form-control datetimepicker" placeholder="Birth Date (dd/mm/yyyy)*" name="dob" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group form-float">
                                         <div class="form-line">
-                                            <select id="province_id" class="col-12 m-t-20 p-l-0 form-control">
-                                                <option disabled selected> -- Select Province -- </option>
+                                            <select id="province_id" class="col-12 m-t-20 p-l-0 form-control" required>
+                                                <option value=""> -- Select Province -- </option>
                                                 <c:forEach items="${requestScope.provinces}" var="p">
                                                     <option value="${p.province_id}">${p.province_name}</option>
                                                 </c:forEach>
@@ -171,18 +171,18 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group form-float">
-                                        <div class="form-line" id="district_id">
-                                            <select name="district_id" class="col-12 m-t-20 p-l-0 form-control">
-                                                <option disabled selected> -- Select District -- </option>
+                                        <div class="form-line" id="district">
+                                            <select name="district_id" id="district_id" class="col-12 m-t-20 p-l-0 form-control" required>
+                                                <option value=""> -- Select District -- </option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group form-float">
-                                        <div class="form-line" id="ward_id">
-                                            <select name="ward_id" class="col-12 m-t-20 p-l-0 form-control">
-                                                <option disabled selected> -- Select Ward -- </option>  
+                                        <div class="form-line" id="ward">
+                                            <select name="ward_id" id="ward_id" class="col-12 m-t-20 p-l-0 form-control" required>
+                                                <option value=""> -- Select Ward -- </option>  
                                             </select>
                                         </div>
                                     </div>
@@ -199,8 +199,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-12 text-center" style="margin-bottom: 8px">
-                                    <input type="submit" class="btn btn-primary btn-submit" style="margin-right: 15px" value="Submit"/>
-                                    <button type="button" class="btn btn-danger btn-cancel">Cancel</button>
+                                    <input type="submit" class="btn btn-primary btn-submit" style="margin-right: 15px" value="Submit" />
+                                    <button type="button" id="sub_button" class="btn btn-danger btn-cancel">Cancel</button>
                                 </div>
                             </div>
                         </div>
@@ -210,21 +210,20 @@
         </div>
         <!-- #End Content -->
     </div>
-    <script src="${pageContext.request.contextPath}/assets/js/management.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/employee.js"></script>
     <script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
     <script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 </html>
 <script>
-                        $(document).ready(function () {
-                            $('#sidebarCollapse').on('click', function () {
-                                $('#sidebar').toggleClass('active');
-                            });
-                        });
+                                            $(document).ready(function () {
+                                                $('#sidebarCollapse').on('click', function () {
+                                                    $('#sidebar').toggleClass('active');
+                                                });
+                                            });
 </script>
 <script type="text/javascript">
-
     $(document).ready(function () {
         $("#province_id").on('change', function () {
             var province_id = $("#province_id").val();
@@ -236,7 +235,7 @@
                 },
                 method: "POST",
                 success: function (data) {
-                    $("#district_id").html(data);
+                    $("#district").html(data);
                 }
             });
         });

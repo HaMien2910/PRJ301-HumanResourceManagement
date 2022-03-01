@@ -10,11 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.util.converter.LocalDateTimeStringConverter;
 import model.Department;
 import model.District;
 import model.Employee;
@@ -314,7 +312,7 @@ public class EmployeeDBContext extends DBContext {
             java.sql.Date currentDate = new java.sql.Date(new java.util.Date().getTime());
             stm.setDate(10, currentDate);
             // Check if the department have manager or not
-            if(employee.getDepartment().getManager().getE_id() == employee.getDepartment().getManager().getE_id() && employee.getDepartment().getManager().getE_id() > 0){
+            if(employee.getDepartment().getManager().getE_id() > 0){
                 stm.setInt(11, employee.getDepartment().getManager().getE_id());   
             }else{
                 stm.setNull(11, Types.INTEGER);   

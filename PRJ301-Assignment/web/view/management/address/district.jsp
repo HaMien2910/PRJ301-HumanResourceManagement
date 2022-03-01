@@ -20,8 +20,8 @@
         %>
     </head>
     <body>
-        <select class="form-control" name="district" id="district">
-            <option disabled selected> -- Select District -- </option>
+        <select class="form-control" name="district_id" id="district_id" required>
+            <option value=""> -- Select District -- </option>
             <%for (District d : districts) { %>
             <option value="<%=d.getDistrict_id()%>"><%=d.getDistrict_name()%></option>
             <%}%>
@@ -30,8 +30,8 @@
 </html>
 <script>
     $(document).ready(function () {
-        $("#district").on('change', function () {
-            var district_id = $("#district").val();
+        $("#district_id").on('change', function () {
+            var district_id = $("#district_id").val();
             $("#error").html("");
             $.ajax({
                 url: "../../../PRJ301-Assignment/view/management/address/ward.jsp",
