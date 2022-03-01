@@ -63,10 +63,8 @@ public class AddDepartmentController extends HttpServlet {
         Employee employee = new Employee();
         String e_id = request.getParameter("manager_id");
         if (e_id.trim().length()>0) {
-            System.out.println("======m1:" + e_id);
             employee.setE_id(Integer.parseInt(e_id));
         } else {
-            System.out.println("======m2:" + e_id);
             employee.setE_id(-1);
         }
         department.setManager(employee);

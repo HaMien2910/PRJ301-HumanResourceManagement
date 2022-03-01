@@ -42,7 +42,6 @@ public class EditDepartmentController extends HttpServlet {
 
         ArrayList<Employee> employees = employeeDBContext.getAllEmployees();
         Department department = departmentDBContext.getDepartmentById(did);
-        
 
         request.setAttribute("employees", employees);
         request.setAttribute("department", department);
@@ -66,14 +65,19 @@ public class EditDepartmentController extends HttpServlet {
         department.setDepartment_phone(request.getParameter("department_phone"));
         department.setDepartment_email(request.getParameter("department_email"));
         department.setDescription(request.getParameter("description"));
-        
+
         Employee employee = new Employee();
-        employee.setE_id(Integer.parseInt(request.getParameter("manager_id")));
+        String e_id = request.getParameter("manager_id");
+        if (e_id.trim().length() > 0) {
+            employee.setE_id(Integer.parseInt(e_id));
+        } else {
+            employee.setE_id(-1);
+        }
         department.setManager(employee);
-        
+
         DepartmentDBContext departmentDBContext = new DepartmentDBContext();
         departmentDBContext.updateDepartmentById(department);
-        
+
         response.sendRedirect("listAllDepartments");
     }
 
