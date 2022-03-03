@@ -32,6 +32,20 @@
             </li>
         </ul>
     </li>
+    <li class="active">
+        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Jobs</a>
+        <ul class="list-unstyled" id="homeSubmenu">
+            <li>
+                <a class="${tag eq "listAllJobs" ? "active" : ""}" href="${pageContext.request.contextPath}/job/listAllJobs">All Jobs</a>
+            </li>
+            <li>
+                <a class="${tag eq "addJob" ? "active" : ""}" href="${pageContext.request.contextPath}/job/addJob">Add Job</a>
+            </li>
+            <li>
+                <a class="${tag eq "editJob" ? "active" : ""}" href="${pageContext.request.contextPath}/job/editJob">Edit Job</a>
+            </li>
+        </ul>
+    </li>
     <li>
         <a href="#">About</a>
     </li>

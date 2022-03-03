@@ -154,7 +154,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input type="text" value="${requestScope.employee.e_dob}" id="dob" pattern="^(19[0-9][0-9]|202[0-9])-(0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-9]|3[0-1])$" class="form-control datetimepicker" placeholder="Birth Date (dd/mm/yyyy)" name="dob" required>
+                                        <input type="text" value="${requestScope.employee.e_dob}" id="dob" pattern="^(19[0-9][0-9]|20[0-9][0-9])-(0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-9]|3[0-1])$" class="form-control datetimepicker" placeholder="Birth Date (dd/mm/yyyy)" name="dob" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
