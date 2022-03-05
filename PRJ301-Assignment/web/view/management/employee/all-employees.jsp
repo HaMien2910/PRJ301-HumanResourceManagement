@@ -70,8 +70,50 @@
                                     <strong>All Employees</strong>
                                 </h2>
                             </div>
-                            <table class="table table-hover">
-                                <thead>
+                            <div>
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">#</th>
+                                            <th class="text-center"> Name </th>
+                                            <th class="text-center"> Job </th>
+                                            <th class="text-center"> Department </th>
+                                            <th class="text-center"> Mobile </th>
+                                            <th class="text-center"> Email </th>
+                                            <th class="text-center"> Address </th>
+                                            <th class="text-center">Joining Date</th>
+                                            <th class="text-center"> Action </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <%!int i = 0;%>
+                                    <c:forEach items="${requestScope.employees}" var="e">
+                                        <tr class="" style="font-size: 12px;<%=(i%2==0) ? "background-color: rgb(239, 239, 241);" : ""%>">
+                                            <td></td>
+                                            <td class="text-center">${e.e_last_name} ${e.e_first_name}</td>
+                                            <td class="text-center">${e.job.job_title}</td>
+                                            <td class="text-center">${e.department.department_name}</td>
+                                            <td class="text-center">${e.e_phone}</td>
+                                            <td class="text-center">${e.e_email}</td>
+                                            <td class="text-center">${e.location.ward.district.province.province_name}</td>
+                                            <td class="text-center">${e.e_join_date}</td>
+                                            <td class="text-center">
+                                                <a href="viewEmployee?eid=${e.e_id}" class="btn btn-tbl-view">
+                                                    <i class="fas fa-eye tbl-icon"></i>
+                                                </a>
+                                                <a href="editEmployee?eid=${e.e_id}" class="btn btn-tbl-edit">
+                                                    <i class="fas fa-pen tbl-icon"></i>
+                                                </a>
+                                                <a class="btn btn-tbl-delete" onclick="onDelete()">
+                                                    <i class="fas fa-trash tbl-icon"></i>
+                                                </a>
+                                                <input type="hidden" id="eid" name="eid" value="${e.e_id}">
+                                            </td>
+                                        </tr>
+                                    <input type="hidden" value="<%=i++%>">
+                                    </c:forEach>
+                                </tbody>
+                                <tfoot>
                                     <tr>
                                         <th class="text-center">#</th>
                                         <th class="text-center"> Name </th>
@@ -83,47 +125,14 @@
                                         <th class="text-center">Joining Date</th>
                                         <th class="text-center"> Action </th>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                <c:forEach items="${requestScope.employees}" var="e">
-                                    <tr class="" style="font-size: 12px">
-                                        <td></td>
-                                        <td class="text-center">${e.e_last_name} ${e.e_first_name}</td>
-                                        <td class="text-center">${e.job.job_title}</td>
-                                        <td class="text-center">${e.department.department_name}</td>
-                                        <td class="text-center">${e.e_phone}</td>
-                                        <td class="text-center">${e.e_email}</td>
-                                        <td class="text-center">${e.location.ward.district.province.province_name}</td>
-                                        <td class="text-center">${e.e_join_date}</td>
-                                        <td class="text-center">
-                                            <a href="viewEmployee?eid=${e.e_id}" class="btn btn-tbl-view">
-                                                <i class="fas fa-eye tbl-icon"></i>
-                                            </a>
-                                            <a href="editEmployee?eid=${e.e_id}" class="btn btn-tbl-edit">
-                                                <i class="fas fa-pen tbl-icon"></i>
-                                            </a>
-                                            <a class="btn btn-tbl-delete" onclick="onDelete()">
-                                                <i class="fas fa-trash tbl-icon"></i>
-                                            </a>
-                                            <input type="hidden" id="eid" name="eid" value="${e.e_id}">
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th class="text-center">#</th>
-                                    <th class="text-center"> Name </th>
-                                    <th class="text-center"> Job </th>
-                                    <th class="text-center"> Department </th>
-                                    <th class="text-center"> Mobile </th>
-                                    <th class="text-center"> Email </th>
-                                    <th class="text-center"> Address </th>
-                                    <th class="text-center">Joining Date</th>
-                                    <th class="text-center"> Action </th>
-                                </tr>
-                            </tfoot>
-                        </table>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8"></div>
+                            <div id="block-footer"class="col-sm-4">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -135,27 +144,29 @@
     <jsp:include page="../modal-delete.jsp"></jsp:include>
     </nav>
     <!-- #End Modal To Delete An Employee -->
-
-    <script src="${pageContext.request.contextPath}/assets/js/management.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/pagger.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
 <script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>
+<script>
+                                                    doPagging("block-footer", ${requestScope.page_index}, ${requestScope.total_pages}, 2, 'listAllEmployees');
+</script>
 </body>
 </html>
 <script>
-                                                $(document).ready(function () {
-                                                    $('#sidebarCollapse').on('click', function () {
-                                                        $('#sidebar').toggleClass('active');
-                                                    });
-                                                });
-                                                $(document).ready(function () {
-                                                    $('table .btn-tbl-delete').on('click', function () {
-                                                        var id = $(this).parent().find("#eid").val();
-                                                        var myHeading = "<p><strong>The employee has employeeid = " + id + "</strong></p><p>This action cannot be undone</p><input type=\"hidden\" id=\"eid\" value=\"" + id + "\" name=\"eid\"/>";
-                                                        $('.modal--content').html(myHeading);
-                                                        $('#confirmation .modal-confirm-btn').on('click', function () {
-                                                            $('.modal-form').attr('action', 'deleteEmployee');
-                                                        });
-                                                    });
-                                                });
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+    });
+    $(document).ready(function () {
+        $('table .btn-tbl-delete').on('click', function () {
+            var id = $(this).parent().find("#eid").val();
+            var myHeading = "<p><strong>The employee has employeeid = " + id + "</strong></p><p>This action cannot be undone</p><input type=\"hidden\" id=\"eid\" value=\"" + id + "\" name=\"eid\"/>";
+            $('.modal--content').html(myHeading);
+            $('#confirmation .modal-confirm-btn').on('click', function () {
+                $('.modal-form').attr('action', 'deleteEmployee');
+            });
+        });
+    });
 </script>

@@ -8,6 +8,7 @@ package dal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -159,6 +160,41 @@ public class JobDBContext extends DBContext {
             stm.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(JobDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void deleteJob(int jid) {
+        try {
+            connection.setAutoCommit(false);
+            
+            String sql_update_employees = "UPDATE [Employees]\n"
+                                    +   "  SET [job_id] = ?\n"
+                                    +   "  WHERE [job_id] = ?";
+            PreparedStatement stm_update_employees = connection.prepareCall(sql_update_employees);
+            stm_update_employees.setNull(1, Types.INTEGER);
+            stm_update_employees.setInt(2, jid);
+            stm_update_employees.executeUpdate();
+            
+            String sql = "DELETE [Jobs]\n"
+                    + "   WHERE [job_id] = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, jid);
+            stm.executeUpdate();
+            
+            connection.commit();
+        } catch (SQLException ex) {
+            try {
+                connection.rollback();
+                Logger.getLogger(JobDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex1) {
+                Logger.getLogger(JobDBContext.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        }finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(JobDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }

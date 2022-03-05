@@ -35,7 +35,8 @@ public class DepartmentDBContext extends DBContext {
                     + "      ,b.[e_last_name]\n" //9
                     + "  FROM [Departments] AS a\n"
                     + "			LEFT JOIN \n"
-                    + "	   [Employees] AS b ON a.manager_id = b.e_id";
+                    + "	   [Employees] AS b ON a.manager_id = b.e_id\n"
+                    + "  ORDER BY a.[dapartment_name] ASC";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
 
@@ -100,35 +101,36 @@ public class DepartmentDBContext extends DBContext {
             }
             stm.executeUpdate();
 
-            // Get department_id of the department has been inserted 
-            String sql_get_did = "Select @@Identity as did";
-            PreparedStatement stm_get_did = connection.prepareStatement(sql_get_did);
-            ResultSet rs = stm_get_did.executeQuery();
-            if (rs.next()) {
-                // set location_id for the location of the employee
-                department.setDepartment_id(rs.getInt("did"));
-            }
-
-            // Update manager_id in Employees table
-            String sql_update_manager_id = "UPDATE [Employees]\n"
-                    + "   SET [manager_id] = ?\n"
-                    + " WHERE [department_id] = ?\n"
-                    + "	AND [e_id] <> ?";
-            PreparedStatement stm_update_manager_id = connection.prepareStatement(sql_update_manager_id);
             if (department.getManager().getE_id() >= 0) {
-                stm_update_manager_id.setInt(1, department.getManager().getE_id());
-            } else {
-                stm.setNull(1, Types.INTEGER);
-            }
-            stm_update_manager_id.setInt(2, department.getDepartment_id());
-            stm_update_manager_id.setInt(3, department.getManager().getE_id());
-            stm_update_manager_id.executeUpdate();
+                // Get department_id of the department has been inserted 
+                String sql_get_did = "Select @@Identity as did";
+                PreparedStatement stm_get_did = connection.prepareStatement(sql_get_did);
+                ResultSet rs = stm_get_did.executeQuery();
+                if (rs.next()) {
+                    // set location_id for the location of the employee
+                    department.setDepartment_id(rs.getInt("did"));
+                }
 
+                // Update manager_id in Employees table
+                String sql_update_manager_id = "UPDATE [Employees]\n"
+                        + "   SET [manager_id] = ?\n"
+                        + " WHERE [department_id] = ?\n"
+                        + "	AND [e_id] <> ?";
+                PreparedStatement stm_update_manager_id = connection.prepareStatement(sql_update_manager_id);
+                if (department.getManager().getE_id() >= 0) {
+                    stm_update_manager_id.setInt(1, department.getManager().getE_id());
+                } else {
+                    stm.setNull(1, Types.INTEGER);
+                }
+                stm_update_manager_id.setInt(2, department.getDepartment_id());
+                stm_update_manager_id.setInt(3, department.getManager().getE_id());
+                stm_update_manager_id.executeUpdate();
+            }
             connection.commit();
         } catch (SQLException ex) {
-            Logger.getLogger(DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
             try {
                 connection.rollback();
+                Logger.getLogger(DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex1) {
                 Logger.getLogger(DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex1);
             }
@@ -211,21 +213,22 @@ public class DepartmentDBContext extends DBContext {
             stm.setInt(6, department.getDepartment_id());
             stm.executeUpdate();
 
-            // Update manager_id in Employees table
-            String sql_update_manager_id = "UPDATE [Employees]\n"
-                    + "   SET [manager_id] = ?\n"
-                    + " WHERE [department_id] = ?\n"
-                    + "	AND [e_id] <> ?";
-            PreparedStatement stm_update_manager_id = connection.prepareStatement(sql_update_manager_id);
             if (department.getManager().getE_id() >= 0) {
-                stm_update_manager_id.setInt(1, department.getManager().getE_id());
-            } else {
-                stm.setNull(1, Types.INTEGER);
+                // Update manager_id in Employees table
+                String sql_update_manager_id = "UPDATE [Employees]\n"
+                        + "   SET [manager_id] = ?\n"
+                        + " WHERE [department_id] = ?\n"
+                        + "	AND [e_id] <> ?";
+                PreparedStatement stm_update_manager_id = connection.prepareStatement(sql_update_manager_id);
+                if (department.getManager().getE_id() >= 0) {
+                    stm_update_manager_id.setInt(1, department.getManager().getE_id());
+                } else {
+                    stm.setNull(1, Types.INTEGER);
+                }
+                stm_update_manager_id.setInt(2, department.getDepartment_id());
+                stm_update_manager_id.setInt(3, department.getManager().getE_id());
+                stm_update_manager_id.executeUpdate();
             }
-            stm_update_manager_id.setInt(2, department.getDepartment_id());
-            stm_update_manager_id.setInt(3, department.getManager().getE_id());
-            stm_update_manager_id.executeUpdate();
-
             connection.commit();
         } catch (SQLException ex) {
             Logger.getLogger(DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
@@ -259,13 +262,11 @@ public class DepartmentDBContext extends DBContext {
             stm_update_employees.setInt(4, did);
             stm_update_employees.executeUpdate();
 
-            String sql_update_jobs = "UPDATE [Jobs]\n"
-                    + "   SET [department_id] = ?\n"
+            String sql_delete_jobs = "DELETE [Jobs]\n"
                     + " WHERE [department_id] = ?";
-            PreparedStatement stm_update_jobs = connection.prepareStatement(sql_update_jobs);
-            stm_update_jobs.setNull(1, Types.INTEGER);
-            stm_update_jobs.setInt(2, did);
-            stm_update_jobs.executeUpdate();
+            PreparedStatement stm_delete_jobs = connection.prepareStatement(sql_delete_jobs);
+            stm_delete_jobs.setInt(1, did);
+            stm_delete_jobs.executeUpdate();
 
             String sql_delete_job_by_department_id = "DELETE FROM [Jobs]\n"
                     + "      WHERE [department_id] = ?";

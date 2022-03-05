@@ -173,7 +173,7 @@ a.article:hover {
     border-top: 1px solid #000;
 }
 
-.table tbody tr td {
+.table tbody tr  {
     border-radius: 4px;
 }
 
@@ -225,7 +225,7 @@ a.article:hover {
 }
 
 .form-group input.form-control:focus:invalid {
-  border-bottom: red solid 2px;
+    border-bottom: red solid 2px;
 }
 
 .body .col-xs-12, 
@@ -355,6 +355,10 @@ a.article:hover {
     right: 16px;
     bottom: 12px;
 }
+
+/* ---------------------------------------------------
+    PAGGING
+----------------------------------------------------- */
 
 
 /* ---------------------------------------------------

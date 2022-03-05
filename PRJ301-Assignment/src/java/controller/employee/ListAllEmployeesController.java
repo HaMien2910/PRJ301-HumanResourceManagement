@@ -33,10 +33,21 @@ public class ListAllEmployeesController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         EmployeeDBContext employeeDBContext = new EmployeeDBContext();
+        String raw_page = request.getParameter("page");
+        if(raw_page == null || raw_page.trim().length() == 0){
+            raw_page = "1";
+        }
+        int page_index = Integer.parseInt(raw_page);
+        int page_size = 10;
         // Get all employee from DB
-        ArrayList<Employee> employees = employeeDBContext.getAllEmployees();
+        ArrayList<Employee> employees = employeeDBContext.getEmployeesByPageIndex(page_index,page_size);
+        int total_records = employeeDBContext.countAll();
+        int total_pages = ((total_records%page_size) == 0) ? (total_records/page_size) : (total_records/page_size + 1); 
 
         request.setAttribute("employees", employees);
+        request.setAttribute("total_pages", total_pages);
+        request.setAttribute("page_index", page_index);
+        request.setAttribute("index", 0);
         request.getRequestDispatcher("../view/management/employee/all-employees.jsp").forward(request, response);
     }
 

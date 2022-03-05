@@ -97,7 +97,7 @@
                                             <a class="btn btn-tbl-delete" onclick="onDelete()">
                                                 <i class="fas fa-trash tbl-icon"></i>
                                             </a>
-                                            <input type="hidden" id="did" name="jid" value="${j.job_id}">
+                                            <input type="hidden" id="jid" name="jid" value="${j.job_id}">
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -139,13 +139,13 @@
                                                 });
                                                 $(document).ready(function () {
                                                     $('table .btn-tbl-delete').on('click', function () {
-                                                        var id = $(this).parent().find("#did").val();
-                                                        var myHeading = "<p><strong>The department has departmentid = " + id + "</strong></p>\n\
+                                                        var id = $(this).parent().find("#jid").val();
+                                                        var myHeading = "<p><strong>The job has jobid = " + id + "</strong></p>\n\
                                                                         <p>This action cannot be undone</p>\n\
-                                                                        <input type=\"hidden\" id=\"did\" value=\"" + id + "\" name=\"did\"/>";
+                                                                        <input type=\"hidden\" id=\"jid\" value=\"" + id + "\" name=\"jid\"/>";
                                                         $('.modal--content').html(myHeading);
                                                         $('#confirmation .modal-confirm-btn').on('click', function () {
-                                                            $('.modal-form').attr('action', 'deleteDepartment');
+                                                            $('.modal-form').attr('action', 'deleteJob');
                                                         });
                                                     });
                                                 });

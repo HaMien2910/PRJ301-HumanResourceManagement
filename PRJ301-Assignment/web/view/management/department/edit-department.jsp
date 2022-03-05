@@ -85,9 +85,9 @@
                                     <div class="form-group form-float">
                                         <div class="form-line">
                                             <select name="manager_id" class="col-12 m-t-20 p-l-0 form-control">
-                                                <option disabled selected> -- Choose Manager -- </option>
+                                                <option value=""> -- Choose Manager -- </option>
                                                 <c:forEach items="${requestScope.employees}" var="e">
-                                                    <option ${requestScope.department.manager.e_id eq e.e_id ? "selected" : ""} value="${e.e_id}">${e.e_last_name} ${e.e_first_name} - ${e.e_email}</option>
+                                                    <option ${requestScope.department.manager.e_id eq e.e_id ? "selected = \"selected\"" : ""} value="${e.e_id}">${e.e_last_name} ${e.e_first_name} - ${e.e_email}</option>
                                                 </c:forEach>
                                             </select>
                                         </div>

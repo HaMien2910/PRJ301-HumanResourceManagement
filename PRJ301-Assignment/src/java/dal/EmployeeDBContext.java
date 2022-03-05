@@ -27,6 +27,92 @@ import model.Ward;
  */
 public class EmployeeDBContext extends DBContext {
 
+    public ArrayList<Employee> getEmployeesByPageIndex(int page_index, int page_size) {
+        ArrayList<Employee> employees = new ArrayList<>();
+
+        try {
+            String sql = "SELECT [e_id] \n" //1
+                    + "      ,[e_first_name] \n" //2
+                    + "      ,[e_last_name] \n" //3
+                    + "      ,[e_email] \n" //4
+                    + "      ,[e_phone] \n" //5
+                    + "      ,[e_join_date] \n" //6
+                    + "      ,[dapartment_name] \n" //7
+                    + "      ,[job_title] \n" //8
+                    + "      ,[province_name] \n" //9
+                    + "      FROM\n"
+                    + "		(SELECT a.[e_id] \n"
+                    + "			  ,a.[e_first_name] \n"
+                    + "			  ,a.[e_last_name] \n"
+                    + "			  ,a.[e_email] \n"
+                    + "			  ,a.[e_phone] \n"
+                    + "			  ,a.[e_join_date] \n"
+                    + "			  ,b.[dapartment_name] \n"
+                    + "			  ,c.[job_title]\n"
+                    + "			  ,g.[province_name] \n"
+                    + "			  ,g.[province_type]\n"
+                    + "			  ,ROW_NUMBER() OVER (ORDER BY [e_id] ASC) AS row_index\n"
+                    + "			   FROM \n"
+                    + "			   [Employees] AS a\n"
+                    + "       				LEFT JOIN\n"
+                    + "			   [Departments] AS b ON a.[department_id] = b.[department_id]\n"
+                    + "       				LEFT JOIN\n"
+                    + "			   [Jobs] AS c ON a.[job_id] = c.[job_id]\n"
+                    + "       				LEFT JOIN\n"
+                    + "			   [Locations] AS d ON a.[location_id] = d.[location_id] \n"
+                    + "					LEFT JOIN\n"
+                    + "			   [Wards] AS e ON d.[ward_id] = e.[ward_id]\n"
+                    + "					LEFT JOIN\n"
+                    + "			   [Districts] AS f ON f.[district_id] = e.[district_id]\n"
+                    + "					LEFT JOIN\n"
+                    + "			   [Provinces] AS g ON f.[province_id] = g.[province_id]) EmployeesTbl\n"
+                    + "		WHERE row_index >= (? - 1) * ? + 1 \n"
+                    + "			AND row_index <= ? * ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, page_index);
+            stm.setInt(2, page_size);
+            stm.setInt(3, page_index);
+            stm.setInt(4, page_size);
+            ResultSet rs = stm.executeQuery();
+
+            //Assign the information of all employees to list students
+            while (rs.next()) {
+                Employee e = new Employee();
+                Department d = new Department();
+                Job j = new Job();
+                Location l = new Location();
+                Ward w = new Ward();
+                District dist = new District();
+                Province p = new Province();
+
+                e.setE_id(rs.getInt(1));
+                e.setE_first_name(rs.getString(2));
+                e.setE_last_name(rs.getString(3));
+                e.setE_email(rs.getString(4));
+                e.setE_phone(rs.getString(5));
+                e.setE_join_date(rs.getDate(6));
+
+                d.setDepartment_name(rs.getString(7));
+                e.setDepartment(d);
+
+                j.setJob_title(rs.getString(8));
+                e.setJob(j);
+
+                p.setProvince_name(rs.getString(9));
+                dist.setProvince(p);
+                w.setDistrict(dist);
+                l.setWard(w);
+                e.setLocation(l);
+
+                //Add info off the employee to list
+                employees.add(e);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return employees;
+    }
+
     public ArrayList<Employee> getAllEmployees() {
         ArrayList<Employee> employees = new ArrayList<>();
 
@@ -336,6 +422,16 @@ public class EmployeeDBContext extends DBContext {
     public void deleteEmployeeById(int id) {
         try {
             connection.setAutoCommit(false);
+
+            //Update department if employee is a manager 
+            String sql_update_department = "UPDATE [Departments]\n"
+                    + "                  SET [manager_id] = ?\n"
+                    + "                  WHERE [manager_id] = ?";
+            PreparedStatement stm_update_department = connection.prepareStatement(sql_update_department);
+            stm_update_department.setNull(1, Types.INTEGER);
+            stm_update_department.setInt(2, id);
+            stm_update_department.executeLargeUpdate();
+
             Location location = new Location();
             String sql_get_location_id = "SELECT [location_id]\n"
                     + "  FROM [Employees]\n"
@@ -359,7 +455,7 @@ public class EmployeeDBContext extends DBContext {
             PreparedStatement stm_delete_location = connection.prepareStatement(sql_delete_location);
             stm_delete_location.setInt(1, location.getLocation_id());
             stm_delete_location.executeUpdate();
-            
+
             connection.commit();
         } catch (SQLException ex) {
             try {
@@ -553,5 +649,20 @@ public class EmployeeDBContext extends DBContext {
             Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
         return employees;
+    }
+
+    public int countAll() {
+        try {
+            String sql = "SELECT COUNT(*) FROM [Employees]";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            if(rs.next()){
+                return rs.getInt(1);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
     }
 }
