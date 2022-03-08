@@ -67,7 +67,7 @@
 
 
                     <form action="addEmployee" method="POST" name="formEmployee">
-                        <div class="body" style="border-radius: 8px;background-color:#FFF; padding: 4px 12px; margin-bottom: 8px">
+                        <div class="body" style="border-radius: 8px;background-color:#FFF; padding: 4px 12px; margin-bottom: 8px;">
                             <div class="body-element">
                                 <h2 style="font-size: 16px">
                                     <strong>Add Employee</strong>

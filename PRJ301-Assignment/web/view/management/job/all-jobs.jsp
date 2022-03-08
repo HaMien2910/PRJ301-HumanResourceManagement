@@ -113,6 +113,11 @@
                                 </tr>
                             </tfoot>
                         </table>
+                        <div class="row">
+                            <div class="col-sm-8"></div>
+                            <div id="block-footer"class="col-sm-4">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -124,29 +129,32 @@
     <jsp:include page="../modal-delete.jsp"></jsp:include>
     </nav>
     <!-- #End Modal To Delete An Employee -->
-
-    <script src="${pageContext.request.contextPath}/assets/js/management.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/pagger.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/management.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
 <script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>
+<script>
+                                                doPagging("block-footer", ${requestScope.page_index}, ${requestScope.total_pages}, 2, 'listAllJobs');
+</script>
 </body>
 </html>
 <script>
-                                                $(document).ready(function () {
-                                                    $('#sidebarCollapse').on('click', function () {
-                                                        $('#sidebar').toggleClass('active');
-                                                    });
-                                                });
-                                                $(document).ready(function () {
-                                                    $('table .btn-tbl-delete').on('click', function () {
-                                                        var id = $(this).parent().find("#jid").val();
-                                                        var myHeading = "<p><strong>The job has jobid = " + id + "</strong></p>\n\
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+    });
+    $(document).ready(function () {
+        $('table .btn-tbl-delete').on('click', function () {
+            var id = $(this).parent().find("#jid").val();
+            var myHeading = "<p><strong>The job has jobid = " + id + "</strong></p>\n\
                                                                         <p>This action cannot be undone</p>\n\
                                                                         <input type=\"hidden\" id=\"jid\" value=\"" + id + "\" name=\"jid\"/>";
-                                                        $('.modal--content').html(myHeading);
-                                                        $('#confirmation .modal-confirm-btn').on('click', function () {
-                                                            $('.modal-form').attr('action', 'deleteJob');
-                                                        });
-                                                    });
-                                                });
+            $('.modal--content').html(myHeading);
+            $('#confirmation .modal-confirm-btn').on('click', function () {
+                $('.modal-form').attr('action', 'deleteJob');
+            });
+        });
+    });
 </script>

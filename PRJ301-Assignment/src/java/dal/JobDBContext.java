@@ -166,21 +166,21 @@ public class JobDBContext extends DBContext {
     public void deleteJob(int jid) {
         try {
             connection.setAutoCommit(false);
-            
+
             String sql_update_employees = "UPDATE [Employees]\n"
-                                    +   "  SET [job_id] = ?\n"
-                                    +   "  WHERE [job_id] = ?";
+                    + "  SET [job_id] = ?\n"
+                    + "  WHERE [job_id] = ?";
             PreparedStatement stm_update_employees = connection.prepareCall(sql_update_employees);
             stm_update_employees.setNull(1, Types.INTEGER);
             stm_update_employees.setInt(2, jid);
             stm_update_employees.executeUpdate();
-            
+
             String sql = "DELETE [Jobs]\n"
                     + "   WHERE [job_id] = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, jid);
             stm.executeUpdate();
-            
+
             connection.commit();
         } catch (SQLException ex) {
             try {
@@ -189,12 +189,75 @@ public class JobDBContext extends DBContext {
             } catch (SQLException ex1) {
                 Logger.getLogger(JobDBContext.class.getName()).log(Level.SEVERE, null, ex1);
             }
-        }finally {
+        } finally {
             try {
                 connection.setAutoCommit(true);
             } catch (SQLException ex) {
                 Logger.getLogger(JobDBContext.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    public ArrayList<Job> getJobsByPage(int page_index, int page_size) {
+        ArrayList<Job> jobs = new ArrayList<>();
+        try {
+            String sql = "SELECT [job_id]\n"
+                    + "	  ,[job_title]\n"
+                    + "	  ,[min_salary]\n"
+                    + "	  ,[max_salary]\n"
+                    + "	  ,[department_id]\n"
+                    + "	  ,[dapartment_name]\n"
+                    + "	FROM\n"
+                    + "		(SELECT a.[job_id]\n"
+                    + "         ,a.[job_title]\n"
+                    + "         ,a.[min_salary]\n"
+                    + "         ,a.[max_salary]\n"
+                    + "         ,b.[department_id]\n"
+                    + "         ,b.[dapartment_name]\n"
+                    + "         ,ROW_NUMBER() OVER (ORDER BY a.[job_id] ASC) AS row_index\n"
+                    + "       FROM [Jobs] AS a\n"
+                    + "				LEFT JOIN\n"
+                    + "            [Departments] AS b ON a.[department_id] = b.[department_id]) JobsTbl\n"
+                    + "   WHERE row_index >= (? - 1) * ? + 1\n"
+                    + "   AND row_index <= ? * ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, page_index);
+            stm.setInt(2, page_size);
+            stm.setInt(3, page_index);
+            stm.setInt(4, page_size);
+            ResultSet rs = stm.executeQuery();
+
+            //Loop to add all information in list            
+            while (rs.next()) {
+                Job j = new Job();
+                j.setJob_id(rs.getInt(1));
+                j.setJob_title(rs.getString(2));
+                j.setMin_salary(rs.getDouble(3));
+                j.setMax_salary(rs.getDouble(4));
+                Department department = new Department();
+                department.setDepartment_id(rs.getInt(5));
+                department.setDepartment_name(rs.getString(6));
+                j.setDepartment(department);
+                jobs.add(j);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(JobDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return jobs;
+    }
+
+    public int countAll() {
+        try {
+            String sql = "SELECT COUNT(*) FROM [Jobs]";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
     }
 }

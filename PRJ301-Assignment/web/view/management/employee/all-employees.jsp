@@ -32,16 +32,25 @@
 
                 <!-- Content -->
                 <div id="content" style="background-color: #f1f2f7;">
-                    <!-- Right Sidebar -->
+                    <!-- Header -->
                     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <!-- Left Header -->
                         <div class="container-fluid">
                             <button type="button" id="sidebarCollapse" class="btn  btn-info">
                                 <i class="fas fa-align-left"></i>
                                 <span>Memu</span>
                             </button>
                         </div>
+                        <!-- #END Left Header -->
+                        <!-- Right Header -->
+                        <div>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a></a></li>
+                            </ul>
+                        </div>
+                        <!-- #END Header Header -->
                     </nav>
-                    <!-- #END Right Sidebar -->
+                    <!-- #END Header -->
 
 
                     <div class="block-header">
@@ -88,7 +97,7 @@
                                     <tbody>
                                     <%!int i = 0;%>
                                     <c:forEach items="${requestScope.employees}" var="e">
-                                        <tr class="" style="font-size: 12px;<%=(i%2==0) ? "background-color: rgb(239, 239, 241);" : ""%>">
+                                        <tr class="" style="font-size: 12px;<%=(i % 2 == 0) ? "background-color: rgb(239, 239, 241);" : ""%>">
                                             <td></td>
                                             <td class="text-center">${e.e_last_name} ${e.e_first_name}</td>
                                             <td class="text-center">${e.job.job_title}</td>
@@ -111,7 +120,7 @@
                                             </td>
                                         </tr>
                                     <input type="hidden" value="<%=i++%>">
-                                    </c:forEach>
+                                </c:forEach>
                                 </tbody>
                                 <tfoot>
                                     <tr>
@@ -145,6 +154,7 @@
     </nav>
     <!-- #End Modal To Delete An Employee -->
     <script src="${pageContext.request.contextPath}/assets/js/pagger.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/management.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
 <script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>

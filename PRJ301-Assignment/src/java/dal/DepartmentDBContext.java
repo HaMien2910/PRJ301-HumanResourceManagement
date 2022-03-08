@@ -35,8 +35,7 @@ public class DepartmentDBContext extends DBContext {
                     + "      ,b.[e_last_name]\n" //9
                     + "  FROM [Departments] AS a\n"
                     + "			LEFT JOIN \n"
-                    + "	   [Employees] AS b ON a.manager_id = b.e_id\n"
-                    + "  ORDER BY a.[dapartment_name] ASC";
+                    + "	   [Employees] AS b ON a.manager_id = b.e_id\n";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
 
@@ -295,5 +294,82 @@ public class DepartmentDBContext extends DBContext {
                 Logger.getLogger(DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    public ArrayList<Department> getDepartmentsByPageIndex(int page_index, int page_size) {
+        ArrayList<Department> departments = new ArrayList<>();
+        try {
+            String sql = "SELECT [department_id]\n"
+                    + "   ,[dapartment_name]\n"
+                    + "	  ,[department_phone]\n"
+                    + "	  ,[department_email]\n"
+                    + "	  ,[starting_date]\n"
+                    + "	  ,[description]\n"
+                    + "	  ,[manager_id]\n"
+                    + "	  ,[e_first_name]\n"
+                    + "	  ,[e_last_name]\n"
+                    + "	FROM\n"
+                    + "		(SELECT a.[department_id]\n"
+                    + "		  ,a.[dapartment_name]\n"
+                    + "		  ,a.[department_phone]\n"
+                    + "		  ,a.[department_email]\n"
+                    + "		  ,a.[starting_date]\n"
+                    + "		  ,a.[description]\n"
+                    + "		  ,a.[manager_id]\n"
+                    + "		  ,b.[e_first_name]\n"
+                    + "		  ,b.[e_last_name]\n"
+                    + "		  ,ROW_NUMBER() OVER (ORDER BY a.[department_id] ASC) AS row_index\n"
+                    + "	   FROM [Departments] AS a\n"
+                    + "			LEFT JOIN\n"
+                    + "		   [Employees] AS b ON a.manager_id = b.e_id) DepartmentsTbl\n"
+                    + "   WHERE row_index >= (? - 1) * ? + 1\n"
+                    + "	  AND row_index <= ? * ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, page_index);
+            stm.setInt(2, page_size);
+            stm.setInt(3, page_index);
+            stm.setInt(4, page_size);
+            ResultSet rs = stm.executeQuery();
+
+            //Loop to add all information in list             
+            while (rs.next()) {
+                Department d = new Department();
+                d.setDepartment_id(rs.getInt(1));
+                d.setDepartment_name(rs.getString(2));
+                d.setDepartment_phone(rs.getString(3));
+                d.setDepartment_email(rs.getString(4));
+                d.setDepartment_starting_date(rs.getDate(5));
+                d.setDescription(rs.getString(6));
+                Employee e = new Employee();
+                e.setE_id(rs.getInt(7));
+                e.setE_first_name(rs.getString(8));
+                e.setE_last_name(rs.getString(9));
+                d.setManager(e);
+
+                EmployeeDBContext employeeDBContext = new EmployeeDBContext();
+                //Get employee by department id
+                ArrayList<Employee> employees = employeeDBContext.getAllEmployeesByDepartmentId(d.getDepartment_id());
+                d.setEmployees(employees);
+                departments.add(d);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return departments;
+    }
+
+    public int countAll() {
+        try {
+            String sql = "SELECT COUNT(*) FROM [Departments]";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
     }
 }

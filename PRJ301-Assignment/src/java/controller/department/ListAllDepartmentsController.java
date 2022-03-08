@@ -35,9 +35,21 @@ public class ListAllDepartmentsController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         DepartmentDBContext departmentDBContext = new DepartmentDBContext();
-        ArrayList<Department> departments = departmentDBContext.getAllDepartments();
-        
+        String raw_page = request.getParameter("page");
+        if (raw_page == null || raw_page.trim().length() == 0) {
+            raw_page = "1";
+        }
+        int page_index = Integer.parseInt(raw_page);
+        int page_size = 10;
+
+        ArrayList<Department> departments = departmentDBContext.getDepartmentsByPageIndex(page_index, page_size);
+        int total_records = departmentDBContext.countAll();
+        int total_pages = ((total_records % page_size) == 0) ? (total_records / page_size) : (total_records / page_size + 1);
+
         request.setAttribute("departments", departments);
+        request.setAttribute("total_pages", total_pages);
+        request.setAttribute("page_index", page_index);
+        request.setAttribute("index", 0);
         request.getRequestDispatcher("../view/management/department/all-departments.jsp").forward(request, response);
     }
 

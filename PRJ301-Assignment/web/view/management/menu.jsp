@@ -13,9 +13,6 @@
             <li>
                 <a class="${tag eq "addEmployee" ? "active" : ""}" href="${pageContext.request.contextPath}/employee/addEmployee">Add Employee</a>
             </li>
-            <li>
-                <a class="${tag eq "editEmployee" ? "active" : ""}" href="${pageContext.request.contextPath}/employee/editEmployee">Edit Employee</a>
-            </li>
         </ul>
     </li>
     <li class="active">
@@ -27,9 +24,6 @@
             <li>
                 <a class="${tag eq "addDepartment" ? "active" : ""}" href="${pageContext.request.contextPath}/department/addDepartment">Add Departments</a>
             </li>
-            <li>
-                <a class="${tag eq "editDepartment" ? "active" : ""}" href="${pageContext.request.contextPath}/department/editDeoartment">Edit Departments</a>
-            </li>
         </ul>
     </li>
     <li class="active">
@@ -40,9 +34,6 @@
             </li>
             <li>
                 <a class="${tag eq "addJob" ? "active" : ""}" href="${pageContext.request.contextPath}/job/addJob">Add Job</a>
-            </li>
-            <li>
-                <a class="${tag eq "editJob" ? "active" : ""}" href="${pageContext.request.contextPath}/job/editJob">Edit Job</a>
             </li>
         </ul>
     </li>
