@@ -33,23 +33,7 @@
                 <!-- Content -->
                 <div id="content" style="background-color: #f1f2f7;">
                     <!-- Header -->
-                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                        <!-- Left Header -->
-                        <div class="container-fluid">
-                            <button type="button" id="sidebarCollapse" class="btn  btn-info">
-                                <i class="fas fa-align-left"></i>
-                                <span>Memu</span>
-                            </button>
-                        </div>
-                        <!-- #END Left Header -->
-                        <!-- Right Header -->
-                        <div>
-                            <ul class="nav navbar-nav navbar-right">
-                                <li><a></a></li>
-                            </ul>
-                        </div>
-                        <!-- #END Header Header -->
-                    </nav>
+                <jsp:include page="../header.jsp"></jsp:include>
                     <!-- #END Header -->
 
 
@@ -137,7 +121,7 @@
                                 </tfoot>
                             </table>
                         </div>
-                        <div class="row">
+                        <div class="row" style="margin: 0 -12px;">
                             <div class="col-sm-8"></div>
                             <div id="block-footer"class="col-sm-4">
                             </div>

@@ -33,16 +33,9 @@
 
                 <!-- Content -->
                 <div id="content" style="background-color: #f1f2f7;">
-                    <!-- Right Sidebar -->
-                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                        <div class="container-fluid">
-                            <button type="button" id="sidebarCollapse" class="btn  btn-info">
-                                <i class="fas fa-align-left"></i>
-                                <span>Memu</span>
-                            </button>
-                        </div>
-                    </nav>
-                    <!-- #END Right Sidebar -->
+                    <!-- Header -->
+                <jsp:include page="../header.jsp"></jsp:include>
+                    <!-- #END Header -->
 
 
                     <div class="block-header">
@@ -84,8 +77,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                <%!int i = 0;%>
                                 <c:forEach items="${requestScope.departments}" var="d">
-                                    <tr class="" style="font-size: 12px">
+                                    <tr class="" style="font-size: 12px;<%=(i % 2 == 0) ? "background-color: rgb(239, 239, 241);" : ""%>">
                                         <td></td>
                                         <td class="text-center">${d.department_name}</td>
                                         <td class="text-center">${d.manager.e_last_name} ${d.manager.e_first_name}</td>
@@ -105,7 +99,8 @@
                                             <input type="hidden" id="did" name="did" value="${d.department_id}">
                                         </td>
                                     </tr>
-                                </c:forEach>
+                                <input type="hidden" value="<%=i++%>">
+                            </c:forEach>
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -119,7 +114,7 @@
                                 </tr>
                             </tfoot>
                         </table>
-                        <div class="row">
+                        <div class="row"style="margin: 0 -12px;">
                             <div class="col-sm-8"></div>
                             <div id="block-footer"class="col-sm-4">
                             </div>

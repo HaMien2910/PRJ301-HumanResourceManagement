@@ -5,6 +5,7 @@
  */
 package controller.employee;
 
+import controller.login_security.BaseAuthenticationController;
 import dal.AddressDBContext;
 import dal.DepartmentDBContext;
 import dal.EmployeeDBContext;
@@ -29,7 +30,7 @@ import model.Ward;
  *
  * @author PhuongNH
  */
-public class EditEmployeeController extends HttpServlet {
+public class EditEmployeeController extends BaseAuthenticationController {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -41,7 +42,7 @@ public class EditEmployeeController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void processGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("eid"));
 
@@ -78,7 +79,7 @@ public class EditEmployeeController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void processPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Set all information for object employee
         Employee employee = new Employee();

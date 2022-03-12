@@ -1,7 +1,7 @@
 function doPagging(block, page_index, total_pages, amount, url) {
     if (total_pages > 1) {
         var block_do_pagging = document.getElementById(block);
-        var result = '<ul class="pagination" style="margin-left:20px;">';
+        var result = '<ul class="pagination">';
 
         //generate first
         if (page_index - amount > 1)

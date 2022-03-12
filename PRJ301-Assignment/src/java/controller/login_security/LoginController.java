@@ -3,43 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.employee;
+package controller.login_security;
 
-import controller.login_security.BaseAuthenticationController;
-import dal.EmployeeDBContext;
+import dal.AccountDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Employee;
+import model.Account;
 
 /**
  *
  * @author PhuongNH
  */
-public class DeleteEmployeeController extends BaseAuthenticationController {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("eid"));
-        EmployeeDBContext employeeDBContext = new EmployeeDBContext();
-        // Delete employee by id into DB
-        employeeDBContext.deleteEmployeeById(id);
-        
-        response.sendRedirect("listAllEmployees");
-    }
-
+public class LoginController extends HttpServlet {
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -50,9 +30,9 @@ public class DeleteEmployeeController extends BaseAuthenticationController {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void processGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher("../view/authentication/login.jsp").forward(request, response);
     }
 
     /**
@@ -64,9 +44,19 @@ public class DeleteEmployeeController extends BaseAuthenticationController {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void processPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String raw_user = request.getParameter("username");
+        String raw_pass = request.getParameter("password");
+        
+        AccountDBContext accountDBContext = new AccountDBContext();
+        Account account = accountDBContext.getAccount(raw_user, raw_pass);
+        if(account!=null){
+            request.getSession().setAttribute("account", account);
+            response.getWriter().print("Login Successfully!");
+        }else{
+            response.getWriter().print("Login failed!");
+        }
     }
 
     /**

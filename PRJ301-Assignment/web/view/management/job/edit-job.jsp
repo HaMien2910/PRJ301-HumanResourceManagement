@@ -34,16 +34,9 @@
 
                 <!-- Content -->
                 <div id="content" style="background-color: #f1f2f7;">
-                    <!-- Right Sidebar -->
-                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                        <div class="container-fluid">
-                            <button type="button" id="sidebarCollapse" class="btn  btn-info">
-                                <i class="fas fa-align-left"></i>
-                                <span>Memu</span>
-                            </button>
-                        </div>
-                    </nav>
-                    <!-- #END Right Sidebar -->
+                    <!-- Header -->
+                    <jsp:include page="../header.jsp"></jsp:include>
+                    <!-- #END Header -->
 
 
                     <div class="block-header">

@@ -60,6 +60,10 @@
         <servlet-name>DeleteJobController</servlet-name>
         <servlet-class>controller.job.DeleteJobController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginController</servlet-name>
+        <servlet-class>controller.login_security.LoginController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ListAllEmployeeController</servlet-name>
         <url-pattern>/employee/listAllEmployees</url-pattern>
@@ -119,6 +123,10 @@
     <servlet-mapping>
         <servlet-name>DeleteJobController</servlet-name>
         <url-pattern>/job/deleteJob</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginController</servlet-name>
+        <url-pattern>/authen/login</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -6,6 +6,7 @@
 package controller.employee;
 
 import com.google.gson.Gson;
+import controller.login_security.BaseAuthenticationController;
 import dal.DepartmentDBContext;
 import dal.AddressDBContext;
 import dal.EmployeeDBContext;
@@ -29,7 +30,7 @@ import model.Ward;
  *
  * @author PhuongNH
  */
-public class AddEmployeeController extends HttpServlet {
+public class AddEmployeeController extends BaseAuthenticationController {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -41,7 +42,7 @@ public class AddEmployeeController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void processGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         DepartmentDBContext departmentDBContext = new DepartmentDBContext();
         AddressDBContext provinceDBContext = new AddressDBContext();
@@ -64,7 +65,7 @@ public class AddEmployeeController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void processPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Employee employee = new Employee();
         employee.setE_first_name(request.getParameter("first_name"));

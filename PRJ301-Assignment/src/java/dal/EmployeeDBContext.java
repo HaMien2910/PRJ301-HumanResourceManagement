@@ -450,11 +450,11 @@ public class EmployeeDBContext extends DBContext {
             stm.setInt(1, id);
             stm.executeUpdate();
 
-            String sql_delete_location = "DELETE FROM [Locations]\n"
-                    + "      WHERE [location_id] = ?";
-            PreparedStatement stm_delete_location = connection.prepareStatement(sql_delete_location);
-            stm_delete_location.setInt(1, location.getLocation_id());
-            stm_delete_location.executeUpdate();
+//            String sql_delete_location = "DELETE FROM [Locations]\n"
+//                    + "      WHERE [location_id] = ?";
+//            PreparedStatement stm_delete_location = connection.prepareStatement(sql_delete_location);
+//            stm_delete_location.setInt(1, location.getLocation_id());
+//            stm_delete_location.executeUpdate();
 
             connection.commit();
         } catch (SQLException ex) {
