@@ -4,7 +4,7 @@
         <a href="../../index.html">
             <i class="fas fa-home"></i> Home</a>
     </li>
-    <li class="active">
+    <li class="">
         <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Employees</a>
         <ul class="list-unstyled" id="homeSubmenu">
             <li>
@@ -26,7 +26,7 @@
             </li>
         </ul>
     </li>
-    <li class="active">
+    <li class="">
         <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Jobs</a>
         <ul class="list-unstyled" id="homeSubmenu">
             <li>

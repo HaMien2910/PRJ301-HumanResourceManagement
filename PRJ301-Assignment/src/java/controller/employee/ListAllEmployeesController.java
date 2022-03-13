@@ -35,22 +35,41 @@ public class ListAllEmployeesController extends BaseAuthenticationController {
     protected void processGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         EmployeeDBContext employeeDBContext = new EmployeeDBContext();
+        
         String raw_page = request.getParameter("page");
         String message = request.getParameter("message");
-        if (message == null) {
-            message = "";
-        }else{
-            message = message.trim();
+        
+        String field = request.getParameter("field");
+        String status = request.getParameter("sortIs");
+        
+        // Sorting the list employees by title
+        String order_by = "";
+        // If user clicks on a tilte for the first time when the list unsorted or sorted DESC, then list will be sorted ASC
+        if (field != null && (status == null || status.length() == 0 || status.equals("DESC"))) {
+            status = "ASC";
+            order_by += "ORDER BY [" + field + "] " + status;
+        } else if(field != null && status.equals("ASC")){ // If user clicks on a tilte when the list sorted ASC, then list will be sorted DESC
+            status = "DESC";
+            order_by += "ORDER BY [" + field + "] " + status;
+        } else{ // Showing the list employees sort by e_id when the page loaded 
+            order_by += "ORDER BY [e_id] ASC";
         }
+
+        // Searching employees by e_first_name, e_last_name or department_name
+        message = (message == null) ? "" : message.trim();
         if (raw_page == null || raw_page.trim().length() == 0) {
             raw_page = "1";
         }
         int page_index = Integer.parseInt(raw_page);
         int page_size = 10;
-        // Get all employee from DB
-        ArrayList<Employee> employees = employeeDBContext.getEmployeesByPageIndex(message, page_index, page_size);
+        
+        // Getting all employee from DB
+        ArrayList<Employee> employees = employeeDBContext.getEmployeesByPageIndex(message, order_by,page_index, page_size);
+        // Counting all of the employees is searched by message by e_first_name, e_last_name or department_name
         int total_records_search_by_message = employeeDBContext.countEmployeesSearchByMessage(message);
+        // Counting all employees in DB
         int all_records = employeeDBContext.countAll();
+        // Calculating total page
         int total_pages = ((total_records_search_by_message % page_size) == 0) ? (total_records_search_by_message / page_size) : (total_records_search_by_message / page_size + 1);
 
         request.setAttribute("employees", employees);
@@ -59,6 +78,7 @@ public class ListAllEmployeesController extends BaseAuthenticationController {
         request.setAttribute("all_records", all_records);
         request.setAttribute("total_records_search_by_message", total_records_search_by_message);
         request.setAttribute("message", message);
+        request.setAttribute("status", status);
         request.setAttribute("index", 0);
         request.getRequestDispatcher("../view/management/employee/all-employees.jsp").forward(request, response);
     }
