@@ -59,24 +59,29 @@
                     </div>
                     <div class="row" style="margin: 0">
                         <div class="col-lg-12 col-md-12 col-sm-12 table-responsive item-display">
-                            <div>
-                                <h2 style="font-size: 16px">
-                                    <strong>All Departments</strong>
-                                </h2>
+                            <div class="content-title row" style="margin: 0 -12px;">
+                                <div class="col-md-4">
+                                    <h2 style="font-size: 16px">
+                                        <strong>All Departments</strong> | <a href="addEmployee" style="font-size: 14px;color: #337ab7">+ Add Department</a>
+                                    </h2>
+                                    <p>
+                                        Total departments ${requestScope.all_records}
+                                </p>
                             </div>
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">#</th>
-                                        <th class="text-center"> Dept. Name </th>
-                                        <th class="text-center"> Manager </th>
-                                        <th class="text-center"> Phone </th>
-                                        <th class="text-center"> Email </th>
-                                        <th class="text-center"> Total Emp. </th>
-                                        <th class="text-center"> Action </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                        </div>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th class="text-center"> Dept. Name </th>
+                                    <th class="text-center"> Manager </th>
+                                    <th class="text-center"> Phone </th>
+                                    <th class="text-center"> Email </th>
+                                    <th class="text-center"> Total Emp. </th>
+                                    <th class="text-center"> Action </th>
+                                </tr>
+                            </thead>
+                            <tbody>
                                 <%!int i = 0;%>
                                 <c:forEach items="${requestScope.departments}" var="d">
                                     <tr class="" style="font-size: 12px;<%=(i % 2 == 0) ? "background-color: rgb(239, 239, 241);" : ""%>">
@@ -114,8 +119,12 @@
                                 </tr>
                             </tfoot>
                         </table>
-                        <div class="row"style="margin: 0 -12px;">
-                            <div class="col-sm-8"></div>
+                        <div class="row" style="margin: 0 -12px;display: flex;align-items: center;">
+                            <div class="col-sm-8">
+                                <c:if test="${requestScope.total_pages > 1}">
+                                    <p>Page: ${requestScope.page_index} / ${requestScope.total_pages}</p>
+                                </c:if>
+                            </div>
                             <div id="block-footer"class="col-sm-4">
                             </div>
                         </div>
@@ -136,7 +145,7 @@
 <script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
 <script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>
 <script>
-                                                doPagging("block-footer", ${requestScope.page_index}, ${requestScope.total_pages}, 2, 'listAllDepartments');
+                                                doPagging("block-footer", ${requestScope.page_index}, ${requestScope.total_pages}, "${requestScope.message}", 2, 'listAllDepartments');
 </script>
 </body>
 </html>

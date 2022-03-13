@@ -35,8 +35,6 @@
                     <!-- Header -->
                 <jsp:include page="../header.jsp"></jsp:include>
                     <!-- #END Header -->
-
-
                     <div class="block-header">
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -58,27 +56,44 @@
                     </div>
                     <div class="row" style="margin: 0">
                         <div class="col-lg-12 col-md-12 col-sm-12 table-responsive item-display">
-                            <div>
-                                <h2 style="font-size: 16px">
-                                    <strong>All Employees</strong>
-                                </h2>
+                            <div class="content-title row" style="margin: 0 -12px;">
+                                <div class="col-md-4">
+                                    <h2 style="font-size: 16px">
+                                        <strong>All Employees</strong> | <a href="addEmployee" style="font-size: 14px;color: #337ab7">+ Add Employee</a>
+                                    </h2>
+                                    <p>
+                                        Total employees: ${requestScope.all_records} - Search results: ${requestScope.total_records_search_by_message}
+                                </p>
                             </div>
-                            <div>
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">#</th>
-                                            <th class="text-center"> Name </th>
-                                            <th class="text-center"> Job </th>
-                                            <th class="text-center"> Department </th>
-                                            <th class="text-center"> Mobile </th>
-                                            <th class="text-center"> Email </th>
-                                            <th class="text-center"> Address </th>
-                                            <th class="text-center">Joining Date</th>
-                                            <th class="text-center"> Action </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                            <div class="col-md-8">
+                                <form action="listAllEmployees" method="GET" style="box-shadow: none;">
+                                    <div class="form-row">
+                                        <div class="col-sm-4 my-1">
+                                            <input type="text" width="200px;" class="form-control" id="inlineFormInputName" value="${requestScope.message}" name="message">
+                                        </div>
+                                        <div class="col-auto my-1">
+                                            <input type="submit" class="btn btn-primary" onclick="doSearch()" value="Search">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th class="text-center"> Name </th>
+                                        <th class="text-center"> Job </th>
+                                        <th class="text-center"> Department </th>
+                                        <th class="text-center"> Mobile </th>
+                                        <th class="text-center"> Email </th>
+                                        <th class="text-center"> Address </th>
+                                        <th class="text-center">Joining Date</th>
+                                        <th class="text-center"> Action </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
                                     <%!int i = 0;%>
                                     <c:forEach items="${requestScope.employees}" var="e">
                                         <tr class="" style="font-size: 12px;<%=(i % 2 == 0) ? "background-color: rgb(239, 239, 241);" : ""%>">
@@ -121,8 +136,12 @@
                                 </tfoot>
                             </table>
                         </div>
-                        <div class="row" style="margin: 0 -12px;">
-                            <div class="col-sm-8"></div>
+                        <div class="row" style="margin: 0 -12px;display: flex;align-items: center;">
+                            <div class="col-sm-8">
+                                <c:if test="${requestScope.total_pages > 1}">
+                                    <p>Page: ${requestScope.page_index} / ${requestScope.total_pages}</p>
+                                </c:if>
+                            </div>
                             <div id="block-footer"class="col-sm-4">
                             </div>
                         </div>
@@ -143,7 +162,7 @@
 <script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
 <script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>
 <script>
-                                                    doPagging("block-footer", ${requestScope.page_index}, ${requestScope.total_pages}, 2, 'listAllEmployees');
+                                                    doPagging("block-footer", ${requestScope.page_index}, ${requestScope.total_pages}, "${requestScope.message}", 2, 'listAllEmployees');
 </script>
 </body>
 </html>

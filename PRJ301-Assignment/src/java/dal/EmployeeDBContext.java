@@ -27,7 +27,7 @@ import model.Ward;
  */
 public class EmployeeDBContext extends DBContext {
 
-    public ArrayList<Employee> getEmployeesByPageIndex(int page_index, int page_size) {
+    public ArrayList<Employee> getEmployeesByPageIndex(String message, int page_index, int page_size) {
         ArrayList<Employee> employees = new ArrayList<>();
 
         try {
@@ -50,7 +50,6 @@ public class EmployeeDBContext extends DBContext {
                     + "			  ,b.[dapartment_name] \n"
                     + "			  ,c.[job_title]\n"
                     + "			  ,g.[province_name] \n"
-                    + "			  ,g.[province_type]\n"
                     + "			  ,ROW_NUMBER() OVER (ORDER BY [e_id] ASC) AS row_index\n"
                     + "			   FROM \n"
                     + "			   [Employees] AS a\n"
@@ -65,14 +64,22 @@ public class EmployeeDBContext extends DBContext {
                     + "					LEFT JOIN\n"
                     + "			   [Districts] AS f ON f.[district_id] = e.[district_id]\n"
                     + "					LEFT JOIN\n"
-                    + "			   [Provinces] AS g ON f.[province_id] = g.[province_id]) EmployeesTbl\n"
+                    + "			   [Provinces] AS g ON f.[province_id] = g.[province_id]\n"
+                    + "                    WHERE (1 = 1) AND (a.[e_first_name] LIKE '%'+?+'%'\n"
+                    + "                                  OR a.[e_last_name] LIKE '%'+?+'%'\n"
+                    + "                                  OR b.[dapartment_name] LIKE '%'+?+'%'\n"
+                    + "                                  OR g.[province_name] LIKE '%'+?+'%')) EmployeesTbl\n"
                     + "		WHERE row_index >= (? - 1) * ? + 1 \n"
                     + "			AND row_index <= ? * ?";
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1, page_index);
-            stm.setInt(2, page_size);
-            stm.setInt(3, page_index);
-            stm.setInt(4, page_size);
+            stm.setString(1, message);
+            stm.setString(2, message);
+            stm.setString(3, message);
+            stm.setString(4, message);
+            stm.setInt(5, page_index);
+            stm.setInt(6, page_size);
+            stm.setInt(7, page_index);
+            stm.setInt(8, page_size);
             ResultSet rs = stm.executeQuery();
 
             //Assign the information of all employees to list students
@@ -455,7 +462,6 @@ public class EmployeeDBContext extends DBContext {
 //            PreparedStatement stm_delete_location = connection.prepareStatement(sql_delete_location);
 //            stm_delete_location.setInt(1, location.getLocation_id());
 //            stm_delete_location.executeUpdate();
-
             connection.commit();
         } catch (SQLException ex) {
             try {
@@ -651,15 +657,52 @@ public class EmployeeDBContext extends DBContext {
         return employees;
     }
 
+    public int countEmployeesSearchByMessage(String message) {
+        try {
+            String sql = "SELECT COUNT(*) AS [Amount]\n"
+                    + "       FROM\n"
+                    + "           	   [Employees] AS a\n"
+                    + "        				LEFT JOIN\n"
+                    + "           	   [Departments] AS b ON a.[department_id] = b.[department_id]\n"
+                    + "        				LEFT JOIN\n"
+                    + "           	   [Jobs] AS c ON a.[job_id] = c.[job_id]\n"
+                    + "        				LEFT JOIN\n"
+                    + "           	   [Locations] AS d ON a.[location_id] = d.[location_id] \n"
+                    + "           			LEFT JOIN\n"
+                    + "           	   [Wards] AS e ON d.[ward_id] = e.[ward_id]\n"
+                    + "           			LEFT JOIN\n"
+                    + "           	   [Districts] AS f ON f.[district_id] = e.[district_id]\n"
+                    + "           			LEFT JOIN\n"
+                    + "           	   [Provinces] AS g ON f.[province_id] = g.[province_id]\n"
+                    + "                     WHERE (1 = 1) AND (a.[e_first_name] LIKE '%'+?+'%'\n"
+                    + "                                   OR a.[e_last_name] LIKE '%'+?+'%'\n"
+                    + "                                   OR b.[dapartment_name] LIKE '%'+?+'%'\n"
+                    + "                                   OR g.[province_name] LIKE '%'+?+'%')";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, message);
+            stm.setString(2, message);
+            stm.setString(3, message);
+            stm.setString(4, message);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("Amount");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+
     public int countAll() {
         try {
             String sql = "SELECT COUNT(*) FROM [Employees]";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return rs.getInt(1);
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }

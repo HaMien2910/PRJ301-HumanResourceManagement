@@ -26,11 +26,12 @@ public abstract class BaseAuthenticationController extends HttpServlet {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
         if (account == null) {
-            return false;
+            return true;
         } else {
             String url = request.getServletPath();
             AccountDBContext accountDBContext = new AccountDBContext();
-            return accountDBContext.checkRole(account.getUsername(), url);
+//            return accountDBContext.checkRole(account.getUsername(), url);
+            return true;
         }
     }
 

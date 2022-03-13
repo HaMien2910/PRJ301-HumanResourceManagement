@@ -16,8 +16,8 @@
 
                 </section>
                 <footer class="modal--footer">
-                    <div class="footer-contain">
-                        <button class="modal-btn" onclick="onCancel()">Cancel</button>
+                    <div class="footer-contain" style="display: flex;">
+                        <div class="modal-btn" onclick="onCancel()">Cancel</div>
                         <input type="submit" class="modal-btn modal-confirm-btn btn-danger" value="Confirm"/>
                     </div>
                 </footer>

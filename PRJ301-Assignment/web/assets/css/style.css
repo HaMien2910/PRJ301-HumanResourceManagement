@@ -614,6 +614,22 @@ a.article:hover {
     background: #333
 }
 
+/* ---------------------------------------------------
+    CONTENT TITLE
+----------------------------------------------------- */
+/*.content-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}*/
+
+.form-row {
+    height: 47px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: end;
+}
+
 
 /* ---------------------------------------------------
     MEDIAQUERIES
