@@ -21,6 +21,8 @@ import model.Job;
  */
 public class ListAllJobsController extends HttpServlet {
 
+    private final String[] LIST_TITLES = {"job_title", "dapartment_name", "min_salaray", "max_salaray"};
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -33,6 +35,42 @@ public class ListAllJobsController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         JobDBContext jobDBContext = new JobDBContext();
+
+        // Sorting the list employees by title
+        String field = request.getParameter("field");
+        String status = request.getParameter("sortIs");
+        String column = request.getParameter("column");
+        String order_by = "";
+
+        // If the page loaded, then list sort by e_id
+        if (field == null || field == "") {
+            status = "ASC";
+            order_by += "ORDER BY [e_id]" + status;
+        } else {
+            // Check if user click on title
+            int i = 0;
+            for (String title : LIST_TITLES) {
+                i++;
+                if (field.equals(title)) {
+                    // ASC by e_first_name if user click on the first time
+                    if (column.equals("0")) {
+                        status = "ASC";
+                        order_by += "ORDER BY [" + field + "] " + status;
+                        column = Integer.toString(i);
+                        status = "DESC";
+                    } else if (column.equals(Integer.toString(i))) {
+                        if (status.equals("ASC")) {
+                            order_by += "ORDER BY [" + field + "] " + status;
+                            status = "DESC";
+                        } else if (status.equals("DESC")) {
+                            order_by += "ORDER BY [" + field + "] " + status;
+                            status = "ASC";
+                        }
+                    }
+                    break;
+                }
+            }
+        }
 
         String raw_page = request.getParameter("page");
         if (raw_page == null || raw_page.trim().length() == 0) {

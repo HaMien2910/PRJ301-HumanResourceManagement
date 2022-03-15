@@ -91,7 +91,7 @@
                                 </tr>
                                 <tr>
                                     <td><strong>Phone</strong></td>
-                                    <td>${requestScope.employee.e_phone}</td>
+                                    <td>${requestScope.employee.contact.phone}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Job</strong></td>
@@ -109,7 +109,7 @@
                                 </tr>
                                 <tr>
                                     <td><strong>Address</strong></td>
-                                    <td>${requestScope.employee.location.street} ${requestScope.employee.location.ward.ward_name}, ${requestScope.employee.location.ward.district.district_name}, ${requestScope.employee.location.ward.district.province.province_name}</td>
+                                    <td>${requestScope.employee.contact.street} ${requestScope.employee.contact.ward.ward_name}, ${requestScope.employee.contact.ward.district.district_name}, ${requestScope.employee.contact.ward.district.province.province_name}</td>
                                 </tr>
                             </table>
                         </div>

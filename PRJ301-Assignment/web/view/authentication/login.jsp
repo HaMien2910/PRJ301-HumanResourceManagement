@@ -40,7 +40,7 @@
                         <div class="form-check-and-update-pass">
                             <div class="form-checkbox">
                                 <label class="form-checklabel">
-                                    <input class="form-checkinput" type="checkbox" value=""> Remember me
+                                    <input class="form-checkinput" type="checkbox" name="remember" value=""> Remember me
                                     <span class="form-check-sign" style="position: absolute;display: contents;">
                                         <span class="check"></span>
                                     </span>

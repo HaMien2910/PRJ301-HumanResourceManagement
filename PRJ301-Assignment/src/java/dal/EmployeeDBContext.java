@@ -17,9 +17,10 @@ import model.Department;
 import model.District;
 import model.Employee;
 import model.Job;
-import model.Location;
+import model.EmployeeContact;
 import model.Province;
 import model.Ward;
+import common.Generator;
 
 /**
  *
@@ -34,12 +35,12 @@ public class EmployeeDBContext extends DBContext {
                     + "                    ,a.[e_first_name] \n"
                     + "                    ,a.[e_last_name] \n"
                     + "                    ,a.[e_email] \n"
-                    + "                    ,a.[e_phone] \n"
+                    + "                    ,d.[phone] \n"
                     + "                    ,a.[e_join_date] \n"
                     + "                    ,b.[dapartment_name] \n"
                     + "                    ,c.[job_title]\n"
                     + "                    ,g.[province_name] \n"
-                    + "                    ,ROW_NUMBER() OVER ("+ order_by +") AS row_index\n"
+                    + "                    ,ROW_NUMBER() OVER (" + order_by + ") AS row_index\n"
                     + "                     FROM \n"
                     + "                     [Employees] AS a\n"
                     + "                    		LEFT JOIN\n"
@@ -47,7 +48,7 @@ public class EmployeeDBContext extends DBContext {
                     + "                    		LEFT JOIN\n"
                     + "                     [Jobs] AS c ON a.[job_id] = c.[job_id]\n"
                     + "                    		LEFT JOIN\n"
-                    + "                     [Locations] AS d ON a.[location_id] = d.[location_id] \n"
+                    + "                     [EmployeeContacts] AS d ON a.[contact_id] = d.[contact_id] \n"
                     + "                    		LEFT JOIN\n"
                     + "                     [Wards] AS e ON d.[ward_id] = e.[ward_id]\n"
                     + "                    		LEFT JOIN\n"
@@ -57,7 +58,8 @@ public class EmployeeDBContext extends DBContext {
                     + "                          WHERE (1 = 1) AND (a.[e_first_name] LIKE '%'+?+'%'\n"
                     + "                                        OR a.[e_last_name] LIKE '%'+?+'%'\n"
                     + "                                        OR b.[dapartment_name] LIKE '%'+?+'%'\n"
-                    + "                                        OR g.[province_name] LIKE '%'+?+'%'))\n"
+                    + "                                        OR g.[province_name] LIKE N'%'+?+'%'\n"
+                    + "                                        OR d.[phone] LIKE '%'+?+'%'))\n"
                     + "SELECT * FROM sampledata\n"
                     + "WHERE row_index >= (? - 1) * ? + 1 AND row_index <= ? * ?";
             PreparedStatement stm = connection.prepareStatement(sql);
@@ -65,10 +67,11 @@ public class EmployeeDBContext extends DBContext {
             stm.setString(2, message);
             stm.setString(3, message);
             stm.setString(4, message);
-            stm.setInt(5, page_index);
-            stm.setInt(6, page_size);
-            stm.setInt(7, page_index);
-            stm.setInt(8, page_size);
+            stm.setString(5, message);
+            stm.setInt(6, page_index);
+            stm.setInt(7, page_size);
+            stm.setInt(8, page_index);
+            stm.setInt(9, page_size);
             ResultSet rs = stm.executeQuery();
 
             //Assign the information of all employees to list students
@@ -76,7 +79,7 @@ public class EmployeeDBContext extends DBContext {
                 Employee e = new Employee();
                 Department d = new Department();
                 Job j = new Job();
-                Location l = new Location();
+                EmployeeContact c = new EmployeeContact();
                 Ward w = new Ward();
                 District dist = new District();
                 Province p = new Province();
@@ -85,7 +88,8 @@ public class EmployeeDBContext extends DBContext {
                 e.setE_first_name(rs.getString(2)); //[e_first_name]
                 e.setE_last_name(rs.getString(3)); //[e_last_name]
                 e.setE_email(rs.getString(4)); //[e_email]
-                e.setE_phone(rs.getString(5)); //[e_phone]
+                c.setPhone(rs.getString(5));
+                e.setContact(c); //[e_phone]
                 e.setE_join_date(rs.getDate(6)); //[e_join_date]
 
                 d.setDepartment_name(rs.getString(7)); //[dapartment_name]
@@ -97,8 +101,8 @@ public class EmployeeDBContext extends DBContext {
                 p.setProvince_name(rs.getString(9)); //[province_name]
                 dist.setProvince(p);
                 w.setDistrict(dist);
-                l.setWard(w);
-                e.setLocation(l);
+                c.setWard(w);
+                e.setContact(c);
 
                 //Add info off the employee to list
                 employees.add(e);
@@ -119,28 +123,29 @@ public class EmployeeDBContext extends DBContext {
                     + "      ,a.[e_gender]\n" //4
                     + "      ,a.[e_dob]\n" //5
                     + "      ,a.[e_email]\n" //6
-                    + "      ,a.[e_phone]\n" //7
-                    + "      ,a.[e_join_date]\n" //8
-                    + "      ,a.[e_salary]\n" //9
-                    + "      ,a.[manager_id]\n" //10 
-                    + "      ,b.[department_id]\n" //11
-                    + "      ,b.[dapartment_name]\n" //12
-                    + "      ,b.[manager_id]\n" //13
-                    + "      ,c.[job_id]\n" //14
-                    + "      ,c.[job_title]\n" //15
-                    + "      ,c.[min_salary]\n" //16
-                    + "      ,c.[max_salary]\n" //17
-                    + "      ,d.[location_id]\n" //18
-                    + "      ,d.[StreetAddress]\n" //19
-                    + "      ,e.[ward_id]\n" //20
-                    + "      ,e.[ward_name]\n" //21
-                    + "      ,e.[ward_type]\n" //22
-                    + "      ,f.[district_id]\n" //23
-                    + "      ,f.[district_name]\n" //24
-                    + "      ,f.[district_type]\n" //25
-                    + "      ,g.[province_id]\n" //26
-                    + "      ,g.[province_name]\n" //27
-                    + "      ,g.[province_type]\n" //28
+                    + "      ,a.[e_join_date]\n" //7
+                    + "      ,a.[e_salary]\n" //8
+                    + "      ,a.[manager_id]\n" //9
+                    + "      ,b.[department_id]\n" //10
+                    + "      ,b.[dapartment_name]\n" //11
+                    + "      ,b.[manager_id]\n" //12
+                    + "      ,c.[job_id]\n" //13
+                    + "      ,c.[job_title]\n" //14
+                    + "      ,c.[min_salary]\n" //15
+                    + "      ,c.[max_salary]\n" //16
+                    + "      ,d.[contact_id]\n" //17
+                    + "      ,d.[email]\n" //18
+                    + "      ,d.[phone]\n" //19
+                    + "      ,d.[StreetAddress]\n" //20
+                    + "      ,e.[ward_id]\n" //21
+                    + "      ,e.[ward_name]\n" //22
+                    + "      ,e.[ward_type]\n" //23
+                    + "      ,f.[district_id]\n" //24
+                    + "      ,f.[district_name]\n" //25
+                    + "      ,f.[district_type]\n" //26
+                    + "      ,g.[province_id]\n" //27
+                    + "      ,g.[province_name]\n" //28
+                    + "      ,g.[province_type]\n" //29
                     + "       FROM \n"
                     + "       [Employees] AS a\n"
                     + "       		LEFT JOIN\n"
@@ -148,7 +153,7 @@ public class EmployeeDBContext extends DBContext {
                     + "       		LEFT JOIN\n"
                     + "       [Jobs] AS c ON a.[job_id] = c.[job_id]\n"
                     + "       		LEFT JOIN\n"
-                    + "       [Locations] AS d ON a.[location_id] = d.[location_id] \n"
+                    + "       [EmployeeContacts] AS d ON a.[contact_id] = d.[contact_id] \n"
                     + "			LEFT JOIN\n"
                     + "	[Wards] AS e ON d.[ward_id] = e.[ward_id]\n"
                     + "			LEFT JOIN\n"
@@ -163,7 +168,7 @@ public class EmployeeDBContext extends DBContext {
                 Employee e = new Employee();
                 Department d = new Department();
                 Job j = new Job();
-                Location l = new Location();
+                EmployeeContact l = new EmployeeContact();
                 Ward w = new Ward();
                 District dist = new District();
                 Province p = new Province();
@@ -174,39 +179,40 @@ public class EmployeeDBContext extends DBContext {
                 e.setE_gender(rs.getBoolean(4));
                 e.setE_dob(rs.getDate(5));
                 e.setE_email(rs.getString(6));
-                e.setE_phone(rs.getString(7));
-                e.setE_join_date(rs.getDate(8));
-                e.setE_salary(rs.getDouble(9));
+                e.setE_join_date(rs.getDate(7));
+                e.setE_salary(rs.getDouble(8));
                 Employee manager = new Employee();
-                manager.setE_id(rs.getInt(10));
+                manager.setE_id(rs.getInt(9));
                 e.setManager(manager);
 
-                d.setDepartment_id(rs.getInt(11));
-                d.setDepartment_name(rs.getString(12));
+                d.setDepartment_id(rs.getInt(10));
+                d.setDepartment_name(rs.getString(11));
                 d.setManager(manager);
                 e.setDepartment(d);
 
-                j.setJob_id(rs.getInt(14));
-                j.setJob_title(rs.getString(15));
-                j.setMin_salary(rs.getDouble(16));
-                j.setMax_salary(rs.getDouble(17));
+                j.setJob_id(rs.getInt(13));
+                j.setJob_title(rs.getString(14));
+                j.setMin_salary(rs.getDouble(15));
+                j.setMax_salary(rs.getDouble(16));
                 e.setJob(j);
 
-                l.setLocation_id(rs.getInt(18));
-                l.setStreet(rs.getString(19));
-                w.setWard_id(rs.getString(20));
-                w.setWard_name(rs.getString(21));
-                w.setWard_type(rs.getString(22));
-                dist.setDistrict_id(rs.getString(23));
-                dist.setDistrict_name(rs.getString(24));
-                dist.setDistrict_type(rs.getString(25));
-                p.setProvince_id(rs.getString(26));
-                p.setProvince_name(rs.getString(27));
-                p.setProvince_type(rs.getString(28));
+                l.setContact_id(rs.getInt(17));
+                l.setEmail(rs.getString(18));
+                l.setPhone(rs.getString(19));
+                l.setStreet(rs.getString(20));
+                w.setWard_id(rs.getString(21));
+                w.setWard_name(rs.getString(22));
+                w.setWard_type(rs.getString(23));
+                dist.setDistrict_id(rs.getString(24));
+                dist.setDistrict_name(rs.getString(25));
+                dist.setDistrict_type(rs.getString(26));
+                p.setProvince_id(rs.getString(27));
+                p.setProvince_name(rs.getString(28));
+                p.setProvince_type(rs.getString(29));
                 dist.setProvince(p);
                 w.setDistrict(dist);
                 l.setWard(w);
-                e.setLocation(l);
+                e.setContact(l);
 
                 //Add info off the employee to list
                 employees.add(e);
@@ -226,28 +232,29 @@ public class EmployeeDBContext extends DBContext {
                     + "      ,a.[e_gender]\n" //4
                     + "      ,a.[e_dob]\n" //5
                     + "      ,a.[e_email]\n" //6
-                    + "      ,a.[e_phone]\n" //7
-                    + "      ,a.[e_join_date]\n" //8
-                    + "      ,a.[e_salary]\n" //9
-                    + "      ,a.[manager_id]\n" //10
-                    + "      ,b.[department_id]\n" //11
-                    + "      ,b.[dapartment_name]\n" //12
-                    + "      ,b.[manager_id]\n" //13
-                    + "      ,c.[job_id]\n" //14
-                    + "      ,c.[job_title]\n" //15
-                    + "      ,c.[min_salary]\n" //16
-                    + "      ,c.[max_salary]\n" //17
-                    + "      ,d.[location_id]\n" //18
-                    + "      ,d.[StreetAddress]\n" //19
-                    + "      ,e.[ward_id]\n" //20
-                    + "      ,e.[ward_name]\n" //21
-                    + "      ,e.[ward_type]\n" //22
-                    + "      ,f.[district_id]\n" //23
-                    + "      ,f.[district_name]\n" //24
-                    + "      ,f.[district_type]\n" //25
-                    + "      ,g.[province_id]\n" //26
-                    + "      ,g.[province_name]\n" //27
-                    + "      ,g.[province_type]\n" //28
+                    + "      ,a.[e_join_date]\n" //7
+                    + "      ,a.[e_salary]\n" //8
+                    + "      ,a.[manager_id]\n" //9
+                    + "      ,b.[department_id]\n" //10
+                    + "      ,b.[dapartment_name]\n" //11
+                    + "      ,b.[manager_id]\n" //12
+                    + "      ,c.[job_id]\n" //13
+                    + "      ,c.[job_title]\n" //14
+                    + "      ,c.[min_salary]\n" //15
+                    + "      ,c.[max_salary]\n" //16
+                    + "      ,d.[contact_id]\n" //17
+                    + "      ,d.[email]\n" //18
+                    + "      ,d.[phone]\n" //19
+                    + "      ,d.[StreetAddress]\n" //20
+                    + "      ,e.[ward_id]\n" //21
+                    + "      ,e.[ward_name]\n" //22
+                    + "      ,e.[ward_type]\n" //23
+                    + "      ,f.[district_id]\n" //24
+                    + "      ,f.[district_name]\n" //25
+                    + "      ,f.[district_type]\n" //26
+                    + "      ,g.[province_id]\n" //27
+                    + "      ,g.[province_name]\n" //28
+                    + "      ,g.[province_type]\n" //29
                     + "       FROM \n"
                     + "       [Employees] AS a\n"
                     + "       		LEFT JOIN\n"
@@ -255,7 +262,7 @@ public class EmployeeDBContext extends DBContext {
                     + "       		LEFT JOIN\n"
                     + "       [Jobs] AS c ON a.[job_id] = c.[job_id]\n"
                     + "       		LEFT JOIN\n"
-                    + "       [Locations] AS d ON a.[location_id] = d.[location_id] \n"
+                    + "       [EmployeeContacts] AS d ON a.[contact_id] = d.[contact_id] \n"
                     + "			LEFT JOIN\n"
                     + "	[Wards] AS e ON d.[ward_id] = e.[ward_id]\n"
                     + "			LEFT JOIN\n"
@@ -273,7 +280,7 @@ public class EmployeeDBContext extends DBContext {
                 Employee e = new Employee();
                 Department d = new Department();
                 Job j = new Job();
-                Location l = new Location();
+                EmployeeContact l = new EmployeeContact();
                 Ward w = new Ward();
                 District dist = new District();
                 Province p = new Province();
@@ -284,39 +291,40 @@ public class EmployeeDBContext extends DBContext {
                 e.setE_gender(rs.getBoolean(4));
                 e.setE_dob(rs.getDate(5));
                 e.setE_email(rs.getString(6));
-                e.setE_phone(rs.getString(7));
-                e.setE_join_date(rs.getDate(8));
-                e.setE_salary(rs.getDouble(9));
+                e.setE_join_date(rs.getDate(7));
+                e.setE_salary(rs.getDouble(8));
                 Employee manager = new Employee();
-                manager.setE_id(rs.getInt(10));
+                manager.setE_id(rs.getInt(9));
                 e.setManager(manager);
 
-                d.setDepartment_id(rs.getInt(11));
-                d.setDepartment_name(rs.getString(12));
+                d.setDepartment_id(rs.getInt(10));
+                d.setDepartment_name(rs.getString(11));
                 d.setManager(manager);
                 e.setDepartment(d);
 
-                j.setJob_id(rs.getInt(14));
-                j.setJob_title(rs.getString(15));
-                j.setMin_salary(rs.getDouble(16));
-                j.setMax_salary(rs.getDouble(17));
+                j.setJob_id(rs.getInt(13));
+                j.setJob_title(rs.getString(14));
+                j.setMin_salary(rs.getDouble(15));
+                j.setMax_salary(rs.getDouble(16));
                 e.setJob(j);
 
-                l.setLocation_id(rs.getInt(18));
-                l.setStreet(rs.getString(19));
-                w.setWard_id(rs.getString(20));
-                w.setWard_name(rs.getString(21));
-                w.setWard_type(rs.getString(22));
-                dist.setDistrict_id(rs.getString(23));
-                dist.setDistrict_name(rs.getString(24));
-                dist.setDistrict_type(rs.getString(25));
-                p.setProvince_id(rs.getString(26));
-                p.setProvince_name(rs.getString(27));
-                p.setProvince_type(rs.getString(28));
+                l.setContact_id(rs.getInt(17));
+                l.setEmail(rs.getString(18));
+                l.setPhone(rs.getString(19));
+                l.setStreet(rs.getString(20));
+                w.setWard_id(rs.getString(21));
+                w.setWard_name(rs.getString(22));
+                w.setWard_type(rs.getString(23));
+                dist.setDistrict_id(rs.getString(24));
+                dist.setDistrict_name(rs.getString(25));
+                dist.setDistrict_type(rs.getString(26));
+                p.setProvince_id(rs.getString(27));
+                p.setProvince_name(rs.getString(28));
+                p.setProvince_type(rs.getString(29));
                 dist.setProvince(p);
                 w.setDistrict(dist);
                 l.setWard(w);
-                e.setLocation(l);
+                e.setContact(l);
                 return e;
             }
         } catch (SQLException ex) {
@@ -330,24 +338,30 @@ public class EmployeeDBContext extends DBContext {
             connection.setAutoCommit(false);
 
             // Insert address of the employee into location table
-            String sql_insert_location = "INSERT INTO [Locations]\n"
+            String sql_insert_contact = "INSERT INTO [EmployeeContacts]\n"
                     + "           ([StreetAddress]\n"
-                    + "           ,[Ward_id])\n"
+                    + "           ,[Ward_id]\n"
+                    + "           ,[phone]\n"
+                    + "           ,[email])\n"
                     + "     VALUES\n"
                     + "           (?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
                     + "           ,?)";
-            PreparedStatement stm_insert_location = connection.prepareStatement(sql_insert_location);
-            stm_insert_location.setString(1, employee.getLocation().getStreet());
-            stm_insert_location.setString(2, employee.getLocation().getWard().getWard_id());
-            stm_insert_location.executeUpdate();
+            PreparedStatement stm_insert_contact = connection.prepareStatement(sql_insert_contact);
+            stm_insert_contact.setString(1, employee.getContact().getStreet());
+            stm_insert_contact.setString(2, employee.getContact().getWard().getWard_id());
+            stm_insert_contact.setString(3, employee.getContact().getPhone());
+            stm_insert_contact.setString(4, employee.getContact().getPhone());
+            stm_insert_contact.executeUpdate();
 
             // Get location_id of the employee has been inserted 
-            String sql_get_lid = "Select @@Identity as lid";
+            String sql_get_lid = "Select @@Identity as cid";
             PreparedStatement stm_get_lid = connection.prepareStatement(sql_get_lid);
             ResultSet rs = stm_get_lid.executeQuery();
             if (rs.next()) {
                 // set location_id for the location of the employee
-                employee.getLocation().setLocation_id(rs.getInt("lid"));
+                employee.getContact().setContact_id(rs.getInt("cid"));
             }
 
             String sql = "INSERT INTO [Employees]\n"
@@ -356,16 +370,14 @@ public class EmployeeDBContext extends DBContext {
                     + "           ,[e_gender]\n" //3
                     + "           ,[e_dob]\n" //4
                     + "           ,[e_email]\n" //5
-                    + "           ,[e_phone]\n" //6
-                    + "           ,[job_id]\n" //7
-                    + "           ,[e_salary]\n" //8
-                    + "           ,[department_id]\n" //9
-                    + "           ,[e_join_date]\n" //10
-                    + "           ,[manager_id]\n" //1
-                    + "           ,[location_id])\n" //12
+                    + "           ,[job_id]\n" //6
+                    + "           ,[e_salary]\n" //7
+                    + "           ,[department_id]\n" //8
+                    + "           ,[e_join_date]\n" //9
+                    + "           ,[manager_id]\n" //10
+                    + "           ,[contact_id])\n" //11
                     + "     VALUES\n"
                     + "           (?\n"
-                    + "           ,?\n"
                     + "           ,?\n"
                     + "           ,?\n"
                     + "           ,?\n"
@@ -382,21 +394,35 @@ public class EmployeeDBContext extends DBContext {
             stm.setString(2, employee.getE_last_name());
             stm.setBoolean(3, employee.isE_gender());
             stm.setDate(4, employee.getE_dob());
-            stm.setString(5, employee.getE_email());
-            stm.setString(6, employee.getE_phone());
-            stm.setInt(7, employee.getJob().getJob_id());
-            stm.setDouble(8, employee.getE_salary());
-            stm.setInt(9, employee.getDepartment().getDepartment_id());
+            stm.setString(5, "test@example.gmail.com");
+            stm.setInt(6, employee.getJob().getJob_id());
+            stm.setDouble(7, employee.getE_salary());
+            stm.setInt(8, employee.getDepartment().getDepartment_id());
             java.sql.Date currentDate = new java.sql.Date(new java.util.Date().getTime());
-            stm.setDate(10, currentDate);
+            stm.setDate(9, currentDate);
             // Check if the department have manager or not
             if (employee.getDepartment().getManager().getE_id() > 0) {
-                stm.setInt(11, employee.getDepartment().getManager().getE_id());
+                stm.setInt(10, employee.getDepartment().getManager().getE_id());
             } else {
-                stm.setNull(11, Types.INTEGER);
+                stm.setNull(10, Types.INTEGER);
             }
-            stm.setInt(12, employee.getLocation().getLocation_id());
+            stm.setInt(11, employee.getContact().getContact_id());
             stm.executeUpdate();
+
+            //Create Account
+            String sql_create_account = "INSERT INTO [Accounts]\n"
+                    + "           ([username]\n"
+                    + "           ,[password]\n"
+                    + "           ,[department_id])\n"
+                    + "     VALUES\n"
+                    + "           (?\n"
+                    + "           ,?\n"
+                    + "           ,?)";
+            PreparedStatement stm_create_account = connection.prepareStatement(sql_create_account);
+            stm_create_account.setString(1, "test@example.gmail.com");
+            stm_create_account.setString(2, Generator.generateRandomPassword());
+            stm_create_account.setInt(3, employee.getDepartment().getDepartment_id());
+            stm_create_account.executeUpdate();
 
             connection.commit();
         } catch (SQLException ex) {
@@ -428,15 +454,15 @@ public class EmployeeDBContext extends DBContext {
             stm_update_department.setInt(2, id);
             stm_update_department.executeLargeUpdate();
 
-            Location location = new Location();
-            String sql_get_location_id = "SELECT [location_id]\n"
+            EmployeeContact contact = new EmployeeContact();
+            String sql_get_contact_id = "SELECT [contact_id]\n"
                     + "  FROM [Employees]\n"
                     + "  WHERE [e_id] = ?";
-            PreparedStatement stm_get_location_id = connection.prepareStatement(sql_get_location_id);
-            stm_get_location_id.setInt(1, id);
-            ResultSet rs_get_location_id = stm_get_location_id.executeQuery();
-            if (rs_get_location_id.next()) {
-                location.setLocation_id(rs_get_location_id.getInt(1));
+            PreparedStatement stm_get_contact_id = connection.prepareStatement(sql_get_contact_id);
+            stm_get_contact_id.setInt(1, id);
+            ResultSet rs_get_contact_id = stm_get_contact_id.executeQuery();
+            if (rs_get_contact_id.next()) {
+                contact.setContact_id(rs_get_contact_id.getInt(1));
             }
 
             String sql = "DELETE FROM [Employees]\n"
@@ -479,12 +505,11 @@ public class EmployeeDBContext extends DBContext {
                     + "           ,[e_gender]  = ?\n" //3
                     + "           ,[e_dob]  = ?\n" //4
                     + "           ,[e_email] = ?\n" //5
-                    + "           ,[e_phone] = ?\n" //6
-                    + "           ,[job_id] = ?\n" //7
-                    + "           ,[e_salary] = ?\n" //8
-                    + "           ,[department_id] = ?\n" //9
-                    + "           ,[e_join_date] = ?\n" //10
-                    + "           ,[manager_id] = ?\n" //11
+                    + "           ,[job_id] = ?\n" //6
+                    + "           ,[e_salary] = ?\n" //7
+                    + "           ,[department_id] = ?\n" //8
+                    + "           ,[e_join_date] = ?\n" //9
+                    + "           ,[manager_id] = ?\n" //10
                     + " WHERE [e_id] = ?"; //12
 
             PreparedStatement stm = connection.prepareStatement(sql);
@@ -493,30 +518,31 @@ public class EmployeeDBContext extends DBContext {
             stm.setBoolean(3, employee.isE_gender());
             stm.setDate(4, employee.getE_dob());
             stm.setString(5, employee.getE_email());
-            stm.setString(6, employee.getE_phone());
-            stm.setInt(7, employee.getJob().getJob_id());
-            stm.setDouble(8, employee.getE_salary());
-            stm.setInt(9, employee.getDepartment().getDepartment_id());
+            stm.setInt(6, employee.getJob().getJob_id());
+            stm.setDouble(7, employee.getE_salary());
+            stm.setInt(8, employee.getDepartment().getDepartment_id());
             java.sql.Date currentDate = new java.sql.Date(new java.util.Date().getTime());
-            stm.setDate(10, currentDate);
+            stm.setDate(9, currentDate);
             // Check if the department have manager or not
             if (employee.getDepartment().getManager().getE_id() == employee.getDepartment().getManager().getE_id() && employee.getDepartment().getManager().getE_id() > 0) {
-                stm.setInt(11, employee.getDepartment().getManager().getE_id());
+                stm.setInt(10, employee.getDepartment().getManager().getE_id());
             } else {
-                stm.setNull(11, Types.INTEGER);
+                stm.setNull(10, Types.INTEGER);
             }
-            stm.setInt(12, employee.getE_id());
+            stm.setInt(11, employee.getE_id());
             stm.executeUpdate();
 
             // Update address of the employee
-            String sql_update_location = "UPDATE [Locations]\n"
+            String sql_update_location = "UPDATE [EmployeeContacts]\n"
                     + "   SET [StreetAddress] = ?\n"
                     + "      ,[Ward_id] = ?\n"
-                    + " WHERE [location_id] = ?";
+                    + "      ,[phone] = ?"
+                    + " WHERE [contact_id] = ?";
             PreparedStatement stm_update_location = connection.prepareStatement(sql_update_location);
-            stm_update_location.setString(1, employee.getLocation().getStreet());
-            stm_update_location.setString(2, employee.getLocation().getWard().getWard_id());
-            stm_update_location.setInt(3, employee.getLocation().getLocation_id());
+            stm_update_location.setString(1, employee.getContact().getStreet());
+            stm_update_location.setString(2, employee.getContact().getWard().getWard_id());
+            stm_update_location.setString(3, employee.getContact().getPhone());
+            stm_update_location.setInt(4, employee.getContact().getContact_id());
             stm_update_location.executeUpdate();
 
             connection.commit();
@@ -546,28 +572,29 @@ public class EmployeeDBContext extends DBContext {
                     + "      ,a.[e_gender]\n" //4
                     + "      ,a.[e_dob]\n" //5
                     + "      ,a.[e_email]\n" //6
-                    + "      ,a.[e_phone]\n" //7
-                    + "      ,a.[e_join_date]\n" //8
-                    + "      ,a.[e_salary]\n" //9
-                    + "      ,a.[manager_id]\n" //10
-                    + "      ,b.[department_id]\n" //11
-                    + "      ,b.[dapartment_name]\n" //12
-                    + "      ,b.[manager_id]\n" //13
-                    + "      ,c.[job_id]\n" //14
-                    + "      ,c.[job_title]\n" //15
-                    + "      ,c.[min_salary]\n" //16
-                    + "      ,c.[max_salary]\n" //17
-                    + "      ,d.[location_id]\n" //18
-                    + "      ,d.[StreetAddress]\n" //19
-                    + "      ,e.[ward_id]\n" //20
-                    + "      ,e.[ward_name]\n" //21
-                    + "      ,e.[ward_type]\n" //22
-                    + "      ,f.[district_id]\n" //23
-                    + "      ,f.[district_name]\n" //24
-                    + "      ,f.[district_type]\n" //25
-                    + "      ,g.[province_id]\n" //26
-                    + "      ,g.[province_name]\n" //27
-                    + "      ,g.[province_type]\n" //28
+                    + "      ,a.[e_join_date]\n" //7
+                    + "      ,a.[e_salary]\n" //8
+                    + "      ,a.[manager_id]\n" //9
+                    + "      ,b.[department_id]\n" //10
+                    + "      ,b.[dapartment_name]\n" //11
+                    + "      ,b.[manager_id]\n" //12
+                    + "      ,c.[job_id]\n" //13
+                    + "      ,c.[job_title]\n" //14
+                    + "      ,c.[min_salary]\n" //15
+                    + "      ,c.[max_salary]\n" //16
+                    + "      ,d.[contact_id]\n" //17
+                    + "      ,d.[email]\n" //18
+                    + "      ,d.[phone]\n" //19
+                    + "      ,d.[StreetAddress]\n" //20
+                    + "      ,e.[ward_id]\n" //21
+                    + "      ,e.[ward_name]\n" //22
+                    + "      ,e.[ward_type]\n" //23
+                    + "      ,f.[district_id]\n" //24
+                    + "      ,f.[district_name]\n" //25
+                    + "      ,f.[district_type]\n" //26
+                    + "      ,g.[province_id]\n" //27
+                    + "      ,g.[province_name]\n" //28
+                    + "      ,g.[province_type]\n" //29
                     + "       FROM \n"
                     + "       [Employees] AS a\n"
                     + "       		LEFT JOIN\n"
@@ -575,7 +602,7 @@ public class EmployeeDBContext extends DBContext {
                     + "       		LEFT JOIN\n"
                     + "       [Jobs] AS c ON a.[job_id] = c.[job_id]\n"
                     + "       		LEFT JOIN\n"
-                    + "       [Locations] AS d ON a.[location_id] = d.[location_id] \n"
+                    + "       [EmployeeContacts] AS d ON a.[contact_id] = d.[contact_id] \n"
                     + "			LEFT JOIN\n"
                     + "	[Wards] AS e ON d.[ward_id] = e.[ward_id]\n"
                     + "			LEFT JOIN\n"
@@ -592,7 +619,7 @@ public class EmployeeDBContext extends DBContext {
                 Employee e = new Employee();
                 Department d = new Department();
                 Job j = new Job();
-                Location l = new Location();
+                EmployeeContact l = new EmployeeContact();
                 Ward w = new Ward();
                 District dist = new District();
                 Province p = new Province();
@@ -603,39 +630,40 @@ public class EmployeeDBContext extends DBContext {
                 e.setE_gender(rs.getBoolean(4));
                 e.setE_dob(rs.getDate(5));
                 e.setE_email(rs.getString(6));
-                e.setE_phone(rs.getString(7));
-                e.setE_join_date(rs.getDate(8));
-                e.setE_salary(rs.getDouble(9));
+                e.setE_join_date(rs.getDate(7));
+                e.setE_salary(rs.getDouble(8));
                 Employee manager = new Employee();
-                manager.setE_id(rs.getInt(10));
+                manager.setE_id(rs.getInt(9));
                 e.setManager(manager);
 
-                d.setDepartment_id(rs.getInt(11));
-                d.setDepartment_name(rs.getString(12));
+                d.setDepartment_id(rs.getInt(10));
+                d.setDepartment_name(rs.getString(11));
                 d.setManager(manager);
                 e.setDepartment(d);
 
-                j.setJob_id(rs.getInt(14));
-                j.setJob_title(rs.getString(15));
-                j.setMin_salary(rs.getDouble(16));
-                j.setMax_salary(rs.getDouble(17));
+                j.setJob_id(rs.getInt(13));
+                j.setJob_title(rs.getString(14));
+                j.setMin_salary(rs.getDouble(15));
+                j.setMax_salary(rs.getDouble(16));
                 e.setJob(j);
 
-                l.setLocation_id(rs.getInt(18));
-                l.setStreet(rs.getString(19));
-                w.setWard_id(rs.getString(20));
-                w.setWard_name(rs.getString(21));
-                w.setWard_type(rs.getString(22));
-                dist.setDistrict_id(rs.getString(23));
-                dist.setDistrict_name(rs.getString(24));
-                dist.setDistrict_type(rs.getString(25));
-                p.setProvince_id(rs.getString(26));
-                p.setProvince_name(rs.getString(27));
-                p.setProvince_type(rs.getString(28));
+                l.setContact_id(rs.getInt(17));
+                l.setEmail(rs.getString(18));
+                l.setPhone(rs.getString(19));
+                l.setStreet(rs.getString(20));
+                w.setWard_id(rs.getString(21));
+                w.setWard_name(rs.getString(22));
+                w.setWard_type(rs.getString(23));
+                dist.setDistrict_id(rs.getString(24));
+                dist.setDistrict_name(rs.getString(25));
+                dist.setDistrict_type(rs.getString(26));
+                p.setProvince_id(rs.getString(27));
+                p.setProvince_name(rs.getString(28));
+                p.setProvince_type(rs.getString(29));
                 dist.setProvince(p);
                 w.setDistrict(dist);
                 l.setWard(w);
-                e.setLocation(l);
+                e.setContact(l);
 
                 //Add info off the employee to list
                 employees.add(e);
@@ -656,7 +684,7 @@ public class EmployeeDBContext extends DBContext {
                     + "        				LEFT JOIN\n"
                     + "           	   [Jobs] AS c ON a.[job_id] = c.[job_id]\n"
                     + "        				LEFT JOIN\n"
-                    + "           	   [Locations] AS d ON a.[location_id] = d.[location_id] \n"
+                    + "           	   [EmployeeContacts] AS d ON a.[contact_id] = d.[contact_id] \n"
                     + "           			LEFT JOIN\n"
                     + "           	   [Wards] AS e ON d.[ward_id] = e.[ward_id]\n"
                     + "           			LEFT JOIN\n"

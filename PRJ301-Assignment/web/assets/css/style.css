@@ -186,6 +186,11 @@ a.article:hover {
     vertical-align: middle
 }
 
+.table thead tr th:hover,
+.table tfoot tr th:hover {
+    color: #337ab7;
+}
+
 .table tfoot tr th {
     padding: 8px;
     border-top: 1px solid #000;

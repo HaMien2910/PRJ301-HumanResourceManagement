@@ -83,13 +83,13 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">#</th>
-                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=e_first_name&sortIs=${requestScope.status}"> Name </a></th>
-                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=job_title&sortIs=${requestScope.status}"> Job </a></th>
-                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=dapartment_name&sortIs=${requestScope.status}"> Department </a></th>
-                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=e_phone&sortIs=${requestScope.status}"> Mobile </a></th>
-                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=e_email&sortIs=${requestScope.status}"> Email </a></th>
-                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=province_name&sortIs=${requestScope.status}"> Address </a></th>
-                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=e_join_date&sortIs=${requestScope.status}"> Joining Date </a></th>
+                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=e_first_name&sortIs=${requestScope.status}&column=${(requestScope.column eq "1") ? 1 :0}"> Name </a></th>
+                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=job_title&sortIs=${requestScope.status}&column=${(requestScope.column eq 2) ? 2 : 0}"> Job </a></th>
+                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=dapartment_name&sortIs=${requestScope.status}&column=${(requestScope.column eq 3) ? 3 : 0}"> Department </a></th>
+                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=phone&sortIs=${requestScope.status}&column=${(requestScope.column eq 4) ? 4 : 0}"> Mobile </a></th>
+                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=e_email&sortIs=${requestScope.status}&column=${(requestScope.column eq 5) ? 5 : 0}"> Email </a></th>
+                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=province_name&sortIs=${requestScope.status}&column=${(requestScope.column eq 6) ? 6 : 0}"> Address </a></th>
+                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=e_join_date&sortIs=${requestScope.status}&column=${(requestScope.column eq 7) ? 7 : 0}"> Joining Date </a></th>
                                         <th class="text-center"><a href="#"> Action </a></th>
                                     </tr>
                                 </thead>
@@ -101,9 +101,9 @@
                                             <td class="text-center">${e.e_last_name} ${e.e_first_name}</td>
                                             <td class="text-center">${e.job.job_title}</td>
                                             <td class="text-center">${e.department.department_name}</td>
-                                            <td class="text-center">${e.e_phone}</td>
+                                            <td class="text-center">${e.contact.phone}</td>
                                             <td class="text-center">${e.e_email}</td>
-                                            <td class="text-center">${e.location.ward.district.province.province_name}</td>
+                                            <td class="text-center">${e.contact.ward.district.province.province_name}</td>
                                             <td class="text-center">${e.e_join_date}</td>
                                             <td class="text-center">
                                                 <a href="viewEmployee?eid=${e.e_id}" class="btn btn-tbl-view">
@@ -124,13 +124,13 @@
                                 <tfoot>
                                     <tr>
                                         <th class="text-center">#</th>
-                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=e_first_name&sortIs=${requestScope.status}"> Name </a></th>
-                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=job_title&sortIs=${requestScope.status}"> Job </a></th>
-                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=dapartment_name&sortIs=${requestScope.status}"> Department </a></th>
-                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=e_phone&sortIs=${requestScope.status}"> Mobile </a></th>
-                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=e_email&sortIs=${requestScope.status}"> Email </a></th>
-                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=province_name&sortIs=${requestScope.status}"> Address </a></th>
-                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=e_join_date&sortIs=${requestScope.status}"> Joining Date </a></th>
+                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=e_first_name&sortIs=${requestScope.status}&column=${(requestScope.column eq "1") ? 1 :0}"> Name </a></th>
+                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=job_title&sortIs=${requestScope.status}&column=${(requestScope.column eq 2) ? 2 : 0}"> Job </a></th>
+                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=dapartment_name&sortIs=${requestScope.status}&column=${(requestScope.column eq 3) ? 3 : 0}"> Department </a></th>
+                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=phone&sortIs=${requestScope.status}&column=${(requestScope.column eq 4) ? 4 : 0}"> Mobile </a></th>
+                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=e_email&sortIs=${requestScope.status}&column=${(requestScope.column eq 5) ? 5 : 0}"> Email </a></th>
+                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=province_name&sortIs=${requestScope.status}&column=${(requestScope.column eq 6) ? 6 : 0}"> Address </a></th>
+                                        <th class="text-center"><a href="listAllEmployees?page=${requestScope.page_index}&message=${requestScope.message}&field=e_join_date&sortIs=${requestScope.status}&column=${(requestScope.column eq 7) ? 7 : 0}"> Joining Date </a></th>
                                         <th class="text-center"><a href="#"> Action </a></th>
                                     </tr>
                                 </tfoot>
@@ -162,7 +162,7 @@
 <script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
 <script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>
 <script>
-                                                    doPagging("block-footer", ${requestScope.page_index}, ${requestScope.total_pages}, "${requestScope.message}", 2, 'listAllEmployees');
+                                                    doPagging("block-footer", ${requestScope.page_index}, ${requestScope.total_pages}, "${requestScope.message}", "${requestScope.field}", "${requestScope.status}", "${requestScope.column}", 2, 'listAllEmployees');
 </script>
 </body>
 </html>

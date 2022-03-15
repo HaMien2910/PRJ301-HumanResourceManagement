@@ -128,7 +128,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" value="${requestScope.employee.e_phone}" name="phone" id="phone" pattern="[0][0-9]{9,19}" class="form-control" placeholder="Telephone" />
+                                            <input type="text" value="${requestScope.employee.contact.phone}" name="phone" id="phone" pattern="[0][0-9]{9,19}" class="form-control" placeholder="Telephone" />
                                         </div>
                                     </div>
                                 </div>
@@ -156,7 +156,7 @@
                                             <select id="province_id" class="col-12 m-t-20 p-l-0 form-control" required>
                                                 <option value=""> -- Select Province -- </option>
                                                 <c:forEach items="${requestScope.provinces}" var="p">
-                                                    <option ${(requestScope.employee.location.ward.district.province.province_id == p.province_id) ? "selected = \"selected\"" : ""} value="${p.province_id}">${p.province_name}</option>
+                                                    <option ${(requestScope.employee.contact.ward.district.province.province_id == p.province_id) ? "selected = \"selected\"" : ""} value="${p.province_id}">${p.province_name}</option>
                                                 </c:forEach>
                                             </select>
                                         </div>
@@ -170,7 +170,7 @@
                                             <select name="district_id" id="district_id" class="col-12 m-t-20 p-l-0 form-control" required>
                                                 <option value=""> -- Select District -- </option>
                                                 <c:forEach items="${requestScope.districts}" var="d">
-                                                    <option ${(requestScope.employee.location.ward.district.district_id == d.district_id) ? "selected = \"selected\"" : ""} value="${d.district_id}">${d.district_name}</option>
+                                                    <option ${(requestScope.employee.contact.ward.district.district_id == d.district_id) ? "selected = \"selected\"" : ""} value="${d.district_id}">${d.district_name}</option>
                                                 </c:forEach>
                                             </select>
                                         </div>
@@ -182,7 +182,7 @@
                                             <select name="ward_id" id="ward_id" class="col-12 m-t-20 p-l-0 form-control" required>
                                                 <option value=""> -- Select Ward -- </option>  
                                                 <c:forEach items="${requestScope.wards}" var="w">
-                                                    <option ${(requestScope.employee.location.ward.ward_id == w.ward_id) ? "selected = \"selected\"" : ""} value="${w.ward_id}">${w.ward_name}</option>
+                                                    <option ${(requestScope.employee.contact.ward.ward_id == w.ward_id) ? "selected = \"selected\"" : ""} value="${w.ward_id}">${w.ward_name}</option>
                                                 </c:forEach>
                                             </select>
                                         </div>
@@ -193,7 +193,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input name="street" value="${requestScope.employee.location.street}" type="text" class="form-control no-resize" placeholder="Street"/>
+                                            <input name="street" value="${requestScope.employee.contact.street}" type="text" class="form-control no-resize" placeholder="Street"/>
                                         </div>
                                     </div>
                                 </div>

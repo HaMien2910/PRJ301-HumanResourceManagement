@@ -16,7 +16,7 @@ public class Ward {
     private String ward_name;
     private String ward_type;
     private District district;
-    private ArrayList<Location> locations = new ArrayList<>();
+    private ArrayList<EmployeeContact> locations = new ArrayList<>();
 
     public String getWard_id() {
         return ward_id;
@@ -50,11 +50,11 @@ public class Ward {
         this.district = district;
     }
 
-    public ArrayList<Location> getLocations() {
+    public ArrayList<EmployeeContact> getLocations() {
         return locations;
     }
 
-    public void setLocations(ArrayList<Location> locations) {
+    public void setLocations(ArrayList<EmployeeContact> locations) {
         this.locations = locations;
     }
 }

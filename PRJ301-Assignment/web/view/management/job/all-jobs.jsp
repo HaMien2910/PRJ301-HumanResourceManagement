@@ -59,23 +59,40 @@
                     </div>
                     <div class="row" style="margin: 0">
                         <div class="col-lg-12 col-md-12 col-sm-12 table-responsive item-display">
-                            <div>
-                                <h2 style="font-size: 16px">
-                                    <strong>All Jobs</strong>
-                                </h2>
+                            <div class="content-title row" style="margin: 0 -12px;">
+                                <div class="col-md-4">
+                                    <h2 style="font-size: 16px">
+                                        <strong>All Jobs</strong> | <a href="addJob" style="font-size: 14px;color: #337ab7">+ Add Job</a>
+                                    </h2>
+                                    <p>
+                                        Total jobs ${requestScope.all_records} - Search results: ${requestScope.total_records_search_by_message}
+                                </p>
                             </div>
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">#</th>
-                                        <th class="text-center"> Job Title </th>
-                                        <th class="text-center"> Department </th>
-                                        <th class="text-center"> Min Salary </th>
-                                        <th class="text-center"> Max Salary </th>
-                                        <th class="text-center"> Action </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                            <div class="col-md-8">
+                                <form action="listAllEmployees" method="GET" style="box-shadow: none;">
+                                    <div class="form-row">
+                                        <div class="col-sm-4 my-1">
+                                            <input type="text" width="200px;" class="form-control" id="inlineFormInputName" value="${requestScope.message}" name="message">
+                                        </div>
+                                        <div class="col-auto my-1">
+                                            <input type="submit" class="btn btn-primary" onclick="doSearch()" value="Search">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th class="text-center"><a href="listAllJobs?page=${requestScope.page_index}&message=${requestScope.message}&field=job_title&sortIs=${requestScope.status}&column=${(requestScope.column eq "1") ? 1 :0}"> Job Title </a></th>
+                                    <th class="text-center"><a href="listAllJobs?page=${requestScope.page_index}&message=${requestScope.message}&field=department_name&sortIs=${requestScope.status}&column=${(requestScope.column eq "1") ? 1 :0}"> Department </a></th>
+                                    <th class="text-center"><a href="listAllJobs?page=${requestScope.page_index}&message=${requestScope.message}&field=min_salary&sortIs=${requestScope.status}&column=${(requestScope.column eq "1") ? 1 :0}"> Min Salary </a></th>
+                                    <th class="text-center"><a href="listAllJobs?page=${requestScope.page_index}&message=${requestScope.message}&field=max_salary&sortIs=${requestScope.status}&column=${(requestScope.column eq "1") ? 1 :0}"> Max Salary </a></th>
+                                    <th class="text-center"> Action </th>
+                                </tr>
+                            </thead>
+                            <tbody>
                                 <%!int i = 0;%>
                                 <c:forEach items="${requestScope.jobs}" var="j">
                                     <tr class="" style="font-size: 12px;<%=(i % 2 == 0) ? "background-color: rgb(239, 239, 241);" : ""%>">
@@ -94,22 +111,26 @@
                                             <input type="hidden" id="jid" name="jid" value="${j.job_id}">
                                         </td>
                                     </tr>
-                                    <input type="hidden" value="<%=i++%>">
-                                </c:forEach>
+                                <input type="hidden" value="<%=i++%>">
+                            </c:forEach>
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th class="text-center">#</th>
-                                    <th class="text-center"> Job Title </th>
-                                    <th class="text-center"> Department </th>
-                                    <th class="text-center"> Min Salary </th>
-                                    <th class="text-center"> Max Salary </th>
+                                    <th class="text-center"><a href="listAllJobs?page=${requestScope.page_index}&message=${requestScope.message}&field=job_title&sortIs=${requestScope.status}&column=${(requestScope.column eq "1") ? 1 :0}"> Job Title </a></th>
+                                    <th class="text-center"><a href="listAllJobs?page=${requestScope.page_index}&message=${requestScope.message}&field=department_name&sortIs=${requestScope.status}&column=${(requestScope.column eq "1") ? 1 :0}"> Department </a></th>
+                                    <th class="text-center"><a href="listAllJobs?page=${requestScope.page_index}&message=${requestScope.message}&field=min_salary&sortIs=${requestScope.status}&column=${(requestScope.column eq "1") ? 1 :0}"> Min Salary </a></th>
+                                    <th class="text-center"><a href="listAllJobs?page=${requestScope.page_index}&message=${requestScope.message}&field=max_salary&sortIs=${requestScope.status}&column=${(requestScope.column eq "1") ? 1 :0}"> Max Salary </a></th>
                                     <th class="text-center"> Action </th>
                                 </tr>
                             </tfoot>
                         </table>
-                        <div class="row" style="margin: 0 -12px;">
-                            <div class="col-sm-8"></div>
+                        <div class="row" style="margin: 0 -12px;display: flex;align-items: center;">
+                            <div class="col-sm-8">
+                                <c:if test="${requestScope.total_pages > 1}">
+                                    <p>Page: ${requestScope.page_index} / ${requestScope.total_pages}</p>
+                                </c:if>
+                            </div>
                             <div id="block-footer"class="col-sm-4">
                             </div>
                         </div>

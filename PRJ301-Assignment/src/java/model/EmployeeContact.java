@@ -11,18 +11,36 @@ import java.util.ArrayList;
  *
  * @author PhuongNH
  */
-public class Location {
-    private int location_id;
+public class EmployeeContact {
+    private int contact_id;
     private String street;
     private Ward ward;
+    private String email;
+    private String phone;
     private ArrayList<Employee> employees = new ArrayList<>();
 
-    public int getLocation_id() {
-        return location_id;
+    public int getContact_id() {
+        return contact_id;
     }
 
-    public void setLocation_id(int location_id) {
-        this.location_id = location_id;
+    public void setContact_id(int contact_id) {
+        this.contact_id = contact_id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public Ward getWard() {

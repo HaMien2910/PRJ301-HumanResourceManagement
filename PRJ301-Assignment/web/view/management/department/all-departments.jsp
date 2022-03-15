@@ -62,10 +62,10 @@
                             <div class="content-title row" style="margin: 0 -12px;">
                                 <div class="col-md-4">
                                     <h2 style="font-size: 16px">
-                                        <strong>All Departments</strong> | <a href="addEmployee" style="font-size: 14px;color: #337ab7">+ Add Department</a>
+                                        <strong>All Departments</strong> | <a href="addDepartment" style="font-size: 14px;color: #337ab7">+ Add Department</a>
                                     </h2>
                                     <p>
-                                        Total departments ${requestScope.all_records}
+                                        Total departments: ${requestScope.total_records}
                                 </p>
                             </div>
                         </div>
@@ -73,11 +73,11 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">#</th>
-                                    <th class="text-center"> Dept. Name </th>
-                                    <th class="text-center"> Manager </th>
-                                    <th class="text-center"> Phone </th>
-                                    <th class="text-center"> Email </th>
-                                    <th class="text-center"> Total Emp. </th>
+                                    <th class="text-center"><a href="listAllDepartments?page=${requestScope.page_index}&message=${requestScope.message}&field=department_name&sortIs=${requestScope.status}&column=${(requestScope.column eq "1") ? 1 :0}"> Dept. Name </a></th>
+                                    <th class="text-center"><a href="listAllDepartments?page=${requestScope.page_index}&message=${requestScope.message}&field=e_first_name&sortIs=${requestScope.status}&column=${(requestScope.column eq "2") ? 2 :0}"> Manager </a></th>
+                                    <th class="text-center"><a href="listAllDepartments?page=${requestScope.page_index}&message=${requestScope.message}&field=department_phone&sortIs=${requestScope.status}&column=${(requestScope.column eq "3") ? 3 :0}"> Phone </a></th>
+                                    <th class="text-center"><a href="listAllDepartments?page=${requestScope.page_index}&message=${requestScope.message}&field=department_email&sortIs=${requestScope.status}&column=${(requestScope.column eq "4") ? 4 :0}"> Email </a></th>
+                                    <th class="text-center"><a href="listAllDepartments?page=${requestScope.page_index}&message=${requestScope.message}&field=e_first_name&sortIs=${requestScope.status}&column=${(requestScope.column eq "5") ? 5 :0}"> Total Emp. </a></th>
                                     <th class="text-center"> Action </th>
                                 </tr>
                             </thead>
@@ -110,11 +110,11 @@
                             <tfoot>
                                 <tr>
                                     <th class="text-center">#</th>
-                                    <th class="text-center"> Dept. Name </th>
-                                    <th class="text-center"> Manager </th>
-                                    <th class="text-center"> Phone </th>
-                                    <th class="text-center"> Email </th>
-                                    <th class="text-center"> Total Emp. </th>
+                                    <th class="text-center"><a href="listAllDepartments?page=${requestScope.page_index}&message=${requestScope.message}&field=department_name&sortIs=${requestScope.status}&column=${(requestScope.column eq "1") ? 1 :0}"> Dept. Name </a></th>
+                                    <th class="text-center"><a href="listAllDepartments?page=${requestScope.page_index}&message=${requestScope.message}&field=e_first_name&sortIs=${requestScope.status}&column=${(requestScope.column eq "2") ? 2 :0}"> Manager </a></th>
+                                    <th class="text-center"><a href="listAllDepartments?page=${requestScope.page_index}&message=${requestScope.message}&field=department_phone&sortIs=${requestScope.status}&column=${(requestScope.column eq "3") ? 3 :0}"> Phone </a></th>
+                                    <th class="text-center"><a href="listAllDepartments?page=${requestScope.page_index}&message=${requestScope.message}&field=department_email&sortIs=${requestScope.status}&column=${(requestScope.column eq "4") ? 4 :0}"> Email </a></th>
+                                    <th class="text-center"><a href="listAllDepartments?page=${requestScope.page_index}&message=${requestScope.message}&field=e_first_name&sortIs=${requestScope.status}&column=${(requestScope.column eq "5") ? 5 :0}"> Total Emp. </a></th>
                                     <th class="text-center"> Action </th>
                                 </tr>
                             </tfoot>
@@ -145,7 +145,7 @@
 <script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
 <script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>
 <script>
-                                                doPagging("block-footer", ${requestScope.page_index}, ${requestScope.total_pages}, "${requestScope.message}", 2, 'listAllDepartments');
+                                                doPagging("block-footer", ${requestScope.page_index}, ${requestScope.total_pages}, "", "${requestScope.field}", "${requestScope.status}", "${requestScope.column}", 2, 'listAllDepartments');
 </script>
 </body>
 </html>

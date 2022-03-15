@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import model.Department;
 import model.Employee;
 import model.Job;
-import model.Location;
+import model.EmployeeContact;
 import model.Province;
 import model.Ward;
 
@@ -87,17 +87,17 @@ public class AddEmployeeController extends BaseAuthenticationController {
         employee.setJob(job);
 
         employee.setE_salary(Double.parseDouble(request.getParameter("salary")));
-        employee.setE_email(request.getParameter("email"));
-        employee.setE_phone(request.getParameter("phone"));
         employee.setE_gender(request.getParameter("gender").equals("male"));
         employee.setE_dob(Date.valueOf(request.getParameter("dob")));
 
-        Location location = new Location();
-        location.setStreet(request.getParameter("street"));
+        EmployeeContact contact = new EmployeeContact();
+        contact.setStreet(request.getParameter("street"));
+        contact.setEmail(request.getParameter("email"));
+        contact.setPhone(request.getParameter("phone"));
         Ward ward = new Ward();
         ward.setWard_id(request.getParameter("ward_id"));
-        location.setWard(ward);
-        employee.setLocation(location);
+        contact.setWard(ward);
+        employee.setContact(contact);
 
         EmployeeDBContext employeeDBContext = new EmployeeDBContext();
         employeeDBContext.addEmployee(employee);

@@ -20,14 +20,13 @@ public class Employee {
     private boolean e_gender;
     private Date e_dob;
     private String e_email;
-    private String e_phone;
     private Date e_join_date;
     private double e_salary;
     private Department department;
     private Employee manager;
     private ArrayList<Employee> employees = new ArrayList<>();
     private Job job;
-    private Location location;
+    private EmployeeContact contact;
 
     public int getE_id() {
         return e_id;
@@ -75,14 +74,6 @@ public class Employee {
 
     public void setE_email(String e_email) {
         this.e_email = e_email;
-    }
-
-    public String getE_phone() {
-        return e_phone;
-    }
-
-    public void setE_phone(String e_phone) {
-        this.e_phone = e_phone;
     }
 
     public Date getE_join_date() {
@@ -133,11 +124,11 @@ public class Employee {
         this.job = job;
     }
 
-    public Location getLocation() {
-        return location;
+    public EmployeeContact getContact() {
+        return contact;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setContact(EmployeeContact contact) {
+        this.contact = contact;
     }
 }

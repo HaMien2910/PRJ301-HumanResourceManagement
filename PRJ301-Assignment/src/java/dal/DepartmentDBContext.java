@@ -296,34 +296,34 @@ public class DepartmentDBContext extends DBContext {
         }
     }
 
-    public ArrayList<Department> getDepartmentsByPageIndex(int page_index, int page_size) {
+    public ArrayList<Department> getDepartmentsByPageIndex(String order_by, int page_index, int page_size) {
         ArrayList<Department> departments = new ArrayList<>();
         try {
-            String sql = "SELECT [department_id]\n"
-                    + "   ,[dapartment_name]\n"
-                    + "	  ,[department_phone]\n"
-                    + "	  ,[department_email]\n"
-                    + "	  ,[starting_date]\n"
-                    + "	  ,[description]\n"
-                    + "	  ,[manager_id]\n"
-                    + "	  ,[e_first_name]\n"
-                    + "	  ,[e_last_name]\n"
-                    + "	FROM\n"
-                    + "		(SELECT a.[department_id]\n"
-                    + "		  ,a.[dapartment_name]\n"
-                    + "		  ,a.[department_phone]\n"
-                    + "		  ,a.[department_email]\n"
-                    + "		  ,a.[starting_date]\n"
-                    + "		  ,a.[description]\n"
-                    + "		  ,a.[manager_id]\n"
-                    + "		  ,b.[e_first_name]\n"
-                    + "		  ,b.[e_last_name]\n"
-                    + "		  ,ROW_NUMBER() OVER (ORDER BY a.[department_id] ASC) AS row_index\n"
-                    + "	   FROM [Departments] AS a\n"
-                    + "			LEFT JOIN\n"
-                    + "		   [Employees] AS b ON a.manager_id = b.e_id) DepartmentsTbl\n"
-                    + "   WHERE row_index >= (? - 1) * ? + 1\n"
-                    + "	  AND row_index <= ? * ?";
+            String sql = "With SampleData AS (SELECT a.[department_id]\n"
+                    + "                             ,a.[dapartment_name]\n"
+                    + "                             ,a.[department_phone]\n"
+                    + "                             ,a.[department_email]\n"
+                    + "                             ,a.[starting_date]\n"
+                    + "                             ,a.[description]\n"
+                    + "                             ,a.[manager_id]\n"
+                    + "                             ,b.[e_first_name]\n"
+                    + "                             ,b.[e_last_name]\n"
+                    + "                             ,ROW_NUMBER() OVER (ORDER BY a.[department_id] ASC) AS row_index\n"
+                    + "				FROM [Departments] AS a\n"
+                    + "					LEFT JOIN\n"
+                    + "				[Employees] AS b ON a.manager_id = b.e_id) \n"
+                    + "SELECT [department_id]\n"
+                    + "	,[dapartment_name]\n"
+                    + "	,[department_phone]\n"
+                    + "	,[department_email]\n"
+                    + "	,[starting_date]\n"
+                    + "	,[description]\n"
+                    + "	,[manager_id]\n"
+                    + "	,[e_first_name]\n"
+                    + "	,[e_last_name]\n"
+                    + "FROM SampleData\n"
+                    + "WHERE row_index >= (? - 1) * ? + 1\n"
+                    + "AND row_index <= ? * ?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, page_index);
             stm.setInt(2, page_size);

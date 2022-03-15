@@ -22,7 +22,7 @@ import model.Department;
 import model.District;
 import model.Employee;
 import model.Job;
-import model.Location;
+import model.EmployeeContact;
 import model.Province;
 import model.Ward;
 
@@ -57,9 +57,9 @@ public class EditEmployeeController extends BaseAuthenticationController {
         ArrayList<Province> provinces = provinceDBContext.getAllProvinces(); // Get All Provinces From DB
         ArrayList<Job> jobs = jobDBContext.getAllJobs(); // Get All Jobs From DB
         // Get all wards by district id From DB
-        ArrayList<Ward> wards = addressDBContext.getAllWardsByDistrictID(employee.getLocation().getWard().getDistrict().getDistrict_id());
+        ArrayList<Ward> wards = addressDBContext.getAllWardsByDistrictID(employee.getContact().getWard().getDistrict().getDistrict_id());
         // get all districts by provinces id From DB
-        ArrayList<District> districts = addressDBContext.getAllDistrictsByProvinceID(employee.getLocation().getWard().getDistrict().getProvince().getProvince_id());
+        ArrayList<District> districts = addressDBContext.getAllDistrictsByProvinceID(employee.getContact().getWard().getDistrict().getProvince().getProvince_id());
 
         request.setAttribute("departments", departments);
         request.setAttribute("provinces", provinces);
@@ -104,18 +104,17 @@ public class EditEmployeeController extends BaseAuthenticationController {
 
         employee.setE_salary(Double.parseDouble(request.getParameter("salary")));
         employee.setE_email(request.getParameter("email"));
-        employee.setE_phone(request.getParameter("phone"));
         employee.setE_gender(request.getParameter("gender").equals("male"));
         employee.setE_dob(Date.valueOf(request.getParameter("dob")));
 
-        Location location = new Location();
-        location.setStreet(request.getParameter("street"));
+        EmployeeContact contact = new EmployeeContact();
+        contact.setStreet(request.getParameter("street"));
+        contact.setPhone(request.getParameter("phone"));
         Ward ward = new Ward();
         ward.setWard_id(request.getParameter("ward_id"));
-        location.setWard(ward);
-        employee.setLocation(location);
+        contact.setWard(ward);
+        employee.setContact(contact);
 
-        
         EmployeeDBContext employeeDBContext = new EmployeeDBContext();
         // Update employee by id has id duplicate with employee param into DB
         employeeDBContext.updateEmployeeById(employee);

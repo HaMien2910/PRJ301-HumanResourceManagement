@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,16 +24,44 @@ import model.Account;
 public abstract class BaseAuthenticationController extends HttpServlet {
 
     public boolean isAuthenticated(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
-        if (account == null) {
-            return true;
-        } else {
-            String url = request.getServletPath();
-            AccountDBContext accountDBContext = new AccountDBContext();
+        return true;
+//        HttpSession session = request.getSession();
+//        Account account = (Account) session.getAttribute("account");
+//        if (account == null) {
+//            Cookie[] cookies = request.getCookies();
+//            if (cookies != null)//not login, some cookies
+//            {
+//                String username = null;
+//                String password = null;
+//                for (Cookie cooky : cookies) {
+//                    if (cooky.getName().equals("username")) {
+//                        username = cooky.getValue();
+//                    }
+//                    if (cooky.getName().equals("password")) {
+//                        password = cooky.getValue();
+//                    }
+//                }
+//                if (username == null || password == null) {
+//                    return false;
+//                } else {
+//                    AccountDBContext db = new AccountDBContext();
+//                    account = db.getAccount(username, password);
+//                    if (account != null) {
+//                        request.getSession().setAttribute("account", account);
+//                        return true;
+//                    } else {
+//                        return false;
+//                    }
+//                }
+//            } else //not login, not cookie
+//            {
+//                return false;
+//            }
+//        } else {
+//            String url = request.getServletPath();
+//            AccountDBContext accountDBContext = new AccountDBContext();
 //            return accountDBContext.checkRole(account.getUsername(), url);
-            return true;
-        }
+//        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

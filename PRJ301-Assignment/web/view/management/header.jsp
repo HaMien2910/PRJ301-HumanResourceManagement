@@ -27,7 +27,9 @@
                     <i class="far fa-question-circle"></i>
                 </a>
             </li>
-            <li class="header__navbar-item-link">???</li>
+            <li class="header__navbar-item-link">
+                ${sessionScope.account.username}
+            </li>
         </ul>
     </div>
     <!-- #END Header Header -->

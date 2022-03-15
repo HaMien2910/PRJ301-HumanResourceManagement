@@ -22,6 +22,8 @@ import model.Employee;
  */
 public class ListAllEmployeesController extends BaseAuthenticationController {
 
+    private final String[] LIST_TITLES = {"e_first_name", "job_title", "dapartment_name","phone", "e_email", "province_name", "e_join_date"};
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -35,24 +37,45 @@ public class ListAllEmployeesController extends BaseAuthenticationController {
     protected void processGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         EmployeeDBContext employeeDBContext = new EmployeeDBContext();
-        
+
         String raw_page = request.getParameter("page");
         String message = request.getParameter("message");
-        
+
+        // Sorting the list employees by title
         String field = request.getParameter("field");
         String status = request.getParameter("sortIs");
-        
-        // Sorting the list employees by title
+        String column = "";
+        column = request.getParameter("column");
         String order_by = "";
-        // If user clicks on a tilte for the first time when the list unsorted or sorted DESC, then list will be sorted ASC
-        if (field != null && (status == null || status.length() == 0 || status.equals("DESC"))) {
+
+        // If the page loaded, then list sort by e_id
+        if (field == null || field == "") {
             status = "ASC";
-            order_by += "ORDER BY [" + field + "] " + status;
-        } else if(field != null && status.equals("ASC")){ // If user clicks on a tilte when the list sorted ASC, then list will be sorted DESC
-            status = "DESC";
-            order_by += "ORDER BY [" + field + "] " + status;
-        } else{ // Showing the list employees sort by e_id when the page loaded 
-            order_by += "ORDER BY [e_id] ASC";
+            order_by += "ORDER BY [e_id]" + status;
+        } else {
+            // Check if user click on title
+            int i = 0;
+            for (String title : LIST_TITLES) {
+                i++;
+                if (field.equals(title)) {
+                    // ASC by e_first_name if user click on the first time
+                    if (column.equals("0")) {
+                        status = "ASC";
+                        order_by += "ORDER BY [" + field + "] " + status;
+                        column = Integer.toString(i);
+                        status = "DESC";
+                    } else if (column.equals(Integer.toString(i))) {
+                        if (status.equals("ASC")) {
+                            order_by += "ORDER BY [" + field + "] " + status;
+                            status = "DESC";
+                        } else if (status.equals("DESC")) {
+                            order_by += "ORDER BY [" + field + "] " + status;
+                            status = "ASC";
+                        }
+                    }
+                    break;
+                }
+            }
         }
 
         // Searching employees by e_first_name, e_last_name or department_name
@@ -62,9 +85,9 @@ public class ListAllEmployeesController extends BaseAuthenticationController {
         }
         int page_index = Integer.parseInt(raw_page);
         int page_size = 10;
-        
+
         // Getting all employee from DB
-        ArrayList<Employee> employees = employeeDBContext.getEmployeesByPageIndex(message, order_by,page_index, page_size);
+        ArrayList<Employee> employees = employeeDBContext.getEmployeesByPageIndex(message, order_by, page_index, page_size);
         // Counting all of the employees is searched by message by e_first_name, e_last_name or department_name
         int total_records_search_by_message = employeeDBContext.countEmployeesSearchByMessage(message);
         // Counting all employees in DB
@@ -78,7 +101,9 @@ public class ListAllEmployeesController extends BaseAuthenticationController {
         request.setAttribute("all_records", all_records);
         request.setAttribute("total_records_search_by_message", total_records_search_by_message);
         request.setAttribute("message", message);
+        request.setAttribute("field", field);
         request.setAttribute("status", status);
+        request.setAttribute("column", column);
         request.setAttribute("index", 0);
         request.getRequestDispatcher("../view/management/employee/all-employees.jsp").forward(request, response);
     }

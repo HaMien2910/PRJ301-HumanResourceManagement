@@ -9,6 +9,7 @@ import dal.AccountDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,12 +52,22 @@ public class LoginController extends HttpServlet {
         
         AccountDBContext accountDBContext = new AccountDBContext();
         Account account = accountDBContext.getAccount(raw_user, raw_pass);
-        if(account!=null){
+        if (account != null) {
             request.getSession().setAttribute("account", account);
-            response.getWriter().print("Login Successfully!");
-        }else{
-            response.getWriter().print("Login failed!");
+            String remember = request.getParameter("remember");
+            if (remember != null) {
+                Cookie c_user = new Cookie("username", account.getUsername());
+                Cookie c_pass = new Cookie("password", account.getPassword());
+                c_user.setMaxAge(24 * 3600 * 7);
+                c_pass.setMaxAge(24 * 3600 * 7);
+                response.addCookie(c_user);
+                response.addCookie(c_pass);
+            }
+            response.sendRedirect("../employee/listAllEmployees");
+        } else {
+            response.getWriter().println("login failed!");
         }
+
     }
 
     /**
