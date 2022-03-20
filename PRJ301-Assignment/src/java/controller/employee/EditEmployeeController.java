@@ -88,18 +88,29 @@ public class EditEmployeeController extends BaseAuthenticationController {
         employee.setE_last_name(request.getParameter("last_name"));
 
         Department department = new Department();
-        department.setDepartment_id(Integer.parseInt(request.getParameter("department_id")));
-        // Get the manager_id of the department
-        int manager_id = getManagerOfDepartment(department);
         Employee e = new Employee();
-        if (manager_id > 0) {
-            e.setE_id(manager_id);
+        Job job = new Job();
+        String raw_department = request.getParameter("department_id");
+        if (!(raw_department == null || raw_department.equals(""))) {
+            department.setDepartment_id(Integer.parseInt(raw_department));
+            // Get the manager_id of the department
+            int manager_id = getManagerOfDepartment(department);
+            if (manager_id > 0) {
+                e.setE_id(manager_id);
+            }
+            String raw_job = request.getParameter("job_id");
+            if (!(raw_job.equals("") || raw_job == null)) {
+                job.setJob_id(Integer.parseInt(raw_job));
+            } else {
+                job.setJob_id(-1);
+            }
+        } else {
+            department.setDepartment_id(-1);
+            e.setE_id(-1);
+            job.setJob_id(-1);
         }
         department.setManager(e);
         employee.setDepartment(department);
-
-        Job job = new Job();
-        job.setJob_id(Integer.parseInt(request.getParameter("job_id")));
         employee.setJob(job);
 
         employee.setE_salary(Double.parseDouble(request.getParameter("salary")));

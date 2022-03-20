@@ -22,7 +22,7 @@ import model.Employee;
  */
 public class ListAllEmployeesController extends BaseAuthenticationController {
 
-    private final String[] LIST_TITLES = {"e_first_name", "job_title", "dapartment_name","phone", "e_email", "province_name", "e_join_date"};
+    private final String[] LIST_TITLES = {"e_first_name", "job_title", "department_name","e_salary", "e_email", "province_name", "e_join_date"};
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -50,7 +50,7 @@ public class ListAllEmployeesController extends BaseAuthenticationController {
 
         // If the page loaded, then list sort by e_id
         if (field == null || field == "") {
-            status = "ASC";
+            status = "DESC";
             order_by += "ORDER BY [e_id]" + status;
         } else {
             // Check if user click on title

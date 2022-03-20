@@ -29,7 +29,7 @@ public class JobDBContext extends DBContext {
                     + "      ,a.[min_salary]\n"
                     + "      ,a.[max_salary]\n"
                     + "      ,b.[department_id]\n"
-                    + "      ,b.[dapartment_name]\n"
+                    + "      ,b.[department_name]\n"
                     + "  FROM [Jobs] AS a\n"
                     + "		LEFT JOIN\n"
                     + "	   [Departments] AS b ON a.[department_id] = b.[department_id]";
@@ -198,33 +198,37 @@ public class JobDBContext extends DBContext {
         }
     }
 
-    public ArrayList<Job> getJobsByPage(int page_index, int page_size) {
+    public ArrayList<Job> getJobsByPage(String message, String order_by, int page_index, int page_size) {
         ArrayList<Job> jobs = new ArrayList<>();
         try {
-            String sql = "SELECT [job_id]\n"
-                    + "	  ,[job_title]\n"
-                    + "	  ,[min_salary]\n"
-                    + "	  ,[max_salary]\n"
-                    + "	  ,[department_id]\n"
-                    + "	  ,[dapartment_name]\n"
-                    + "	FROM\n"
-                    + "		(SELECT a.[job_id]\n"
-                    + "         ,a.[job_title]\n"
-                    + "         ,a.[min_salary]\n"
-                    + "         ,a.[max_salary]\n"
-                    + "         ,b.[department_id]\n"
-                    + "         ,b.[dapartment_name]\n"
-                    + "         ,ROW_NUMBER() OVER (ORDER BY a.[job_id] ASC) AS row_index\n"
-                    + "       FROM [Jobs] AS a\n"
-                    + "				LEFT JOIN\n"
-                    + "            [Departments] AS b ON a.[department_id] = b.[department_id]) JobsTbl\n"
+            String sql = "with SampleData AS (SELECT a.[job_id]\n"
+                    + "				  ,a.[job_title]\n"
+                    + "				  ,a.[min_salary]\n"
+                    + "				  ,a.[max_salary]\n"
+                    + "				  ,b.[department_id]\n"
+                    + "				  ,b.[department_name]\n"
+                    + "				  ,ROW_NUMBER() OVER (" + order_by + ") AS row_index\n"
+                    + "				  FROM [Jobs] AS a\n"
+                    + "				  LEFT JOIN\n"
+                    + "				  [Departments] AS b ON a.[department_id] = b.[department_id]\n"
+                    + "				  WHERE (1 = 1) AND (a.[job_title] LIKE '%'+?+'%'\n"
+                    + "				  OR (? BETWEEN a.min_salary AND a.max_salary)\n"
+                    + "				  OR b.[department_name] LIKE '%'+?+'%'))\n"
+                    + "SELECT * FROM SampleData\n"
                     + "   WHERE row_index >= (? - 1) * ? + 1\n"
                     + "   AND row_index <= ? * ?";
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1, page_index);
-            stm.setInt(2, page_size);
-            stm.setInt(3, page_index);
-            stm.setInt(4, page_size);
+            stm.setString(1, message);
+            if (isDouble(message)) {
+                stm.setDouble(2, Double.parseDouble(message));
+            } else {
+                stm.setDouble(2, -1);
+            }
+            stm.setString(3, message);
+            stm.setInt(4, page_index);
+            stm.setInt(5, page_size);
+            stm.setInt(6, page_index);
+            stm.setInt(7, page_size);
             ResultSet rs = stm.executeQuery();
 
             //Loop to add all information in list            
@@ -250,6 +254,55 @@ public class JobDBContext extends DBContext {
         try {
             String sql = "SELECT COUNT(*) FROM [Jobs]";
             PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+
+    /**
+     * Check user message a double number or not
+     *
+     * @param message
+     * @return true if is double else false
+     */
+    public static boolean isDouble(String message) {
+        String tmp;
+        double d = 0;
+
+        //loop until user input correct
+        try {
+            tmp = message.trim();
+            if (Double.parseDouble(tmp) == Double.parseDouble(tmp)) {
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
+    }
+
+    public int countJobsSearchByMessage(String message) {
+        try {
+            String sql = "SELECT COUNT(*) FROM [Jobs] AS a\n"
+                    + "				  LEFT JOIN\n"
+                    + "				  [Departments] AS b ON a.[department_id] = b.[department_id]\n"
+                    + "				  WHERE (1 = 1) AND (a.[job_title] LIKE '%'+?+'%'\n"
+                    + "				  OR (? BETWEEN a.min_salary AND a.max_salary)\n"
+                    + "				  OR b.[department_name] LIKE '%'+?+'%')";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, message);
+            if (isDouble(message)) {
+                stm.setDouble(2, Double.parseDouble(message));
+            } else {
+                stm.setDouble(2, -1);
+            }
+            stm.setString(3, message);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1);

@@ -27,8 +27,39 @@
                     <i class="far fa-question-circle"></i>
                 </a>
             </li>
-            <li class="header__navbar-item-link">
-                ${sessionScope.account.username}
+            <li class="header__navbar-item-link header-profile" style="display: flex; align-items: center;">
+                ${sessionScope.account.employee.e_last_name} ${sessionScope.account.employee.e_first_name} 
+                <div class="img-profile" style="margin-left: 12px;">
+                    <image style="border-radius:50%;" src="${pageContext.request.contextPath}/assets/images/user/user6.jpg">
+                    <div class="detail__profile">
+                        <ul class="detail__profile-list">
+                            <li class="detail__profile-item">
+                                <a href="#" style="padding: 0;"> 
+                                    <i class="fas fa-user"></i>
+                                    Profile
+                                </a>
+                            </li>
+                            <li class="detail__profile-item">
+                                <a href="../authen/changePassword" style="padding: 0;">
+                                    <i class="fas fa-unlock"></i>
+                                    Change Password
+                                </a>
+                            </li>     
+                            <li class="detail__profile-item">
+                                <a href="#" style="padding: 0;">
+                                    <i class="fas fa-comment-dots"></i>
+                                    Feedback
+                                </a>
+                            </li>                        
+                            <li class="detail__profile-item">
+                                <a href="${sessionScope.account.portal ?  "../authen/logout" : "../authen/userLogout"}" style="padding: 0;">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </li>
         </ul>
     </div>

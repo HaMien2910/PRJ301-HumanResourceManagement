@@ -21,11 +21,6 @@
 
             <!-- Left Sidebar -->
             <nav id="sidebar">
-                <!-- Top Left Sidebar -->
-                <div class="sidebar-header text-center">
-                    <h3 style="color: #181c32">Human Resource</h3>
-                </div>
-                <!-- #End Top Left Sidebar -->
                 <jsp:include page="../menu.jsp"></jsp:include>
                 </nav>
                 <!-- #End Left Sidebar -->
@@ -86,7 +81,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group form-float">
                                         <div class="form-line">
-                                            <select name="department_id" id="department_id" class="col-12 m-t-20 p-l-0 form-control" required>
+                                            <select name="department_id" id="department_id" class="col-12 m-t-20 p-l-0 form-control">
                                                 <option value=""> -- Select Department -- </option>
                                                 <c:forEach items="${requestScope.departments}" var="d">
                                                     <option ${(requestScope.employee.department.department_id == d.department_id ) ? "selected = \"selected\"" : ""} value="${d.department_id}">${d.department_name}</option>
@@ -98,7 +93,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group form-float">
                                         <div class="form-line">
-                                            <select name="job_id" id="job_id" class="col-12 m-t-20 p-l-0 form-control" required>
+                                            <select name="job_id" id="job_id" class="col-12 m-t-20 p-l-0 form-control">
                                                 <option value=""> -- Select Job -- </option>
                                                 <c:forEach items="${requestScope.jobs}" var="j">
                                                     <option ${(requestScope.employee.job.job_id == j.job_id ) ? "selected = \"selected\"" : ""} value="${j.job_id}">${j.job_title}</option>

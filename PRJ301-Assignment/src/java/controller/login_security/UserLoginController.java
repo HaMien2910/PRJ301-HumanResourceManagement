@@ -21,7 +21,7 @@ import model.Account;
  *
  * @author PhuongNH
  */
-public class LoginController extends HttpServlet {
+public class UserLoginController extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -35,10 +35,10 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("title", "System Management");
+        request.setAttribute("title", "User Portal");
         request.setAttribute("isValidRole", true);
         request.setAttribute("isLogin", true);
-        request.getRequestDispatcher("../view/authentication/login.jsp").forward(request, response);
+        request.getRequestDispatcher("../view/authentication/user-login.jsp").forward(request, response);
     }
 
     /**
@@ -60,7 +60,7 @@ public class LoginController extends HttpServlet {
         if (account != null) {
             String OTP = Generator.generateRandomOTP();
             account.setOtp(OTP);
-            account.setPortal(true);
+            account.setPortal(false);
             request.getSession().setAttribute("account", account);
             String remember = request.getParameter("remember");
             if (remember != null) {
@@ -72,20 +72,13 @@ public class LoginController extends HttpServlet {
                 response.addCookie(c_pass);
             }
             //check role 
-            if (accountDBContext.isMasterData(account)) {
-                Mailler.sendOTP(account.getEmployee().getContact().getEmail(), OTP);
-                response.sendRedirect("verify");
-            } else {
-                request.getSession().setAttribute("account", null);
-                request.setAttribute("isLogin", true);
-                request.setAttribute("isValidRole", false);
-                request.getRequestDispatcher("../view/authentication/login.jsp").forward(request, response);
-            }
+            Mailler.sendOTP(account.getEmployee().getContact().getEmail(), OTP);
+            response.sendRedirect("verify");
         } else {
             request.getSession().setAttribute("account", null);
             request.setAttribute("isLogin", false);
             request.setAttribute("isValidRole", true);
-            request.getRequestDispatcher("../view/authentication/login.jsp").forward(request, response);
+            request.getRequestDispatcher("../view/authentication/user-login.jsp").forward(request, response);
         }
     }
 

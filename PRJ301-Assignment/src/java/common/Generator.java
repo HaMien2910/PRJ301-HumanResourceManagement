@@ -15,7 +15,7 @@ public class Generator {
 
     /**
      *
-     *@return a random string [a-zA-Z0-0-9] with length is 8
+     * @return a random string [a-zA-Z0-0-9] with length is 8
      */
     public static String generateRandomPassword() {
         Random random = new Random();
@@ -41,8 +41,30 @@ public class Generator {
         return password.toString();
     }
 
-    public static String generateEmailPrivacy() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static String generateEmailPrivacy(String e_last_name, String e_first_name) {
+        Random random = new Random();
+        StringBuilder username = new StringBuilder("");
+        String digits = "0123456789";
+        String domain = "@prj.com.vn";
+
+        username.append(e_first_name);
+
+        String[] str = e_last_name.split(" ");
+        for (String s : str) {
+            username.append(s.charAt(0));
+        }
+
+        username.append(digits.charAt(random.nextInt(digits.length())));
+        username.append(digits.charAt(random.nextInt(digits.length())));
+
+        return username.append(domain).toString();
+    }
+
+    public static String generateRandomOTP() {
+        Random random = new Random();
+        int number = random.nextInt(999999);
+        
+        return String.valueOf(number);
     }
 
 }

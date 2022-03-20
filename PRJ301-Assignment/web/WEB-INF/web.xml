@@ -64,6 +64,30 @@
         <servlet-name>LoginController</servlet-name>
         <servlet-class>controller.login_security.LoginController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>VerifyOtpControler</servlet-name>
+        <servlet-class>controller.login_security.VerifyOtpControler</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogoutController</servlet-name>
+        <servlet-class>controller.login_security.LogoutController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangePasswordController</servlet-name>
+        <servlet-class>controller.login_security.ChangePasswordController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HomeController</servlet-name>
+        <servlet-class>controller.user.HomeController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserLoginController</servlet-name>
+        <servlet-class>controller.login_security.UserLoginController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserLogout</servlet-name>
+        <servlet-class>controller.login_security.UserLogout</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ListAllEmployeeController</servlet-name>
         <url-pattern>/employee/listAllEmployees</url-pattern>
@@ -127,6 +151,30 @@
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/authen/login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VerifyOtpControler</servlet-name>
+        <url-pattern>/authen/verify</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutController</servlet-name>
+        <url-pattern>/authen/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangePasswordController</servlet-name>
+        <url-pattern>/authen/changePassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomeController</servlet-name>
+        <url-pattern>/user/home</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserLoginController</servlet-name>
+        <url-pattern>/authen/userLogin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserLogout</servlet-name>
+        <url-pattern>/authen/userLogout</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

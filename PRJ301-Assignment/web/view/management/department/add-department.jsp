@@ -23,11 +23,6 @@
 
             <!-- Left Sidebar -->
             <nav id="sidebar">
-                <!-- Top Left Sidebar -->
-                <div class="sidebar-header text-center">
-                    <h3 style="color: #181c32">Human Resource</h3>
-                </div>
-                <!-- #End Top Left Sidebar -->
                 <jsp:include page="../menu.jsp"></jsp:include>
                 </nav>
                 <!-- #End Left Sidebar -->
@@ -35,7 +30,7 @@
                 <!-- Content -->
                 <div id="content" style="background-color: #f1f2f7;">
                     <!-- Header -->
-                    <jsp:include page="../header.jsp"></jsp:include>
+                <jsp:include page="../header.jsp"></jsp:include>
                     <!-- #END Header -->
 
 

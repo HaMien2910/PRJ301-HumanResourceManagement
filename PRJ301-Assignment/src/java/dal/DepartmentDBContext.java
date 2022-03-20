@@ -25,7 +25,7 @@ public class DepartmentDBContext extends DBContext {
         ArrayList<Department> departments = new ArrayList<>();
         try {
             String sql = "SELECT a.[department_id]\n" //1
-                    + "      ,a.[dapartment_name]\n" //2
+                    + "      ,a.[department_name]\n" //2
                     + "      ,a.[department_phone]\n" //3
                     + "      ,a.[department_email]\n" //4
                     + "      ,a.[starting_date]\n" //5
@@ -73,7 +73,7 @@ public class DepartmentDBContext extends DBContext {
 
             // Insert The Department
             String sql = "INSERT INTO [Departments]\n"
-                    + "           ([dapartment_name]\n"
+                    + "           ([department_name]\n"
                     + "           ,[department_phone]\n"
                     + "           ,[department_email]\n"
                     + "           ,[starting_date]\n"
@@ -101,6 +101,7 @@ public class DepartmentDBContext extends DBContext {
             stm.executeUpdate();
 
             if (department.getManager().getE_id() >= 0) {
+                int e_id = department.getManager().getE_id();
                 // Get department_id of the department has been inserted 
                 String sql_get_did = "Select @@Identity as did";
                 PreparedStatement stm_get_did = connection.prepareStatement(sql_get_did);
@@ -117,13 +118,25 @@ public class DepartmentDBContext extends DBContext {
                         + "	AND [e_id] <> ?";
                 PreparedStatement stm_update_manager_id = connection.prepareStatement(sql_update_manager_id);
                 if (department.getManager().getE_id() >= 0) {
-                    stm_update_manager_id.setInt(1, department.getManager().getE_id());
+                    stm_update_manager_id.setInt(1, e_id);
                 } else {
                     stm.setNull(1, Types.INTEGER);
                 }
                 stm_update_manager_id.setInt(2, department.getDepartment_id());
-                stm_update_manager_id.setInt(3, department.getManager().getE_id());
+                stm_update_manager_id.setInt(3, e_id);
                 stm_update_manager_id.executeUpdate();
+
+                //Set GroupEmployee
+                String sql_set_group_employee = "INSERT INTO [Group_Employees]\n"
+                        + "           ([e_id]\n"
+                        + "           ,[group_id])\n"
+                        + "     VALUES\n"
+                        + "           (?\n"
+                        + "           ,?)";
+                PreparedStatement stm_set_group_employee = connection.prepareStatement(sql_set_group_employee);
+                stm_set_group_employee.setInt(1, e_id);
+                stm_set_group_employee.setInt(2, 3);
+                stm_set_group_employee.executeUpdate();
             }
             connection.commit();
         } catch (SQLException ex) {
@@ -147,7 +160,7 @@ public class DepartmentDBContext extends DBContext {
         Department d = new Department();
         try {
             String sql = "SELECT a.[department_id]\n" //1
-                    + "      ,a.[dapartment_name]\n" //2
+                    + "      ,a.[department_name]\n" //2
                     + "      ,a.[department_phone]\n" //3
                     + "      ,a.[department_email]\n" //4
                     + "      ,a.[starting_date]\n" //5
@@ -191,9 +204,22 @@ public class DepartmentDBContext extends DBContext {
         try {
             connection.setAutoCommit(false);
 
+            //Get old manager
+            String sql_get_old_manager = "SELECT [manager_id]\n"
+                    + "FROM [Departments] WHERE [department_id] = ?";
+            PreparedStatement stm_get_old_manager = connection.prepareStatement(sql_get_old_manager);
+            stm_get_old_manager.setInt(1, department.getDepartment_id());
+            ResultSet rs__get_old_manager = stm_get_old_manager.executeQuery();
+            Department d = new Department();
+            Employee e = new Employee();
+            if (rs__get_old_manager.next()) {
+                e.setE_id(rs__get_old_manager.getInt(1));
+                d.setManager(e);
+            }
+
             // Insert The Department
             String sql = "UPDATE [Departments]\n"
-                    + "   SET [dapartment_name] = ?\n"
+                    + "   SET [department_name] = ?\n"
                     + "      ,[manager_id] = ?\n"
                     + "      ,[department_phone] = ?\n"
                     + "      ,[department_email] = ?\n"
@@ -213,6 +239,7 @@ public class DepartmentDBContext extends DBContext {
             stm.executeUpdate();
 
             if (department.getManager().getE_id() >= 0) {
+                int e_id = department.getManager().getE_id();
                 // Update manager_id in Employees table
                 String sql_update_manager_id = "UPDATE [Employees]\n"
                         + "   SET [manager_id] = ?\n"
@@ -220,13 +247,42 @@ public class DepartmentDBContext extends DBContext {
                         + "	AND [e_id] <> ?";
                 PreparedStatement stm_update_manager_id = connection.prepareStatement(sql_update_manager_id);
                 if (department.getManager().getE_id() >= 0) {
-                    stm_update_manager_id.setInt(1, department.getManager().getE_id());
+                    stm_update_manager_id.setInt(1, e_id);
                 } else {
-                    stm.setNull(1, Types.INTEGER);
+                    stm_update_manager_id.setNull(1, Types.INTEGER);
                 }
                 stm_update_manager_id.setInt(2, department.getDepartment_id());
-                stm_update_manager_id.setInt(3, department.getManager().getE_id());
+                stm_update_manager_id.setInt(3, e_id);
                 stm_update_manager_id.executeUpdate();
+
+                //Update_manager_current
+                String sql_update_manager_current = "UPDATE [Employees]\n"
+                        + "   SET [manager_id] = ?\n"
+                        + " WHERE [e_id] = ?\n";
+                PreparedStatement stm_update_manager_current = connection.prepareStatement(sql_update_manager_current);
+                stm_update_manager_current.setNull(1, Types.INTEGER);
+                stm_update_manager_current.setInt(2, e_id);
+                stm_update_manager_current.executeUpdate();
+
+                // Delete authorize of old manager
+                String sql_delete_authorize_of_manager = "DELETE FROM [Group_Employees]\n"
+                        + "      WHERE e_id = ? AND group_id = ?";
+                PreparedStatement stm_delete_authorize_of_manager = connection.prepareStatement(sql_delete_authorize_of_manager);
+                stm_delete_authorize_of_manager.setInt(1, e_id);
+                stm_delete_authorize_of_manager.setInt(2, 3);
+                stm_delete_authorize_of_manager.executeUpdate();
+
+                //Set GroupEmployee
+                String sql_set_group_employee = "INSERT INTO [Group_Employees]\n"
+                        + "           ([e_id]\n"
+                        + "           ,[group_id])\n"
+                        + "     VALUES\n"
+                        + "           (?\n"
+                        + "           ,?)";
+                PreparedStatement stm_set_group_employee = connection.prepareStatement(sql_set_group_employee);
+                stm_set_group_employee.setInt(1, e_id);
+                stm_set_group_employee.setInt(2, 3);
+                stm_set_group_employee.executeUpdate();
             }
             connection.commit();
         } catch (SQLException ex) {
@@ -300,7 +356,7 @@ public class DepartmentDBContext extends DBContext {
         ArrayList<Department> departments = new ArrayList<>();
         try {
             String sql = "With SampleData AS (SELECT a.[department_id]\n"
-                    + "                             ,a.[dapartment_name]\n"
+                    + "                             ,a.[department_name]\n"
                     + "                             ,a.[department_phone]\n"
                     + "                             ,a.[department_email]\n"
                     + "                             ,a.[starting_date]\n"
@@ -308,20 +364,11 @@ public class DepartmentDBContext extends DBContext {
                     + "                             ,a.[manager_id]\n"
                     + "                             ,b.[e_first_name]\n"
                     + "                             ,b.[e_last_name]\n"
-                    + "                             ,ROW_NUMBER() OVER (ORDER BY a.[department_id] ASC) AS row_index\n"
+                    + "                             ,ROW_NUMBER() OVER (" + order_by + ") AS row_index\n"
                     + "				FROM [Departments] AS a\n"
                     + "					LEFT JOIN\n"
-                    + "				[Employees] AS b ON a.manager_id = b.e_id) \n"
-                    + "SELECT [department_id]\n"
-                    + "	,[dapartment_name]\n"
-                    + "	,[department_phone]\n"
-                    + "	,[department_email]\n"
-                    + "	,[starting_date]\n"
-                    + "	,[description]\n"
-                    + "	,[manager_id]\n"
-                    + "	,[e_first_name]\n"
-                    + "	,[e_last_name]\n"
-                    + "FROM SampleData\n"
+                    + "				[Employees] AS b ON a.manager_id = b.e_id)\n"
+                    + "SELECT * FROM SampleData\n"
                     + "WHERE row_index >= (? - 1) * ? + 1\n"
                     + "AND row_index <= ? * ?";
             PreparedStatement stm = connection.prepareStatement(sql);

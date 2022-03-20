@@ -22,11 +22,6 @@
 
             <!-- Left Sidebar -->
             <nav id="sidebar">
-                <!-- Top Left Sidebar -->
-                <div class="sidebar-header text-center">
-                    <h3 style="color: #181c32">Human Resource</h3>
-                </div>
-                <!-- #End Top Left Sidebar -->
                 <jsp:include page="../menu.jsp"></jsp:include>
                 </nav>
                 <!-- #End Left Sidebar -->
@@ -77,7 +72,7 @@
                                     <th class="text-center"><a href="listAllDepartments?page=${requestScope.page_index}&message=${requestScope.message}&field=e_first_name&sortIs=${requestScope.status}&column=${(requestScope.column eq "2") ? 2 :0}"> Manager </a></th>
                                     <th class="text-center"><a href="listAllDepartments?page=${requestScope.page_index}&message=${requestScope.message}&field=department_phone&sortIs=${requestScope.status}&column=${(requestScope.column eq "3") ? 3 :0}"> Phone </a></th>
                                     <th class="text-center"><a href="listAllDepartments?page=${requestScope.page_index}&message=${requestScope.message}&field=department_email&sortIs=${requestScope.status}&column=${(requestScope.column eq "4") ? 4 :0}"> Email </a></th>
-                                    <th class="text-center"><a href="listAllDepartments?page=${requestScope.page_index}&message=${requestScope.message}&field=e_first_name&sortIs=${requestScope.status}&column=${(requestScope.column eq "5") ? 5 :0}"> Total Emp. </a></th>
+                                    <th class="text-center"><a href="listAllDepartments?page=${requestScope.page_index}&message=${requestScope.message}&field=amount&sortIs=${requestScope.status}&column=${(requestScope.column eq "5") ? 5 :0}"> Total Emp. </a></th>
                                     <th class="text-center"> Action </th>
                                 </tr>
                             </thead>
@@ -114,7 +109,7 @@
                                     <th class="text-center"><a href="listAllDepartments?page=${requestScope.page_index}&message=${requestScope.message}&field=e_first_name&sortIs=${requestScope.status}&column=${(requestScope.column eq "2") ? 2 :0}"> Manager </a></th>
                                     <th class="text-center"><a href="listAllDepartments?page=${requestScope.page_index}&message=${requestScope.message}&field=department_phone&sortIs=${requestScope.status}&column=${(requestScope.column eq "3") ? 3 :0}"> Phone </a></th>
                                     <th class="text-center"><a href="listAllDepartments?page=${requestScope.page_index}&message=${requestScope.message}&field=department_email&sortIs=${requestScope.status}&column=${(requestScope.column eq "4") ? 4 :0}"> Email </a></th>
-                                    <th class="text-center"><a href="listAllDepartments?page=${requestScope.page_index}&message=${requestScope.message}&field=e_first_name&sortIs=${requestScope.status}&column=${(requestScope.column eq "5") ? 5 :0}"> Total Emp. </a></th>
+                                    <th class="text-center"><a href="listAllDepartments?page=${requestScope.page_index}&message=${requestScope.message}&field=amount&sortIs=${requestScope.status}&column=${(requestScope.column eq "5") ? 5 :0}"> Total Emp. </a></th>
                                     <th class="text-center"> Action </th>
                                 </tr>
                             </tfoot>

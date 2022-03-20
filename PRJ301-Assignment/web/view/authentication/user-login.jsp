@@ -1,6 +1,6 @@
 <%-- 
-    Document   : login
-    Created on : Mar 10, 2022, 6:13:43 PM
+    Document   : user-login
+    Created on : Mar 20, 2022, 6:35:28 PM
     Author     : PhuongNH
 --%>
 
@@ -24,7 +24,7 @@
         <div class="limiter">
             <div class="container-login100">
                 <div class="wrap-login100">
-                    <form class="login100-form validate-form" action="login" method="POST">
+                    <form class="login100-form validate-form" action="userLogin" method="POST">
                         <span class="login100-form-title">
                             ${requestScope.title}
                         </span>

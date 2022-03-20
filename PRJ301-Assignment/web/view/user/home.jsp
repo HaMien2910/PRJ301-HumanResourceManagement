@@ -1,8 +1,9 @@
 <%-- 
-    Document   : view-employee
-    Created on : Jan 23, 2022, 4:22:02 PM
+    Document   : home
+    Created on : Mar 17, 2022, 11:55:45 AM
     Author     : PhuongNH
 --%>
+
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -22,15 +23,15 @@
 
             <!-- Left Sidebar -->
             <nav id="sidebar">
-                <jsp:include page="../menu.jsp"></jsp:include>
+                <jsp:include page="../user/menu-user.jsp"></jsp:include>
                 </nav>
                 <!-- #End Left Sidebar -->
 
                 <!-- Content -->
                 <div id="content" style="background-color: #f1f2f7;">
                     <!-- Header -->
-                <jsp:include page="../header.jsp"></jsp:include>
-                    <!-- #END Header -->
+                <jsp:include page="../management/header.jsp"></jsp:include>
+                    <!--#END Header -->
 
 
                     <div class="block-header">
@@ -38,16 +39,15 @@
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <ul class="breadcrumb breadcrumb-style" style="background-color: #f1f2f7; margin-bottom: 14px">
                                     <li class="breadcrumb-item">
-                                        <h4 class="page-title"><strong>All Employees</strong></h4>
+                                        <h4 class="page-title"><strong>User</strong></h4>
                                     </li>
                                     <li class="breadcrumb-item bcrumb-1">
                                         <a href="../../index.html">
                                             <i class="fas fa-home"></i>Home</a>
                                     </li>
                                     <li class="breadcrumb-item bcrumb-2">
-                                        <a href="#" onClick="return false;">Employee</a>
+                                        <a href="#" onClick="return false;">User</a>
                                     </li>
-                                    <li class="breadcrumb-item active">All Employees</li>
                                     <li class="breadcrumb-item active">View Detail - ${requestScope.employee.e_last_name} ${requestScope.employee.e_first_name}</li>
                             </ul>
                         </div>
@@ -121,19 +121,18 @@
             </div>
         </div>
         <!-- #End Content -->
-    </div>
 
 
 
-    <script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
-    <script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>
-    <script>
+        <script src="${pageContext.request.contextPath}/Bootstrap/js/Jquery.js"></script>
+        <script src="${pageContext.request.contextPath}/Bootstrap/js/bootstrap.min.js"></script>
+        <script>
                                             $(document).ready(function () {
                                                 $('#sidebarCollapse').on('click', function () {
                                                     $('#sidebar').toggleClass('active');
                                                 });
                                             });
-    </script>
-</body>
+        </script>
+    </body>
 
 </html>
