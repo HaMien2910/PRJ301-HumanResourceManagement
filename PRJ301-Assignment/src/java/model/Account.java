@@ -15,6 +15,15 @@ public class Account {
     private Employee employee;
     private String otp;
     private boolean portal;
+    private Role role;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     public Account() {
     }

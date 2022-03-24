@@ -61,21 +61,15 @@ public class AccountDBContext extends DBContext {
 
     public boolean checkRole(String username, String url) {
         try {
-            String sql = "SELECT COUNT(*)\n"
-                    + "  FROM [Accounts] AS a\n"
-                    + "			INNER JOIN \n"
-                    + "	   [Employees] AS b ON a.e_id = b.e_id\n"
+            String sql = "SELECT COUNT(*) \n"
+                    + "	FROM Accounts AS a\n"
                     + "			INNER JOIN\n"
-                    + "	   [Departments] AS c ON b.department_id = c.department_id\n"
-                    + "	        INNER JOIN\n"
-                    + "	   [Group_Employees] AS d ON b.e_id = d.e_id\n"
-                    + "	        INNER JOIN\n"
-                    + "	   [Groups] AS e ON d.group_id = e.group_id\n"
+                    + "		Roles AS b ON a.role_id = b.role_id\n"
                     + "			INNER JOIN\n"
-                    + "	   [GroupFeature] AS f ON e.group_id = f.group_id\n"
-                    + "	        INNER JOIN \n"
-                    + "	   [Features] AS g ON f.feature_id = g.feature_id\n"
-                    + "	   WHERE a.username = ? and g.url = ?";
+                    + "		RoleFeature AS c ON b.role_id = c.role_id\n"
+                    + "			INNER JOIN\n"
+                    + "		Features AS d ON c.feature_id = d.feature_id\n"
+                    + "	WHERE a.username = ? AND d.url = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, username);
             stm.setString(2, url);
@@ -106,23 +100,15 @@ public class AccountDBContext extends DBContext {
 
     public boolean isMasterData(Account account) {
         try {
-            String sql = "SELECT d.[group_id], a.[username]\n"
-                    + "       FROM [Accounts] AS a\n"
-                    + "            INNER JOIN \n"
-                    + "       [Employees] AS b ON a.e_id = b.e_id\n"
-                    + "            INNER JOIN\n"
-                    + "       [Departments] AS c ON b.department_id = c.department_id\n"
-                    + "            INNER JOIN\n"
-                    + "       [Group_Employees] AS d ON b.e_id = d.e_id\n"
-                    + "			INNER JOIN\n"
-                    + "       [Groups] AS e ON d.group_id = e.group_id\n"
-                    + "       WHERE a.username = ?";
+            String sql = "SELECT role_id \n"
+                    + "	FROM Accounts AS a\n"
+                    + "	WHERE a.username = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, account.getUsername());
             ResultSet rs = stm.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return (rs.getInt(1) == 1 || rs.getInt(1) == 2 || rs.getInt(1) == 3);
-            }else{
+            } else {
                 return false;
             }
         } catch (SQLException ex) {

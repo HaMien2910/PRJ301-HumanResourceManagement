@@ -426,9 +426,11 @@ public class EmployeeDBContext extends DBContext {
             String sql_create_account = "INSERT INTO [Accounts]\n"
                     + "           ([username]\n"
                     + "           ,[password]\n"
-                    + "           ,[e_id])\n"
+                    + "           ,[e_id]\n"
+                    + "           ,[role_id])\n"
                     + "     VALUES\n"
                     + "           (?\n"
+                    + "           ,?\n"
                     + "           ,?\n"
                     + "           ,?)";
             PreparedStatement stm_create_account = connection.prepareStatement(sql_create_account);
@@ -436,29 +438,17 @@ public class EmployeeDBContext extends DBContext {
             String password = Generator.generateRandomPassword();
             stm_create_account.setString(2, password);
             stm_create_account.setInt(3, employee.getE_id());
+            int department_id = employee.getDepartment().getDepartment_id();
+            if (department_id == 1 || department_id == 2) {
+                stm_create_account.setInt(4, 1);
+            } else if (department_id == 5) {
+                stm_create_account.setInt(4, 2);
+            } else {
+                stm_create_account.setInt(4, 4);
+            }
             stm_create_account.executeUpdate();
             Mailler.sendAccount(new Account(e_email, password), employee.getContact().getEmail());
 
-            //Set GroupEmployee
-            int department_id = employee.getDepartment().getDepartment_id();
-            String sql_set_group_employee = "INSERT INTO [Group_Employees]\n"
-                    + "           ([e_id]\n"
-                    + "           ,[group_id])\n"
-                    + "     VALUES\n"
-                    + "           (?\n"
-                    + "           ,?)";
-            PreparedStatement stm_set_group_employee = connection.prepareStatement(sql_set_group_employee);
-            stm_set_group_employee.setInt(1, employee.getE_id());
-            if (department_id == 1) {
-                stm_set_group_employee.setInt(2, 1);
-            } else if (department_id == 2) {
-                stm_set_group_employee.setInt(2, 2);
-            } else if (department_id == 5) {
-                stm_set_group_employee.setInt(2, 3);
-            } else {
-                stm_set_group_employee.setInt(2, 4);
-            }
-            stm_set_group_employee.executeUpdate();
             connection.commit();
         } catch (SQLException ex) {
             Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
@@ -515,12 +505,6 @@ public class EmployeeDBContext extends DBContext {
             stm_delete_account.setInt(1, id);
             stm_delete_account.executeUpdate();
 
-            String sql_delete_in_group_employee = "DELETE FROM [Group_Employees]\n"
-                    + "      WHERE e_id = ?";
-            PreparedStatement stm_delete_in_group_employee = connection.prepareStatement(sql_delete_in_group_employee);
-            stm_delete_in_group_employee.setInt(1, id);
-            stm_delete_in_group_employee.executeUpdate();
-
             String sql = "DELETE FROM [Employees]\n"
                     + "      WHERE [e_id] = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
@@ -565,6 +549,16 @@ public class EmployeeDBContext extends DBContext {
             if (rs_get_employee_before_udpate.next()) {
                 d.setDepartment_id(rs_get_employee_before_udpate.getInt(1));
                 e.setDepartment(d);
+            }
+
+            //Check is manager or not
+            String sql_check_is_manager = "SELECT COUNT(*) FROM departments WHERE manager_id = ?";
+            PreparedStatement stm_check_is_manager = connection.prepareStatement(sql_check_is_manager);
+            stm_check_is_manager.setInt(1, employee.getE_id());
+            ResultSet rs_check_is_manager = stm_check_is_manager.executeQuery();
+            boolean isManager = false;
+            if (rs_check_is_manager.next()) {
+                isManager = (rs_check_is_manager.getInt(1) > 0) ? true : false;
             }
 
             // Update information of the employee
@@ -624,45 +618,27 @@ public class EmployeeDBContext extends DBContext {
             stm_update_location.setInt(4, employee.getContact().getContact_id());
             stm_update_location.executeUpdate();
 
-            //Delete old authorize
-            if (e.getDepartment().getDepartment_id() == 1 || e.getDepartment().getDepartment_id() == 2 || e.getDepartment().getDepartment_id() == 5) {
-                String sql_delete_authorize_of_manager = "DELETE FROM [Group_Employees]\n"
-                        + "      WHERE e_id = ? AND group_id = ?";
-                PreparedStatement stm_delete_authorize_of_manager = connection.prepareStatement(sql_delete_authorize_of_manager);
-                stm_delete_authorize_of_manager.setInt(1, employee.getE_id());
-                if (e.getDepartment().getDepartment_id() == 1) {
-                    stm_delete_authorize_of_manager.setInt(2, 1);
-                } else if (e.getDepartment().getDepartment_id() == 2) {
-                    stm_delete_authorize_of_manager.setInt(2, 2);
-                } else if (e.getDepartment().getDepartment_id() == 5) {
-                    stm_delete_authorize_of_manager.setInt(2, 3);
-                } else {
-                    stm_delete_authorize_of_manager.setInt(2, 4);
-
-                }
-                stm_delete_authorize_of_manager.executeUpdate();
-            }
-
-            //Set GroupEmployee
+            //Update role
             int department_id = employee.getDepartment().getDepartment_id();
-            String sql_set_group_employee = "INSERT INTO [Group_Employees]\n"
-                    + "           ([e_id]\n"
-                    + "           ,[group_id])\n"
-                    + "     VALUES\n"
-                    + "           (?\n"
-                    + "           ,?)";
-            PreparedStatement stm_set_group_employee = connection.prepareStatement(sql_set_group_employee);
-            stm_set_group_employee.setInt(1, employee.getE_id());
-            if (department_id == 1) {
-                stm_set_group_employee.setInt(2, 1);
-            } else if (department_id == 2) {
-                stm_set_group_employee.setInt(2, 2);
+            String sql_update_role = "UPDATE [Accounts]\n"
+                    + "   SET [username] = ?\n"
+                    + "      ,[role_id] = ?\n"
+                    + " WHERE username = ?";
+            PreparedStatement stm_update_role = connection.prepareStatement(sql_update_role);
+            stm_update_role.setString(1, employee.getE_email());
+            if (department_id < 0) {
+                stm_update_role.setNull(2, 4);
+            }else if (department_id == 1 || department_id == 2) {
+                stm_update_role.setInt(2, 1);
             } else if (department_id == 5) {
-                stm_set_group_employee.setInt(2, 3);
+                stm_update_role.setInt(2, 2);
+            } else if (isManager) {
+                stm_update_role.setInt(2, 3);
             } else {
-                stm_set_group_employee.setInt(2, 4);
+                stm_update_role.setInt(2, 4);
             }
-            stm_set_group_employee.executeUpdate();
+            stm_update_role.setString(3, employee.getE_email());
+            stm_update_role.executeUpdate();
 
             connection.commit();
         } catch (SQLException ex) {
@@ -846,7 +822,7 @@ public class EmployeeDBContext extends DBContext {
     }
 
     public Employee getEmployeeByEmail(String username) {
-        
+
         try {
             String sql = "SELECT a.[e_id]\n" //1
                     + "      ,a.[e_first_name]\n" //2

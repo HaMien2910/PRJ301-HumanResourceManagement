@@ -24,7 +24,6 @@ import model.Account;
 public abstract class BaseAuthenticationController extends HttpServlet {
 
     public boolean isAuthenticated(HttpServletRequest request) {
-//        return true;
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
         if (account == null) {

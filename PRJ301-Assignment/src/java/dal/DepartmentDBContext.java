@@ -126,17 +126,14 @@ public class DepartmentDBContext extends DBContext {
                 stm_update_manager_id.setInt(3, e_id);
                 stm_update_manager_id.executeUpdate();
 
-                //Set GroupEmployee
-                String sql_set_group_employee = "INSERT INTO [Group_Employees]\n"
-                        + "           ([e_id]\n"
-                        + "           ,[group_id])\n"
-                        + "     VALUES\n"
-                        + "           (?\n"
-                        + "           ,?)";
-                PreparedStatement stm_set_group_employee = connection.prepareStatement(sql_set_group_employee);
-                stm_set_group_employee.setInt(1, e_id);
-                stm_set_group_employee.setInt(2, 3);
-                stm_set_group_employee.executeUpdate();
+                // Update role in account of manager
+                String sql_update_role = "UPDATE [Accounts]\n"
+                        + "   SET [role_id] = ?\n"
+                        + " WHERE e_id = ? AND (role_id <> 1 AND role_id <> 2)";
+                PreparedStatement stm_update_role = connection.prepareStatement(sql_update_role);
+                stm_update_role.setInt(1, 3);
+                stm_update_role.setInt(2, e_id);
+                stm_update_role.executeUpdate();
             }
             connection.commit();
         } catch (SQLException ex) {
@@ -231,6 +228,16 @@ public class DepartmentDBContext extends DBContext {
                 stm.setInt(2, department.getManager().getE_id());
             } else {
                 stm.setNull(2, Types.INTEGER);
+                if (d.getManager().getE_id() > 0) {
+                    // Update role in account of manager
+                    String sql_update_role = "UPDATE [Accounts]\n"
+                            + "   SET [role_id] = ?\n"
+                            + " WHERE (e_id = ? AND role_id <> 1 AND role_id <> 2)";
+                    PreparedStatement stm_update_role = connection.prepareStatement(sql_update_role);
+                    stm_update_role.setNull(1, Types.INTEGER);
+                    stm_update_role.setInt(2, d.getManager().getE_id());
+                    stm_update_role.executeUpdate();
+                }
             }
             stm.setString(3, department.getDepartment_phone());
             stm.setString(4, department.getDepartment_email());
@@ -238,7 +245,7 @@ public class DepartmentDBContext extends DBContext {
             stm.setInt(6, department.getDepartment_id());
             stm.executeUpdate();
 
-            if (department.getManager().getE_id() >= 0) {
+            if (department.getManager().getE_id() > 0) {
                 int e_id = department.getManager().getE_id();
                 // Update manager_id in Employees table
                 String sql_update_manager_id = "UPDATE [Employees]\n"
@@ -264,25 +271,14 @@ public class DepartmentDBContext extends DBContext {
                 stm_update_manager_current.setInt(2, e_id);
                 stm_update_manager_current.executeUpdate();
 
-                // Delete authorize of old manager
-                String sql_delete_authorize_of_manager = "DELETE FROM [Group_Employees]\n"
-                        + "      WHERE e_id = ? AND group_id = ?";
-                PreparedStatement stm_delete_authorize_of_manager = connection.prepareStatement(sql_delete_authorize_of_manager);
-                stm_delete_authorize_of_manager.setInt(1, e_id);
-                stm_delete_authorize_of_manager.setInt(2, 3);
-                stm_delete_authorize_of_manager.executeUpdate();
-
-                //Set GroupEmployee
-                String sql_set_group_employee = "INSERT INTO [Group_Employees]\n"
-                        + "           ([e_id]\n"
-                        + "           ,[group_id])\n"
-                        + "     VALUES\n"
-                        + "           (?\n"
-                        + "           ,?)";
-                PreparedStatement stm_set_group_employee = connection.prepareStatement(sql_set_group_employee);
-                stm_set_group_employee.setInt(1, e_id);
-                stm_set_group_employee.setInt(2, 3);
-                stm_set_group_employee.executeUpdate();
+                // Update role in account of manager
+                String sql_update_role = "UPDATE [Accounts]\n"
+                        + "   SET [role_id] = ?\n"
+                        + " WHERE (e_id = ?) AND role_id <> 1 AND role_id <> 2";
+                PreparedStatement stm_update_role = connection.prepareStatement(sql_update_role);
+                stm_update_role.setInt(1, 3);
+                stm_update_role.setInt(2, e_id);
+                stm_update_role.executeUpdate();
             }
             connection.commit();
         } catch (SQLException ex) {
@@ -329,11 +325,32 @@ public class DepartmentDBContext extends DBContext {
             stm_delete_job_by_department_id.setInt(1, did);
             stm_delete_job_by_department_id.executeUpdate();
 
+            //getmanager 
+            Employee e = new Employee();
+            String sql_get_manager = "SELECT [manager_id] FROM Departments WHERE department_id = ?";
+            PreparedStatement stm_get_manager = connection.prepareStatement(sql_get_manager);
+            stm_get_manager.setInt(1, did);
+            ResultSet rs_get_manager = stm_get_manager.executeQuery();
+            if (rs_get_manager.next()) {
+                e.setE_id(rs_get_manager.getInt(1));
+            }
+
             String sql = "DELETE FROM [Departments]\n"
                     + "      WHERE [department_id] = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, did);
             stm.executeUpdate();
+
+            if (e.getE_id() > 0) {
+                // Update role in account of manager
+                String sql_update_role = "UPDATE [Accounts]\n"
+                        + "   SET [role_id] = ?\n"
+                        + " WHERE e_id = ? AND role_id = 3";
+                PreparedStatement stm_update_role = connection.prepareStatement(sql_update_role);
+                stm_update_role.setNull(1, Types.INTEGER);
+                stm_update_role.setInt(2, e.getE_id());
+                stm_update_role.executeUpdate();
+            }
 
             connection.commit();
         } catch (SQLException ex) {

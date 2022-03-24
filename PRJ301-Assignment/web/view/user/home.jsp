@@ -11,7 +11,7 @@
 <html>
 
     <head>
-        <title>HRM - View Employee</title>
+        <title>HRM - Home</title>
         <link href="${pageContext.request.contextPath}/Bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
@@ -38,9 +38,6 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <ul class="breadcrumb breadcrumb-style" style="background-color: #f1f2f7; margin-bottom: 14px">
-                                    <li class="breadcrumb-item">
-                                        <h4 class="page-title"><strong>User</strong></h4>
-                                    </li>
                                     <li class="breadcrumb-item bcrumb-1">
                                         <a href="../../index.html">
                                             <i class="fas fa-home"></i>Home</a>
